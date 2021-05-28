@@ -1,0 +1,41 @@
+.linkActive {
+	@apply px-3 py-2 text-base text-purple-700 lg:text-lg;
+	&:hover {
+		@apply text-opacity-80 transition-opacity duration-300;
+	}
+}
+
+.link {
+	@apply px-3 py-2 rounded-md text-base text-purple-700 lg:text-lg;
+	&:hover {
+		@apply text-opacity-90 transition-opacity duration-300;
+	}
+}
+
+.epiRoot {
+	@apply sticky top-0 bg-black font-medium font-sans z-40 transition-all duration-150;
+}
+
+.root {
+	@apply bg-redditNav select-none;
+}
+
+.svg {
+	z-index: 100;
+	@apply block sm:content-center sm:mx-auto;
+}
+
+.stickyNav {
+	position: sticky;
+	z-index: 100;
+	top: 0;
+	backdrop-filter: saturate(180%) blur(20px);
+	transition: 0.1 ease-in-out;
+	&.root {
+		transition: 0.1 ease-in-out;
+	}
+}
+
+.navLinks div > a {
+	@apply text-lg lg:text-xl;
+}

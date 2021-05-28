@@ -1,0 +1,26 @@
+query GetIssuesMinimalPagination(
+	$login: String!
+	$before: String
+	$after: String
+) {
+	user(login: $login) {
+		id
+		login
+		avatarUrl(size: 500)
+		issues(
+			first: 10
+			before: $before
+			after: $after
+			states: [OPEN]
+			orderBy: { field: UPDATED_AT, direction: DESC }
+		) {
+			pageInfo {
+				startCursor
+				endCursor
+				hasNextPage
+				hasPreviousPage
+			}
+			totalCount
+		}
+	}
+}

@@ -1,0 +1,34 @@
+query getIssuesMinimal($login: String!) {
+	user(login: $login) {
+		id
+		login
+		avatarUrl(size: 500)
+		issues(
+			first: 10
+			states: [OPEN]
+			orderBy: { field: UPDATED_AT, direction: DESC }
+		) {
+			totalCount
+			nodes {
+				id
+				url
+				bodyUrl
+				number
+				author {
+					url
+					login
+					avatarUrl(size: 14)
+				}
+				repository {
+					nameWithOwner
+					url
+					openGraphImageUrl
+				}
+				title
+				bodyText
+				bodyHTML
+				updatedAt
+			}
+		}
+	}
+}

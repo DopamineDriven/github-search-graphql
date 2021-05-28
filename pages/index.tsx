@@ -1,4 +1,3 @@
-import { Configuration, Fetcher } from 'swr/dist/types';
 import {
 	GetStaticPropsContext,
 	GetStaticPropsResult,
@@ -7,55 +6,35 @@ import {
 import {
 	initializeApollo,
 	addApolloState
-} from '../lib/apollo';
+} from '@/lib/apollo';
 import {
-	useGitHubSearchReposQuery,
-	GitHubSearchReposDocument,
-	GitHubSearchReposQuery,
-	GitHubSearchReposQueryVariables
+	GetIssuesMinimalDocument,
+	ViewerReposQuery,
+	ViewerReposQueryVariables,
+	ViewerReposDocument,
+	GetIssuesMinimalQueryVariables,
+	GetIssuesMinimalQuery
 } from '@/graphql/graphql';
-import useSWR from 'swr';
-import { useState } from 'react';
-import { fetcher } from '@/lib/fetchers';
-import { useQuery } from '@apollo/client';
-import {
-	useGitHubSearchReposLazyQuery,
-	SearchResultItem
-} from '../graphql/graphql';
+import ReposCoalesced from '@/components/Repo/repo';
+import RepoWrapper from '@/components/Repo/wrapper';
+import { AppLayout } from '@/components/Layout';
 
 export default function Index<
 	T extends typeof getStaticProps
->({ search }: InferGetStaticPropsType<T>) {
-	// const githubOAuthToken =
-	// 	process.env.GITHUB_OAUTH_TOKEN ?? '';
-
-	// const refs = search?.edges?.forEach((ref, i) => {
-	// 	console.log(ref);
-	// 	if (ref && ref.node) {
-	// 		const { login, name, id } = {
-	// 			name: '',
-	// 			login: '',
-	// 			id: '',
-	// 			...ref
-	// 		};
-	// 	}
-	// });
-	// const [lazyData, { called, loading, data }] =
-	// 	useGitHubSearchReposLazyQuery({
-	// 		query: GitHubSearchReposDocument,
-	// 		variables: {
-	// 			query: 'swr',
-	// 			first: 10
-	// 		},
-
-	// 	});
-
+>({ user, repo }: InferGetStaticPropsType<T>) {
+	const { user: userData } = user;
 	return (
 		<>
-			<div className='text-gray-50 font-bold font-sans text-4xl mx-auto justify-center flex my-24  select-none'>
-				{' '}
-				Configuring Initial Dev Setup, switching to dev branch
-			</div>
+			<AppLayout>
+				<div className='bg-purple-700 filter saturate-50 text-gray-50 font-bold font-sans text-4xl mx-auto justify-center flex my-24 select-none'>
+					Configuring Initial Dev Setup, switching to dev branch
+					<RepoWrapper
+						otherData={<ReposCoalesced viewer={repo.viewer} />}
+					>
+						<ReposCoalesced viewer={repo.viewer} />
+					</RepoWrapper>
+				</div>
+			</AppLayout>
 		</>
 	);
 }
@@ -63,26 +42,51 @@ export default function Index<
 export async function getStaticProps<P>(
 	ctx: GetStaticPropsContext
 ): Promise<
-	P &
-		GetStaticPropsResult<{
-			search: GitHubSearchReposQuery['search'];
-		}>
+	GetStaticPropsResult<
+		P & {
+			user: GetIssuesMinimalQuery;
+			repo: ViewerReposQuery;
+		}
+	>
 > {
-	const apolloClient = initializeApollo({});
+	const p = ctx.params
+		? (ctx.params.q as string | string[])
+		: '';
+	console.log(p ?? 'no params at the moment');
+	const apolloClient = initializeApollo();
 
-	const { data } = await apolloClient.query<
-		GitHubSearchReposQuery,
-		GitHubSearchReposQueryVariables
+	const { data: repo } = await apolloClient.query<
+		ViewerReposQuery,
+		ViewerReposQueryVariables
 	>({
-		query: GitHubSearchReposDocument,
+		query: ViewerReposDocument
+	});
+
+	const { data: user } = await apolloClient.query<
+		GetIssuesMinimalQuery,
+		GetIssuesMinimalQueryVariables
+	>({
+		query: GetIssuesMinimalDocument,
 		variables: {
-			query: 'swr',
-			first: 10
+			login: 'DopamineDriven'
 		}
 	});
-	const search = data.search;
 	return addApolloState(apolloClient, {
-		props: { search },
+		props: { user, repo },
 		revalidate: 120
 	});
 }
+
+/**
+ * 				<Image
+					className=' object-cover rounded-full'
+					loader={ImageLoader}
+					width='400'
+					height='400'
+					src={
+						userData?.avatarUrl
+							? userData.avatarUrl
+							: '/architecture.jpg'
+					}
+				/>
+ */

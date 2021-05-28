@@ -3,4 +3,8 @@
 	<url>
 		<loc>https://github-search-graphql.vercel.app</loc>
 	</url>
+
+	<url>
+		<loc>https://github-search-graphql.vercel.app/issues</loc>
+	</url>
 </urlset>

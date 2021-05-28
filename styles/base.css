@@ -20,9 +20,17 @@
 		--primary-7: hsl(210, 31%, 80%);
 		--primary-8: hsl(212, 33%, 89%);
 		--primary-9: hsl(210, 36%, 96%);
-		--secondary-0: #d7be69;
-		--secondary-1: #486581;
-		--secondary-2: #9fb3c8;
+		--secondary-0: hsl(46, 58%, 63%);
+		--secondary-1: hsl(209, 28%, 39%);
+		--secondary-2: hsl(211, 27%, 70%);
+		--secondary-3: hsl(263, 69%, 42%);
+		--secondary-4: hsl(240, 2%, 8%);
+		--secondary-5: hsl(252, 38%, 53%);
+		--secondary-6: hsl(252, 35%, 31%);
+		--secondary-7: hsl(252, 34%, 26%);
+		--secondary-8: hsl(251, 35%, 21%);
+		--secondary-9: hsl(251, 35%, 16%);
+		--secondary-10: hsl(271, 58%, 23%);
 		--accents-0: hsl(195, 7%, 11%);
 		--accents-1: hsl(140, 2%, 26%);
 		--accents-2: hsl(0, 0%, 49%);
@@ -67,7 +75,7 @@
 		text-rendering: optimizeLegibility;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
-		background-color: var(--reddit-0);
+		background-color: @apply bg-purple-800;
 		color: var(--text-accents-6);
 	}
 

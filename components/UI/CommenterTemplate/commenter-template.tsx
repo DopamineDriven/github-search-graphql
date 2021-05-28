@@ -65,9 +65,9 @@ const CommenterTemplate: FC<CommenterProps> = ({
 								</div>
 								<>
 									<div className='min-w-0 flex-1'>
-										<p className='text-sm text-olive-300'>
+										{/* <p className='text-sm text-olive-300'>
 											<StarRating stars={stars} />
-										</p>
+										</p> */}
 										<h2
 											id={'review-' + commenterName}
 											className='text-base font-medium tracking-wide text-gray-50 flex-row'

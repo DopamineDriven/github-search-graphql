@@ -14,9 +14,11 @@ generates:
     plugins:
       - typescript
       - typescript-operations
-      - typescript-react-apollo
+      - typescript-react-apollo:
+          reactApolloVersion: 3
     config:
       withHooks: true
+      reactApolloVersion: 3
   graphql/schema/graphql.schema.graphql:
     plugins:
       - schema-ast

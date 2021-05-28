@@ -1,0 +1,20 @@
+.root {
+	@apply fixed text-olive-300 bg-redditSearch flex items-center inset-0 justify-center transition-transform transform-gpu;
+	background-color: rgba(0, 0, 0, 0.9);
+	z-index: 140;
+}
+
+.modal {
+	@apply bg-redditBG px-6 py-2 ring-4 ring-olive-300 ring-inset select-none rounded-md relative;
+	z-index: 150;
+	&:focus {
+		@apply outline-none;
+	}
+}
+
+.modal input[type='text'] {
+	@apply border-olive-400;
+	&:focus {
+		@apply border-olive-300;
+	}
+}
