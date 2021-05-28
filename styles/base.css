@@ -1,0 +1,142 @@
+@layer base {
+	#__next {
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+	}
+
+	:root {
+		--reddit-0: hsl(240, 2%, 8%);
+		--reddit-1: hsl(240, 2%, 10%);
+		--reddit-2: hsl(240, 3%, 16%);
+		--reddit-3: hsl(16, 100%, 50%);
+		--primary-0: hsl(209, 61%, 16%);
+		--primary-1: hsl(211, 39%, 23%);
+		--primary-2: hsl(209, 34%, 30%);
+		--primary-3: hsl(209, 28%, 39%);
+		--primary-4: hsl(210, 22%, 49%);
+		--primary-5: hsl(209, 23%, 60%);
+		--primary-6: hsl(211, 27%, 70%);
+		--primary-7: hsl(210, 31%, 80%);
+		--primary-8: hsl(212, 33%, 89%);
+		--primary-9: hsl(210, 36%, 96%);
+		--secondary-0: #d7be69;
+		--secondary-1: #486581;
+		--secondary-2: #9fb3c8;
+		--accents-0: hsl(195, 7%, 11%);
+		--accents-1: hsl(140, 2%, 26%);
+		--accents-2: hsl(0, 0%, 49%);
+		--accents-3: hsl(0, 0%, 64%);
+		--accents-4: hsl(0, 1%, 81%);
+		--accents-5: hsl(0, 0%, 89%);
+		--accents-6: hsl(50, 21%, 95%);
+		--theme-0: hsl(210, 24%, 84%);
+		--theme-1: hsl(209, 28%, 39%);
+		@apply overflow-x-hidden;
+	}
+
+	*,
+	*:before,
+	*:after {
+		box-sizing: inherit;
+	}
+
+	/* Remove Safari input shadow on mobile */
+	textarea,
+	input:matches([type='email'], [type='number'], [type='password'], [type='search'], [type='tel'], [type='text'], [type='url']) {
+		-webkit-appearance: none;
+	}
+
+	html {
+		height: 100%;
+		box-sizing: border-box;
+		touch-action: manipulation;
+		font-feature-settings: 'case' 1, 'rlig' 1, 'calt' 0;
+		text-rendering: optimizeLegibility;
+		-webkit-font-smoothing: antialiased;
+		-webkit-tap-highlight-color: transparent;
+		-moz-osx-font-smoothing: grayscale;
+		scroll-behavior: smooth;
+		/* -webkit-text-size-adjust: none; */
+		/* text-size-adjust: none; */
+	}
+
+	html,
+	body {
+		font-family: var(--font-sans);
+		text-rendering: optimizeLegibility;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		background-color: var(--reddit-0);
+		color: var(--text-accents-6);
+	}
+
+	body {
+		position: relative;
+		min-height: 100%;
+		margin: 0;
+		scrollbar-width: 10px;
+		scrollbar-color: var(--secondary-0) var(--accents-7); /* scroll thumb and track */
+	}
+
+	body::-webkit-scrollbar {
+		display: thin; /* Hide scrollbar for Chrome, Safari and Opera https://www.w3schools.com/howto/howto_css_hide_scrollbars.asp */
+		width: 10px;
+	}
+
+	body::-webkit-scrollbar-track {
+		background: var(--accents-7); /* color of the tracking area */
+	}
+
+	body::-webkit-scrollbar-thumb {
+		background-color: var(
+			--secondary-0
+		); /* color of the scroll thumb */
+		border-radius: 0px; /* roundness of the scroll thumb */
+		border: 3px var(--secondary-0); /* creates padding around scroll thumb */
+	}
+
+	a {
+		-webkit-tap-highlight-color: hsla(0, 0%, 0%, 0);
+	}
+
+	img {
+		/* Don't apply styles to next/image */
+		@apply m-0;
+		&.prose {
+			@apply m-0;
+		}
+	}
+
+	.animated {
+		-webkit-animation-duration: 1s;
+		animation-duration: 1s;
+		-webkit-animation-fill-mode: both;
+		animation-fill-mode: both;
+	}
+
+	.fadeIn {
+		-webkit-animation-name: fadeIn;
+		animation-name: fadeIn;
+	}
+
+	@-webkit-keyframes fadeIn {
+		from {
+			opacity: 0;
+		}
+
+		to {
+			opacity: 1;
+		}
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+		}
+
+		to {
+			opacity: 1;
+		}
+	}
+}

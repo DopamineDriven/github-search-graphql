@@ -1,0 +1,47 @@
+{
+	"parser": "@typescript-eslint/parser",
+	"plugins": ["@typescript-eslint"],
+	"extends": [
+		"eslint:recommended",
+		"plugin:react/recommended",
+		"plugin:@typescript-eslint/recommended"
+	],
+	"env": {
+		"es6": true,
+		"browser": true,
+		"jest": true,
+		"node": true
+	},
+	"settings": {
+		"react": {
+			"version": "detect"
+		}
+	},
+	"rules": {
+		"@typescript-eslint/explicit-module-boundary-types": "off",
+		"@typescript-eslint/no-non-null-asserted-optional-chain": "off",
+		"react/react-in-jsx-scope": 0,
+		"no-empty-pattern": 0,
+		"@typescript-eslint/no-array-constructor": 0,
+		"react/display-name": 0,
+		"react/prop-types": 0,
+		"react/no-children-prop": 0,
+		"@typescript-eslint/explicit-function-return-type": 0,
+		"@typescript-eslint/explicit-member-accessibility": 0,
+		"@typescript-eslint/indent": 0,
+		"no-mixed-spaces-and-tabs": [0, "smart-tabs"],
+		"@typescript-eslint/member-delimiter-style": 0,
+		"@typescript-eslint/no-explicit-any": 0,
+		"@typescript-eslint/no-empty-interface": "off",
+		"@typescript-eslint/ban-types": 0,
+		"@typescript-eslint/no-var-requires": 0,
+		"@typescript-eslint/no-use-before-define": 0,
+		"@typescript-eslint/no-non-null-assertion": 0,
+		"@typescript-eslint/no-unused-vars": [
+			0,
+			{
+				"argsIgnorePattern": "^_"
+			}
+		]
+	}
+}

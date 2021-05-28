@@ -1,0 +1,9 @@
+.container {
+	@apply bg-black border-accents-2 border-2 my-6 rounded-2xl;
+}
+.content {
+	@apply px-5 pt-5 pb-2;
+}
+.footer {
+	@apply h-10 py-2 px-5 border-t-4 border-accents-2 border-solid;
+}

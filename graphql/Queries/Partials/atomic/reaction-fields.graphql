@@ -1,0 +1,26 @@
+# import GitHubActorPartial from './actor-fields.graphql'
+# import GitHubPageInfoPartial from './page-info-fields.graphql'
+# import GitHubUserPartial from './user-fields.graphql'
+
+fragment GitHubReactionPartial on Reaction {
+	id
+	createdAt
+	content
+	user {
+		...GitHubUserPartial
+		...GitHubActorPartial
+	}
+}
+
+fragment GitHubReactionConnectionPartial on ReactionConnection {
+	edges {
+		cursor
+		node {
+			...GitHubReactionPartial
+		}
+	}
+	totalCount
+	pageInfo {
+		...GitHubPageInfoPartial
+	}
+}

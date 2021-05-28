@@ -1,0 +1,24 @@
+# import GitHubPageInfoPartial from './page-info-fields.graphql'
+# import GitHubIssueCommentPartial from './issue-comment-fields.graphql'
+
+fragment GitHubIssuePartial on Issue {
+	state
+	closed
+	title
+	authorAssociation
+	comments(
+		first: 5
+		orderBy: { field: UPDATED_AT, direction: DESC }
+	) {
+		pageInfo {
+			...GitHubPageInfoPartial
+		}
+		totalCount
+		edges {
+			cursor
+			node {
+				...GitHubIssueCommentPartial
+			}
+		}
+	}
+}

@@ -1,0 +1,8 @@
+# import GitHubIssuePartial from './issue-fields.graphql'
+
+fragment GitHubPinnedIssuePartial on PinnedIssue {
+	id
+	issue {
+		...GitHubIssuePartial
+	}
+}

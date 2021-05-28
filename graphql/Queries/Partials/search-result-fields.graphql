@@ -1,0 +1,15 @@
+# import GitHubRepositoryPartial from './repository-fields.graphql'
+# import GitHubPageInfoPartial from './atomic/page-info-fields.graphql'
+
+fragment GitHubSearchResultItemConnectionPartial on SearchResultItemConnection {
+	repositoryCount
+	pageInfo {
+		...GitHubPageInfoPartial
+	}
+	edges {
+		cursor
+		node {
+			...GitHubRepositoryPartial
+		}
+	}
+}

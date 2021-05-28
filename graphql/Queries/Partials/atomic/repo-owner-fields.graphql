@@ -1,0 +1,6 @@
+fragment GitHubRepoOwnerPartial on RepositoryOwner {
+	avatarUrl(size: 12)
+	id
+	login
+	url
+}

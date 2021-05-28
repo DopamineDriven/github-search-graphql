@@ -1,0 +1,17 @@
+# import GitHubReactionConnectionPartial from './reaction-fields.graphql'
+# import GitHubUserPartial from './user-fields.graphql'
+# import GitHubActorPartial from './actor-fields.graphql'
+
+fragment GitHubIssueCommentPartial on IssueComment {
+	id
+	body
+	createdAt
+	author {
+		...GitHubActorPartial
+		...GitHubUserPartial
+	}
+	url
+	reactions(first: 20) {
+		...GitHubReactionConnectionPartial
+	}
+}

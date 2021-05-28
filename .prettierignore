@@ -1,0 +1,14 @@
+# Ignore Artifacts
+node_modules
+.next
+yarn.lock
+yarn-error.log
+.vercel
+.vscode
+codegen.yml
+cdk.out
+publc
+getInit-vs-getStatic-vs-getServer.md
+./graphql/graphql.schema.json
+./graphql/graphql.schema.graphql
+./graphql/generated/graphql.tsx

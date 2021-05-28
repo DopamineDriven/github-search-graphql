@@ -1,0 +1,3 @@
+.spinnerRoot {
+	@apply animate-spin -ml-1 mr-3 h-5 w-5 border-redditBG text-primary-0;
+}

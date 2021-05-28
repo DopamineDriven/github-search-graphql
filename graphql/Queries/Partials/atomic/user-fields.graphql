@@ -1,0 +1,14 @@
+fragment GitHubUserPartial on User {
+	login
+	location
+	bio
+	twitterUsername
+	name
+	email
+	id
+	company
+	isGitHubStar
+	isEmployee
+	isSiteAdmin
+	isDeveloperProgramMember
+}

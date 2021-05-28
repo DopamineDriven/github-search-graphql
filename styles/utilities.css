@@ -1,0 +1,51 @@
+@layer utilities {
+	#tsparticles {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		margin: 0;
+	}
+
+	#map {
+		height: 100%;
+	}
+
+	.skeleton {
+		display: block;
+		width: 100%;
+		border-radius: 5px;
+
+		background-image: linear-gradient(
+			270deg,
+			var(--reddit-0),
+			var(--reddit-2),
+			var(--reddit-2),
+			var(--reddit-0)
+		);
+		background-size: 400% 100%;
+		animation: loading 8s ease-in-out infinite;
+	}
+
+	@keyframes loading {
+		0% {
+			background-position: 200% 0;
+		}
+		100% {
+			background-position: -200% 0;
+		}
+	}
+
+	.landing-page-pagination-btn {
+		@apply sm:m-3 m-4 relative inline-flex items-center px-4 py-2 border border-olive-300 text-sm font-medium rounded-md text-olive-300 bg-redditBG hover:bg-redditSearch;
+	}
+
+	.tooltip {
+		@apply invisible absolute transition-transform ease-in-out transform-gpu;
+	}
+
+	.has-tooltip:hover .tooltip {
+		@apply visible z-50 border-collapse rounded-lg bg-opacity-75 translate-x-3 -mt-2 text-xxs bg-redditBG text-opacity-0 my-auto p-2;
+	}
+}

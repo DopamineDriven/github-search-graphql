@@ -1,0 +1,10 @@
+.root {
+	@apply py-2 px-3 w-full appearance-none transition duration-150 ease-in-out border border-rojo-100;
+	&:focus {
+		@apply outline-none;
+	}
+}
+
+.root input:matches([type='placeholder']) {
+	@apply text-gray-200;
+}

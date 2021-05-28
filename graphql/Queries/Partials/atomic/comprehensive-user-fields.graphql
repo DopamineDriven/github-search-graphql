@@ -1,0 +1,38 @@
+# import GitHubPageInfoPartial from './page-info-fields.graphql'
+# import GitHubLanguagesPartial from './language-fields.graphql'
+# import GitHubLanguagePartial from './language-fields.graphql'
+
+fragment GitHubUserComprehensivePartial on User {
+	login
+	location
+	bio
+	twitterUsername
+	name
+	email
+	id
+	company
+	isGitHubStar
+	isEmployee
+	isSiteAdmin
+	isDeveloperProgramMember
+	topRepositories(
+		first: 6
+		orderBy: { field: STARGAZERS, direction: DESC }
+	) {
+		pageInfo {
+			...GitHubPageInfoPartial
+		}
+		totalCount
+		edges {
+			cursor
+			node {
+				primaryLanguage {
+					...GitHubLanguagePartial
+				}
+				languages {
+					...GitHubLanguagesPartial
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,6 @@
+**/node_modules/*
+**/out/*
+**/.next/*
+./graphql/graphql.schema.json
+./graphql/graphql.schema.graphql
+./graphql/generated/graphql.tsx

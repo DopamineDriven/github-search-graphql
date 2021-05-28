@@ -1,0 +1,65 @@
+# import GitHubPageInfoPartial from './Partials/atomic/page-info-fields.graphql'
+# import GitHubLanguagesPartial from './Partials/atomic/language-fields.graphql'
+# import GitHubLanguagePartial from './Partials/atomic/language-fields.graphql'
+# import GitHubRepoOwnerPartial from './Partials/atomic/repo-owner-fields.graphql'
+# import GitHubUserPartial from './Partials/atomic/user-fields.graphql'
+# import GitHubActorPartial from './Partials/atomic/actor-fields.graphql'
+# import GitHubReactionConnectionPartial from './Partials/atomic/reaction-fields.graphql'
+
+query GitHubSearchRepos($query: String!, $first: Int!) {
+	Search: search(
+		first: $first
+		query: $query
+		type: REPOSITORY
+	) {
+		repositoryCount
+		pageInfo {
+			...GitHubPageInfoPartial
+		}
+		edges {
+			node {
+				... on Repository {
+					id
+					name
+					url
+					description
+					createdAt
+					updatedAt
+					homepageUrl
+					stargazerCount
+					forkCount
+					openGraphImageUrl
+					isArchived
+					isInOrganization
+					latestRelease {
+						reactions(first: 10) {
+							...GitHubReactionConnectionPartial
+						}
+						id
+						name
+						publishedAt
+						description
+						author {
+							...GitHubUserPartial
+							...GitHubActorPartial
+							...GitHubRepoOwnerPartial
+						}
+					}
+					languages(
+						first: 5
+						orderBy: { field: SIZE, direction: DESC }
+					) {
+						...GitHubLanguagesPartial
+					}
+					primaryLanguage {
+						...GitHubLanguagePartial
+					}
+					owner {
+						...GitHubRepoOwnerPartial
+					}
+				}
+			}
+			cursor
+		}
+	}
+}

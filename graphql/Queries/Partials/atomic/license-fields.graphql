@@ -1,0 +1,25 @@
+fragment GitHubLicenseRulePartial on LicenseRule {
+	key
+	label
+	description
+}
+
+fragment GitHubLicensePartial on License {
+	id
+	key
+	nickname
+	name
+	spdxId
+	pseudoLicense
+	description
+	url
+	conditions {
+		...GitHubLicenseRulePartial
+	}
+	limitations {
+		...GitHubLicenseRulePartial
+	}
+	permissions {
+		...GitHubLicenseRulePartial
+	}
+}

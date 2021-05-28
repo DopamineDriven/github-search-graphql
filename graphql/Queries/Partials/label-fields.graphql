@@ -1,0 +1,28 @@
+# import GitHubRepositoryPartial from './repository-fields.graphql'
+# import GitHubPageInfoPartial from './atomic/page-info-fields.graphql'
+
+fragment GitHubLabelPartial on Label {
+	id
+	name
+	url
+	description
+	color
+	createdAt
+	updatedAt
+	repository {
+		...GitHubRepositoryPartial
+	}
+}
+
+fragment GitHubLabelsConnectionPartial on LabelConnection {
+	pageInfo {
+		...GitHubPageInfoPartial
+	}
+	totalCount
+	edges {
+		cursor
+		node {
+			...GitHubLabelPartial
+		}
+	}
+}

@@ -1,0 +1,22 @@
+# import GitHubPageInfoPartial from './page-info-fields.graphql'
+
+fragment GitHubLanguagePartial on Language {
+	id
+	color
+	name
+}
+
+fragment GitHubLanguagesPartial on LanguageConnection {
+	totalSize
+	totalCount
+	pageInfo {
+		...GitHubPageInfoPartial
+	}
+	edges {
+		cursor
+		size
+		node {
+			...GitHubLanguagePartial
+		}
+	}
+}

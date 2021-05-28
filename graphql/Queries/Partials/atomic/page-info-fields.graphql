@@ -1,0 +1,6 @@
+fragment GitHubPageInfoPartial on PageInfo {
+	startCursor
+	endCursor
+	hasNextPage
+	hasPreviousPage
+}

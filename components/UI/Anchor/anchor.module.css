@@ -1,0 +1,32 @@
+.root {
+	@apply cursor-pointer block transition-all ease-in-out duration-150 transform-gpu;
+}
+
+.root:hover {
+	@apply bg-redditBG;
+}
+
+.root:focus {
+	@apply outline-none;
+}
+
+.root[data-active] {
+	@apply hover:bg-redditBG;
+}
+
+.loading {
+	@apply bg-current text-olive-300 border-redditBG cursor-not-allowed;
+}
+
+.slim {
+	@apply py-2 transform-none normal-case;
+}
+
+.disabled,
+.disabled:hover {
+	@apply text-olive-400 border-redditBG bg-current bg-opacity-90 cursor-not-allowed;
+	filter: grayscale(1);
+	-webkit-transform: translateZ(0);
+	-webkit-perspective: 1000;
+	-webkit-backface-visibility: hidden;
+}
