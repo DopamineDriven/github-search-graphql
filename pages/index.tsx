@@ -2,58 +2,40 @@ import { Configuration, Fetcher } from 'swr/dist/types';
 import {
 	GetStaticPropsContext,
 	GetStaticPropsResult,
-	InferGetStaticPropsType
+	InferGetStaticPropsType,
+	NextPage
 } from 'next';
 import {
 	initializeApollo,
 	addApolloState
 } from '../lib/apollo';
+import Image from 'next/image';
+import { ImageLoader } from '@/lib/image-loader';
+import { GetIssuesMinimalDocument } from '../graphql/graphql';
+import { ApolloError } from '@apollo/client';
 import {
-	useGitHubSearchReposQuery,
-	GitHubSearchReposDocument,
-	GitHubSearchReposQuery,
-	GitHubSearchReposQueryVariables
-} from '@/graphql/graphql';
-import useSWR from 'swr';
-import { useState } from 'react';
-import { fetcher } from '@/lib/fetchers';
-import { useQuery } from '@apollo/client';
-import {
-	useGitHubSearchReposLazyQuery,
-	SearchResultItem
+	GetIssuesMinimalQueryVariables,
+	GetIssuesMinimalQuery
 } from '../graphql/graphql';
 
 export default function Index<
 	T extends typeof getStaticProps
->({ search }: InferGetStaticPropsType<T>) {
-	// const githubOAuthToken =
-	// 	process.env.GITHUB_OAUTH_TOKEN ?? '';
-
-	// const refs = search?.edges?.forEach((ref, i) => {
-	// 	console.log(ref);
-	// 	if (ref && ref.node) {
-	// 		const { login, name, id } = {
-	// 			name: '',
-	// 			login: '',
-	// 			id: '',
-	// 			...ref
-	// 		};
-	// 	}
-	// });
-	// const [lazyData, { called, loading, data }] =
-	// 	useGitHubSearchReposLazyQuery({
-	// 		query: GitHubSearchReposDocument,
-	// 		variables: {
-	// 			query: 'swr',
-	// 			first: 10
-	// 		},
-
-	// 	});
-
+>({ user }: InferGetStaticPropsType<T>) {
+	const { user: userData } = user;
 	return (
 		<>
-			<div className='text-gray-50 font-bold font-sans text-4xl mx-auto justify-center flex my-24  select-none'>
-				{' '}
+			<div className=' filter grayscale text-gray-50 font-bold font-sans text-4xl mx-auto justify-center flex my-24 select-none'>
+				<Image
+					className=' object-cover backdrop-blur-3xl'
+					loader={ImageLoader}
+					width='400'
+					height='400'
+					src={
+						userData?.avatarUrl
+							? userData.avatarUrl
+							: '/architecture.jpg'
+					}
+				/>
 				Configuring Initial Dev Setup, switching to dev branch
 			</div>
 		</>
@@ -63,26 +45,33 @@ export default function Index<
 export async function getStaticProps<P>(
 	ctx: GetStaticPropsContext
 ): Promise<
-	P &
-		GetStaticPropsResult<{
-			search: GitHubSearchReposQuery['search'];
-		}>
+	GetStaticPropsResult<
+		P & {
+			user: GetIssuesMinimalQuery;
+			error: ApolloError;
+			loading: boolean;
+		}
+	>
 > {
-	const apolloClient = initializeApollo({});
+	const p = ctx.params ? ctx.params.q : '';
+	console.log(p ?? 'no params at the moment');
+	const apolloClient = initializeApollo();
 
-	const { data } = await apolloClient.query<
-		GitHubSearchReposQuery,
-		GitHubSearchReposQueryVariables
+	const {
+		data: user,
+		loading,
+		error
+	} = await apolloClient.query<
+		GetIssuesMinimalQuery,
+		GetIssuesMinimalQueryVariables
 	>({
-		query: GitHubSearchReposDocument,
+		query: GetIssuesMinimalDocument,
 		variables: {
-			query: 'swr',
-			first: 10
+			login: 'DopamineDriven'
 		}
 	});
-	const search = data.search;
 	return addApolloState(apolloClient, {
-		props: { search },
+		props: { user },
 		revalidate: 120
 	});
 }

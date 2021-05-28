@@ -20477,6 +20477,103 @@ export type GetViewerQuery = { __typename?: 'Query' } & {
 	>;
 };
 
+export type GetIssuesMinimalPaginationQueryVariables =
+	Exact<{
+		login: Scalars['String'];
+		before?: Maybe<Scalars['String']>;
+		after?: Maybe<Scalars['String']>;
+	}>;
+
+export type GetIssuesMinimalPaginationQuery = {
+	__typename?: 'Query';
+} & {
+	user?: Maybe<
+		{ __typename?: 'User' } & Pick<
+			User,
+			'id' | 'login' | 'avatarUrl'
+		> & {
+				issues: { __typename?: 'IssueConnection' } & Pick<
+					IssueConnection,
+					'totalCount'
+				> & {
+						pageInfo: { __typename?: 'PageInfo' } & Pick<
+							PageInfo,
+							| 'startCursor'
+							| 'endCursor'
+							| 'hasNextPage'
+							| 'hasPreviousPage'
+						>;
+					};
+			}
+	>;
+};
+
+export type GetIssuesMinimalQueryVariables = Exact<{
+	login: Scalars['String'];
+}>;
+
+export type GetIssuesMinimalQuery = {
+	__typename?: 'Query';
+} & {
+	user?: Maybe<
+		{ __typename?: 'User' } & Pick<
+			User,
+			'id' | 'login' | 'avatarUrl'
+		> & {
+				issues: { __typename?: 'IssueConnection' } & Pick<
+					IssueConnection,
+					'totalCount'
+				> & {
+						nodes?: Maybe<
+							Array<
+								Maybe<
+									{ __typename?: 'Issue' } & Pick<
+										Issue,
+										| 'id'
+										| 'url'
+										| 'bodyUrl'
+										| 'number'
+										| 'title'
+										| 'bodyHTML'
+										| 'updatedAt'
+									> & {
+											author?: Maybe<
+												| ({ __typename?: 'Bot' } & Pick<
+														Bot,
+														'url' | 'login' | 'avatarUrl'
+												  >)
+												| ({
+														__typename?: 'EnterpriseUserAccount';
+												  } & Pick<
+														EnterpriseUserAccount,
+														'url' | 'login' | 'avatarUrl'
+												  >)
+												| ({ __typename?: 'Mannequin' } & Pick<
+														Mannequin,
+														'url' | 'login' | 'avatarUrl'
+												  >)
+												| ({ __typename?: 'Organization' } & Pick<
+														Organization,
+														'url' | 'login' | 'avatarUrl'
+												  >)
+												| ({ __typename?: 'User' } & Pick<
+														User,
+														'url' | 'login' | 'avatarUrl'
+												  >)
+											>;
+											repository: { __typename?: 'Repository' } & Pick<
+												Repository,
+												'nameWithOwner' | 'url' | 'openGraphImageUrl'
+											>;
+										}
+								>
+							>
+						>;
+					};
+			}
+	>;
+};
+
 export type GitHubSearchReposQueryVariables = Exact<{
 	query: Scalars['String'];
 	first: Scalars['Int'];
@@ -21012,6 +21109,172 @@ export type GetViewerQueryResult = Apollo.QueryResult<
 	GetViewerQuery,
 	GetViewerQueryVariables
 >;
+export const GetIssuesMinimalPaginationDocument = gql`
+	query GetIssuesMinimalPagination(
+		$login: String!
+		$before: String
+		$after: String
+	) {
+		user(login: $login) {
+			id
+			login
+			avatarUrl(size: 500)
+			issues(
+				first: 10
+				before: $before
+				after: $after
+				states: [OPEN]
+				orderBy: { field: UPDATED_AT, direction: DESC }
+			) {
+				pageInfo {
+					startCursor
+					endCursor
+					hasNextPage
+					hasPreviousPage
+				}
+				totalCount
+			}
+		}
+	}
+`;
+
+/**
+ * __useGetIssuesMinimalPaginationQuery__
+ *
+ * To run a query within a React component, call `useGetIssuesMinimalPaginationQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetIssuesMinimalPaginationQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetIssuesMinimalPaginationQuery({
+ *   variables: {
+ *      login: // value for 'login'
+ *      before: // value for 'before'
+ *      after: // value for 'after'
+ *   },
+ * });
+ */
+export function useGetIssuesMinimalPaginationQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		GetIssuesMinimalPaginationQuery,
+		GetIssuesMinimalPaginationQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<
+		GetIssuesMinimalPaginationQuery,
+		GetIssuesMinimalPaginationQueryVariables
+	>(GetIssuesMinimalPaginationDocument, options);
+}
+export function useGetIssuesMinimalPaginationLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		GetIssuesMinimalPaginationQuery,
+		GetIssuesMinimalPaginationQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<
+		GetIssuesMinimalPaginationQuery,
+		GetIssuesMinimalPaginationQueryVariables
+	>(GetIssuesMinimalPaginationDocument, options);
+}
+export type GetIssuesMinimalPaginationQueryHookResult =
+	ReturnType<typeof useGetIssuesMinimalPaginationQuery>;
+export type GetIssuesMinimalPaginationLazyQueryHookResult =
+	ReturnType<typeof useGetIssuesMinimalPaginationLazyQuery>;
+export type GetIssuesMinimalPaginationQueryResult =
+	Apollo.QueryResult<
+		GetIssuesMinimalPaginationQuery,
+		GetIssuesMinimalPaginationQueryVariables
+	>;
+export const GetIssuesMinimalDocument = gql`
+	query getIssuesMinimal($login: String!) {
+		user(login: $login) {
+			id
+			login
+			avatarUrl(size: 500)
+			issues(
+				first: 10
+				states: [OPEN]
+				orderBy: { field: UPDATED_AT, direction: DESC }
+			) {
+				totalCount
+				nodes {
+					id
+					url
+					bodyUrl
+					number
+					author {
+						url
+						login
+						avatarUrl(size: 14)
+					}
+					repository {
+						nameWithOwner
+						url
+						openGraphImageUrl
+					}
+					title
+					bodyHTML
+					updatedAt
+				}
+			}
+		}
+	}
+`;
+
+/**
+ * __useGetIssuesMinimalQuery__
+ *
+ * To run a query within a React component, call `useGetIssuesMinimalQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetIssuesMinimalQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetIssuesMinimalQuery({
+ *   variables: {
+ *      login: // value for 'login'
+ *   },
+ * });
+ */
+export function useGetIssuesMinimalQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		GetIssuesMinimalQuery,
+		GetIssuesMinimalQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<
+		GetIssuesMinimalQuery,
+		GetIssuesMinimalQueryVariables
+	>(GetIssuesMinimalDocument, options);
+}
+export function useGetIssuesMinimalLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		GetIssuesMinimalQuery,
+		GetIssuesMinimalQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<
+		GetIssuesMinimalQuery,
+		GetIssuesMinimalQueryVariables
+	>(GetIssuesMinimalDocument, options);
+}
+export type GetIssuesMinimalQueryHookResult = ReturnType<
+	typeof useGetIssuesMinimalQuery
+>;
+export type GetIssuesMinimalLazyQueryHookResult =
+	ReturnType<typeof useGetIssuesMinimalLazyQuery>;
+export type GetIssuesMinimalQueryResult =
+	Apollo.QueryResult<
+		GetIssuesMinimalQuery,
+		GetIssuesMinimalQueryVariables
+	>;
 export const GitHubSearchReposDocument = gql`
 	query GitHubSearchRepos($query: String!, $first: Int!) {
 		search(first: $first, query: $query, type: REPOSITORY) {

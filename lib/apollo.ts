@@ -7,7 +7,10 @@ import {
 } from '@apollo/client';
 import result from '@/graphql/fragment-matcher';
 import fetch from 'isomorphic-unfetch';
-import { GetViewerDocument } from '../graphql/graphql';
+import {
+	GetViewerDocument,
+	GetViewerQuery
+} from '../graphql/graphql';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 const token =
@@ -40,15 +43,12 @@ export function initializeApollo(initialState: any = null) {
 	const _apolloClient = apolloClient ?? createApolloClient();
 	// If your page has Next.js data fetching methods that use Apollo Client, the initial state
 	// gets hydrated here
-	_apolloClient
-		.query({ query: GetViewerDocument })
-		.then(x => console.log(x.data ?? 'no data'));
 	if (initialState) {
 		// Get existing cache, loaded during client side data fetching
 		const existingCache = _apolloClient.extract();
 		// Merge the existing cache into data passed from getStaticProps/getServerSideProps
 		const data = { ...existingCache, ...initialState };
-		// const data = deepmerge(initialState, existingCache, { clone: false });
+
 		// Restore the cache with the merged data
 		_apolloClient.cache.restore(data);
 	}

@@ -79,7 +79,10 @@
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
 		"react-intersection-observer": "^8.32.0",
+		"react-markdown": "^6.0.2",
 		"react-merge-refs": "^1.1.0",
+		"react-syntax-highlighter": "^15.4.3",
+		"remark-gfm": "^1.0.0",
 		"swr": "^0.5.6",
 		"tabbable": "^5.2.0",
 		"vercel": "^23.0.0"
@@ -116,6 +119,7 @@
 		"@types/node": "^15.6.1",
 		"@types/react": "^17.0.8",
 		"@types/react-dom": "^17.0.5",
+		"@types/react-syntax-highlighter": "^13.5.0",
 		"@types/react-test-renderer": "^17.0.1",
 		"@types/tabbable": "^3.1.0",
 		"@typescript-eslint/eslint-plugin": "^4.25.0",
