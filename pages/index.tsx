@@ -13,12 +13,12 @@ import {
 	GitHubSearchReposDocument,
 	GitHubSearchReposQuery,
 	GitHubSearchReposQueryVariables
-} from '@/graphql/generated/graphql';
+} from '@/graphql/graphql';
 import useSWR from 'swr';
 import { useState } from 'react';
 import { fetcher } from '@/lib/fetchers';
 import { useQuery } from '@apollo/client';
-import { useGitHubSearchReposLazyQuery } from '../graphql/generated/graphql';
+import { useGitHubSearchReposLazyQuery } from '../graphql/graphql';
 
 export default function Index<
 	T extends typeof getStaticProps

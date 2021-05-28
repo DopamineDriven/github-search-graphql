@@ -5,7 +5,7 @@ schema:
       Authorization: Bearer ${GITHUB_OAUTH_TOKEN_YML}
 documents: 'graphql/**/*.graphql'
 generates:
-  graphql/generated/graphql.tsx:
+  graphql/graphql.tsx:
     plugins:
       - typescript:
           constEnums: false

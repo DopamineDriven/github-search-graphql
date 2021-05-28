@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-unfetch';
-import { GitHubSearchReposQuery } from '@/graphql/generated/graphql';
+import { GitHubSearchReposQuery } from '@/graphql/graphql';
 
 export async function fetcher<
 	T extends GitHubSearchReposQuery
