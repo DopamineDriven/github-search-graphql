@@ -2,7 +2,7 @@ overwrite: true
 schema:
   ${NEXT_PUBLIC_GITHUB_GRAPHQL_ENDPOINT_YML}:
     headers:
-      Authorization: Bearer ${GITHUB_OAUTH_TOKEN_YML}
+      Authorization: Bearer ${NEXT_PUBLIC_GITHUB_OAUTH_TOKEN_YML}
 documents: 'graphql/**/*.graphql'
 generates:
   graphql/fragment-matcher.ts:
