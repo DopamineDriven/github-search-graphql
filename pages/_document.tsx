@@ -8,28 +8,28 @@ import Document, {
 	DocumentInitialProps
 } from 'next/document';
 
-// export default class FadeDocument extends Document<
-// 	DocumentProps | unknown
-// > {
-// 	static async getInitialProps(
-// 		ctx: DocumentContext
-// 	): Promise<DocumentInitialProps> {
-// 		const originalRenderPage = ctx.renderPage;
-// 		const initialProps = await Document.getInitialProps(ctx);
-// 		try {
-// 			ctx.renderPage = () =>
-// 				originalRenderPage({
-// 					enhanceApp: App => props => <App {...props} />
-// 				});
-// 		} catch (error) {
-// 			console.log(error);
-// 		}
-// 		return {
-// 			...initialProps,
-// 			styles: <>{initialProps.styles}</>
-// 		};
-// 	}
-export default class GitHubSearch extends Document {
+export default class FadeDocument extends Document<
+	DocumentProps | unknown
+> {
+	static async getInitialProps(
+		ctx: DocumentContext
+	): Promise<DocumentInitialProps> {
+		const originalRenderPage = ctx.renderPage;
+		const initialProps = await Document.getInitialProps(ctx);
+		try {
+			ctx.renderPage = () =>
+				originalRenderPage({
+					enhanceApp: App => props => <App {...props} />
+				});
+		} catch (error) {
+			console.log(error);
+		}
+		return {
+			...initialProps,
+			styles: <>{initialProps.styles}</>
+		};
+	}
+
 	render() {
 		return (
 			<Html lang='en-US'>
@@ -49,8 +49,3 @@ export default class GitHubSearch extends Document {
 		);
 	}
 }
-
-/* <script
-	type='text/javascript'
-	src={`https://maps.googleapis.com/maps/api/js?v=beta&key=${googleMapsKey}&callback=initMap`}
-/> */

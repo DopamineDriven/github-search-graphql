@@ -1,0 +1,23 @@
+.footerLogoAlpha {
+	@apply flex flex-initial rounded-full items-center font-bold bg-local md:mr-24;
+}
+
+.footerLogoBeta {
+	@apply rounded-full mr-2;
+}
+
+.socialRoot {
+	@apply flex space-x-6 items-center h-10;
+}
+
+.socialLink {
+	.link {
+		& svg {
+			@apply transform-gpu duration-150 ease-linear;
+		}
+
+		&:hover svg {
+			@apply scale-110 transition-transform;
+		}
+	}
+}
