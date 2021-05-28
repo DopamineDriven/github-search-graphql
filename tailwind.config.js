@@ -56,7 +56,10 @@ module.exports = {
 				heady: ['p22-marcel-script-pro', 'sans-serif'],
 				poppins: ['poppins', 'sans-serif'],
 				somaRoman: ['neue-haas-grotesk-text', 'sans-serif'],
-				somaDisplay: ['neue-haas-grotesk-display', 'sans-serif'],
+				somaDisplay: [
+					'neue-haas-grotesk-display',
+					'sans-serif'
+				],
 				sans: ['Inter', ...defaultTheme.fontFamily.sans]
 			},
 			colors: {
@@ -308,7 +311,8 @@ module.exports = {
 			animation: {
 				wiggle: 'wiggle 10s ease-in-out infinite',
 				hero: 'hero 1s ease-in-out infinite',
-				slowPing: 'pulse 10s cubic-bezier(0, 0, 0.2, 1) infinite'
+				slowPing:
+					'pulse 10s cubic-bezier(0, 0, 0.2, 1) infinite'
 			},
 			width: {
 				82: '20.5rem',
@@ -389,14 +393,24 @@ module.exports = {
 			],
 			display: ['responsive', 'hover', 'group-hover'],
 			visibility: ['responsive', 'hover', 'group-hover'],
-			transitionDuration: ['responsive', 'hover', 'group-hover'],
+			transitionDuration: [
+				'responsive',
+				'hover',
+				'group-hover'
+			],
 			transitionTimingFunction: [
 				'responsive',
 				'hover',
 				'focus',
 				'group-hover'
 			],
-			gridColumn: ['responsive', 'hover', 'first', 'odd', 'even'],
+			gridColumn: [
+				'responsive',
+				'hover',
+				'first',
+				'odd',
+				'even'
+			],
 			extend: {
 				filter: ['responsive', 'hover', 'focus'],
 				ringWidth: [
@@ -413,7 +427,13 @@ module.exports = {
 					'focus',
 					'group-hover'
 				],
-				fontSize: ['responsive', 'last', 'first', 'hover', 'focus'],
+				fontSize: [
+					'responsive',
+					'last',
+					'first',
+					'hover',
+					'focus'
+				],
 				stroke: ['responsive', 'hover', 'focus', 'group-hover'],
 				fill: ['responsive', 'hover', 'focus', 'group-hover'],
 				gridTemplateColumns: [

@@ -85,7 +85,9 @@
 	}
 
 	body::-webkit-scrollbar-track {
-		background: var(--accents-7); /* color of the tracking area */
+		background: var(
+			--accents-7
+		); /* color of the tracking area */
 	}
 
 	body::-webkit-scrollbar-thumb {
