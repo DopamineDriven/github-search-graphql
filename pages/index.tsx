@@ -18,7 +18,10 @@ import useSWR from 'swr';
 import { useState } from 'react';
 import { fetcher } from '@/lib/fetchers';
 import { useQuery } from '@apollo/client';
-import { useGitHubSearchReposLazyQuery } from '../graphql/graphql';
+import {
+	useGitHubSearchReposLazyQuery,
+	SearchResultItem
+} from '../graphql/graphql';
 
 export default function Index<
 	T extends typeof getStaticProps
@@ -62,12 +65,12 @@ export async function getStaticProps<P>(
 ): Promise<
 	P &
 		GetStaticPropsResult<{
-			search: GitHubSearchReposQuery['Search'];
+			search: GitHubSearchReposQuery['search'];
 		}>
 > {
 	const apolloClient = initializeApollo({});
 
-	await apolloClient.query<
+	const { data } = await apolloClient.query<
 		GitHubSearchReposQuery,
 		GitHubSearchReposQueryVariables
 	>({
@@ -77,9 +80,9 @@ export async function getStaticProps<P>(
 			first: 10
 		}
 	});
-
+	const search = data.search;
 	return addApolloState(apolloClient, {
-		props: {},
+		props: { search },
 		revalidate: 120
 	});
 }

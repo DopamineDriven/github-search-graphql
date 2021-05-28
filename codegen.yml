@@ -5,53 +5,18 @@ schema:
       Authorization: Bearer ${GITHUB_OAUTH_TOKEN_YML}
 documents: 'graphql/**/*.graphql'
 generates:
+  graphql/fragment-matcher.ts:
+    plugins:
+      - fragment-matcher
+    config:
+      apolloClientVersion: 3
   graphql/graphql.tsx:
     plugins:
-      - typescript:
-          constEnums: false
-          enumsAsTypes: false          
-          numericEnums: false
-          namingConvention: keep
-          futureProofEnums: false
-          enumsAsConst: false
-          onlyOperationTypes: false
-          maybeValue: T
-          noExport: false
-          enumPrefix: true
-          fieldWrapperValue: T
-          wrapFieldDefinitions: true
-          skipTypename: false
-          nonOptionalTypename: false
-          useTypeImports: false
-          avoidOptionals: true
-          declarationKind: 
-            input: interface
-            type: interface
-      - typescript-operations:
-          declarationKind:
-            input: interface
-            type: interface
-          avoidOptionals: true
-          exportFragmentSpreadSubTypes: true
-      - typescript-react-apollo:
-          addDocBlocks: true
-          reactApolloVersion: 3
-          documentMode: documentNodeImportFragments
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
     config:
-      maybeValue: T
-      declarationKind:
-       input: interface
-       type: interface
-      documentNodeImportFragments: true
-      reactApolloVersion: 3
       withHooks: true
-      numericEnums: false
-      namingConvention: keep
-      withHOC: false
-      avoidOptionals: true
-      withComponent: false
-      exportFragmentSpreadSubTypes: true
-      addDocBlocks: true
   graphql/schema/graphql.schema.graphql:
     plugins:
       - schema-ast

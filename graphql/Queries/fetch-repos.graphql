@@ -1,0 +1,30 @@
+query ViewerRepos {
+	viewer {
+		avatarUrl(size: 12)
+		repositories(
+			first: 100
+			orderBy: { field: UPDATED_AT, direction: DESC }
+		) {
+			nodes {
+				id
+				url
+				nameWithOwner
+				description
+				name
+				createdAt
+				updatedAt
+				homepageUrl
+				stargazerCount
+				forkCount
+				openGraphImageUrl
+				isArchived
+				isInOrganization
+				primaryLanguage {
+					id
+					color
+					name
+				}
+			}
+		}
+	}
+}

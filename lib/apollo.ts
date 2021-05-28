@@ -5,8 +5,14 @@ import {
 	NormalizedCacheObject,
 	HttpLink
 } from '@apollo/client';
+import result from '@/graphql/fragment-matcher';
+import fetch from 'isomorphic-unfetch';
+import { GetViewerDocument } from '../graphql/graphql';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
+const token =
+	process.env.NEXT_PUBLIC_GITHUB_OAUTH_TOKEN ?? '';
+const authorization = `Bearer ${token}`;
 
 let apolloClient:
 	| ApolloClient<NormalizedCacheObject>
@@ -14,30 +20,18 @@ let apolloClient:
 
 function createApolloClient() {
 	const httpLink = new HttpLink({
-		uri: `${process.env.NEXT_PUBLIC_GITHUB_GRAPHQL_ENDPOINT}`,
+		uri: `https://api.github.com/graphql`,
 		headers: {
-			'Content-Type': 'application/json; charset=utf-8',
-			authorization: `Bearer ${process.env.GITHUB_OAUTH_TOKEN}`
+			authorization
 		},
-		credentials: 'same-origin',
+		credentials: 'include',
 		...(typeof window !== undefined && { fetch })
 	});
 	return new ApolloClient({
 		ssrMode: typeof window === 'undefined',
 		link: httpLink,
 		cache: new InMemoryCache({
-			typePolicies: {
-				Query: {
-					fields: {
-						GitHub: {
-							merge(existing, incoming, { mergeObjects }) {
-								// Invoking nested merge functions
-								return mergeObjects(existing, incoming);
-							}
-						}
-					}
-				}
-			}
+			possibleTypes: result.possibleTypes
 		})
 	});
 }
@@ -46,6 +40,9 @@ export function initializeApollo(initialState: any = null) {
 	const _apolloClient = apolloClient ?? createApolloClient();
 	// If your page has Next.js data fetching methods that use Apollo Client, the initial state
 	// gets hydrated here
+	_apolloClient
+		.query({ query: GetViewerDocument })
+		.then(x => console.log(x.data ?? 'no data'));
 	if (initialState) {
 		// Get existing cache, loaded during client side data fetching
 		const existingCache = _apolloClient.extract();
