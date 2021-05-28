@@ -1,10 +1,5 @@
-import {
-	Container,
-	Button,
-	Input,
-	Fallback
-} from '@/components/UI';
-import { Pause, GitHub } from '@/components/UI/Icons';
+import { Container, Fallback } from '@/components/UI';
+import { GitHub } from '@/components/UI/Icons';
 import dynamic from 'next/dynamic';
 import CommentsSkeleton from '../UI/CommentsSkeleton/comments-skeleton';
 import { useGetIssuesMinimalQuery } from '@/graphql/graphql';
@@ -185,7 +180,7 @@ const IssueFinder = ({
 	return (
 		<>
 			{error ? (
-				<ApolloError error={error} />
+				<ApolloError error={{ ...error }} />
 			) : loading && !error ? (
 				<CommentsSkeleton />
 			) : (
@@ -197,7 +192,7 @@ const IssueFinder = ({
 		</>
 	);
 };
-
-export default () => {
+const landing = () => {
 	return <IssueFinder login={'DopamineDriven'} />;
 };
+export default IssueFinder;

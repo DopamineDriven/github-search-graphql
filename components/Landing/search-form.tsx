@@ -4,9 +4,11 @@ import { Container, Input, Button } from '../UI';
 export interface SearchFormProps {
 	login: string;
 	setLogin: (value: string) => void;
+	className?: string;
 }
 
 const SearchForm = ({
+	className,
 	login,
 	setLogin
 }: SearchFormProps) => {
@@ -18,7 +20,7 @@ const SearchForm = ({
 	};
 
 	return (
-		<div className=''>
+		<div className={className}>
 			<label>
 				Username
 				<input
@@ -32,3 +34,4 @@ const SearchForm = ({
 		</div>
 	);
 };
+export default SearchForm;

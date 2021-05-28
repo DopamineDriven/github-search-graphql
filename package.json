@@ -62,6 +62,7 @@
 	"dependencies": {
 		"@apollo/client": "^3.3.19",
 		"@headlessui/react": "^1.2.0",
+		"@heroicons/react": "^1.0.1",
 		"body-scroll-lock": "^3.1.5",
 		"classnames": "^2.3.1",
 		"date-fns": "^2.21.3",

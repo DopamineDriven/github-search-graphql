@@ -1,8 +1,8 @@
 query ViewerRepos {
 	viewer {
-		avatarUrl(size: 12)
+		avatarUrl(size: 500)
 		repositories(
-			first: 100
+			first: 30
 			orderBy: { field: UPDATED_AT, direction: DESC }
 		) {
 			nodes {

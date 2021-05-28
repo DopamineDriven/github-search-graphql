@@ -25,6 +25,7 @@ query getIssuesMinimal($login: String!) {
 					openGraphImageUrl
 				}
 				title
+				bodyText
 				bodyHTML
 				updatedAt
 			}

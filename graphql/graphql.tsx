@@ -20534,6 +20534,7 @@ export type GetIssuesMinimalQuery = {
 										| 'bodyUrl'
 										| 'number'
 										| 'title'
+										| 'bodyText'
 										| 'bodyHTML'
 										| 'updatedAt'
 									> & {
@@ -20971,9 +20972,9 @@ export const GitHubSearchResultItemConnectionPartialFragmentDoc = gql`
 export const ViewerReposDocument = gql`
 	query ViewerRepos {
 		viewer {
-			avatarUrl(size: 12)
+			avatarUrl(size: 500)
 			repositories(
-				first: 100
+				first: 30
 				orderBy: { field: UPDATED_AT, direction: DESC }
 			) {
 				nodes {
@@ -21217,6 +21218,7 @@ export const GetIssuesMinimalDocument = gql`
 						openGraphImageUrl
 					}
 					title
+					bodyText
 					bodyHTML
 					updatedAt
 				}
