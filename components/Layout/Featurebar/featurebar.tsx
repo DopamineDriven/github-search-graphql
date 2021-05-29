@@ -21,7 +21,7 @@ const Featurebar: FC<FeatureBarProps> = ({
 		css.root,
 		{
 			transform: true,
-			'opacity-90 bg-purple-800 text-redditBG z-150 select-none':
+			'opacity-100 bg-redditNav text-gray-50 z-150 select-none':
 				!hide,
 			'translate-y-full opacity-0': hide
 		},

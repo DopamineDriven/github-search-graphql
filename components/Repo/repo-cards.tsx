@@ -32,10 +32,13 @@ export default function RepoCards({ repo }: Repooo) {
 	const newDateUpdated = new Date(repo.updatedAt);
 
 	const txt = parser(repo.description ?? repo.url);
+
 	return (
-		<Container className='hover:bg-opacity-50 transition-transform transform-gpu duration-150'>
+		<Container className='transition-transform transform-gpu duration-150 max-w-4xl ring-1 ring-purple-0'>
 			<AgnosticCommentThread
-				source_icon={<GitHub className='text-white' />}
+				source_icon={
+					<GitHub className='text-gray-200 fill-current' />
+				}
 				stars={repo.stargazerCount ?? 0}
 				key={repo.id}
 				commenter_name={repo.name ?? ''}
@@ -43,11 +46,7 @@ export default function RepoCards({ repo }: Repooo) {
 				commenter_updated_timestamp={newDateUpdated}
 				commenter_avatar={repo.openGraphImageUrl}
 				commenter_fallback_avatar={'/doge-404.jpg'}
-				commenter_content={`${(
-					<TextEnhancer
-						textToTransform={(txt as string) ?? ''}
-					/>
-				)}`}
+				commenter_content={`${txt as string}`}
 			>
 				<div className='rounded-full '>
 					<Image

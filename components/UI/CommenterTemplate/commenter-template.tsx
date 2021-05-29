@@ -94,7 +94,7 @@ const CommenterTemplate: FC<CommenterProps> = ({
 							</div>
 							<p className='text-base font-medium text-secondary-0 mt-4'></p>
 						</div>
-						<blockquote className='mt-2 text-sm text-olive-300 space-y-4'>
+						<blockquote className='mt-2 text-sm text-purple-0 space-y-4'>
 							<p>{parser(`${commenter_content}`)}</p>
 							<figcaption className='mt-3 flex font-medium text-sm text-olive-300'>
 								<span className='ml-2 text-gray-200'>

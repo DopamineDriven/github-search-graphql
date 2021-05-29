@@ -3,8 +3,7 @@ import React, {
 	forwardRef,
 	ButtonHTMLAttributes,
 	JSXElementConstructor,
-	useRef,
-	CSSProperties
+	useRef
 } from 'react';
 import mergeRefs from 'react-merge-refs';
 import css from './button.module.css';
@@ -21,7 +20,6 @@ export interface ButtonProps
 	width?: string | number;
 	loading?: boolean;
 	disabled?: boolean;
-	style?: CSSProperties | {};
 }
 
 const Button: React.FC<ButtonProps> = forwardRef(
@@ -30,13 +28,12 @@ const Button: React.FC<ButtonProps> = forwardRef(
 			className,
 			variant = 'flat',
 			children,
-			onClick,
 			active,
 			width,
 			Component = 'button',
 			loading = false,
 			disabled = false,
-			style,
+			style = {},
 			...rest
 		} = props;
 		const ref = useRef<typeof Component>(null);
@@ -58,7 +55,10 @@ const Button: React.FC<ButtonProps> = forwardRef(
 				ref={mergeRefs([ref, buttonRef])}
 				className={rootClassName}
 				disabled={disabled}
-				style={{ width, ...style }}
+				style={{
+					width,
+					...style
+				}}
 				{...rest}
 			>
 				{children}

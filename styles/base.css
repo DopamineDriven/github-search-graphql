@@ -40,6 +40,7 @@
 		--accents-6: hsl(50, 21%, 95%);
 		--theme-0: hsl(210, 24%, 84%);
 		--theme-1: hsl(209, 28%, 39%);
+		--purple-0: #6c5ab5;
 		@apply overflow-x-hidden;
 	}
 
@@ -84,7 +85,7 @@
 		min-height: 100%;
 		margin: 0;
 		scrollbar-width: 10px;
-		scrollbar-color: var(--secondary-0) var(--accents-7); /* scroll thumb and track */
+		scrollbar-color: var(--purple-0) var(--accents-7); /* scroll thumb and track */
 	}
 
 	body::-webkit-scrollbar {
@@ -94,16 +95,16 @@
 
 	body::-webkit-scrollbar-track {
 		background: var(
-			--accents-7
+			--accents-0
 		); /* color of the tracking area */
 	}
 
 	body::-webkit-scrollbar-thumb {
 		background-color: var(
-			--secondary-0
+			--purple-0
 		); /* color of the scroll thumb */
 		border-radius: 0px; /* roundness of the scroll thumb */
-		border: 3px var(--secondary-0); /* creates padding around scroll thumb */
+		border: 3px var(--purple-0); /* creates padding around scroll thumb */
 	}
 
 	a {

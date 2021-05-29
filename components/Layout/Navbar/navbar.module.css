@@ -1,14 +1,14 @@
 .linkActive {
-	@apply px-3 py-2 text-base text-purple-700 lg:text-lg;
+	@apply px-3 py-2 text-base text-purple-0 lg:text-lg;
 	&:hover {
-		@apply text-opacity-80 transition-opacity duration-300;
+		@apply text-opacity-80 transition-all ease-out duration-300 text-gray-300;
 	}
 }
 
 .link {
-	@apply px-3 py-2 rounded-md text-base text-purple-700 lg:text-lg;
+	@apply px-3 py-2 rounded-md text-base text-purple-0 lg:text-lg ;
 	&:hover {
-		@apply text-opacity-90 transition-opacity duration-300;
+		@apply text-opacity-90 transition-all duration-300 text-gray-300;
 	}
 }
 

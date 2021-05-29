@@ -148,7 +148,7 @@ export default function Issues<
 						<></>
 					)}
 				</Container>
-				<div className='text-gray-50 font-bold font-sans text-4xl mx-auto justify-center flex my-24 select-none'>
+				<div className='text-gray-50 font-bold font-sans text-4xl mx-auto justify-center flex  select-none'>
 					<Image
 						className=' object-cover'
 						loader={ImageLoader}
