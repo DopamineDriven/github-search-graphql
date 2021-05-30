@@ -13,7 +13,7 @@ interface Props {
 
 const Searchbar: FC<Props> = ({
 	className,
-	id = 'github/'
+	id = 'repositories/'
 }) => {
 	const router = useRouter();
 	const [value, setValue] = useState('');
@@ -26,7 +26,7 @@ const Searchbar: FC<Props> = ({
 	useEffect(() => {
 		// router.prefetch(url, as)
 		router.prefetch(
-			'/github/[nameWithOwner]',
+			'/repositories/[owner]/[name]',
 			`/github/${router.query}`,
 			{
 				priority: true

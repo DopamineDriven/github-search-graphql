@@ -38,31 +38,29 @@ export default function Issues<
 	return (
 		<>
 			<AppLayout>
-				<Container>
+				<Container className='fit'>
 					{user?.user?.issues?.nodes &&
 					user.user.issues.nodes.length > 0 ? (
 						user.user.issues.nodes.map((usr, i) => {
 							const getTime = Date.now();
-
 							return usr ? (
 								<AgnosticCommentThread
+									primaryLanguage={usr.repository.primaryLanguage}
 									forks={usr.repository.forkCount}
 									source_icon={<GitHub />}
 									stars={usr.repository.stargazerCount}
-									key={usr.id}
+									key={i++}
 									commenter_name={'Active Issue'}
 									commenter_created_timestamp={fromUnixTime(
 										getTime.valueOf()
 									)}
-									commenter_avatar={
-										'/meta/android-chrome-192x192.png'
-									}
+									commenter_avatar={usr.author?.avatarUrl}
 									commenter_fallback_avatar={
 										'/meta/android-chrome-192x192.png'
 									}
-									commenter_content={`${
-										++i + ':' + HTMLReactParser(usr.bodyHTML ?? '')
-									}`}
+									commenter_content={`${HTMLReactParser(
+										usr.bodyHTML ?? ''
+									)}`}
 								>
 									<Image
 										className='object-cover  backdrop-blur-3xl'
@@ -86,7 +84,7 @@ export default function Issues<
 						<></>
 					)}
 				</Container>
-				<div className='text-gray-50 font-bold font-sans text-4xl mx-auto justify-center flex  select-none'>
+				{/* <div className='text-gray-50 font-bold font-sans text-4xl mx-auto justify-center flex  select-none'>
 					<Image
 						className=' object-cover'
 						loader={ImageLoader}
@@ -105,7 +103,7 @@ export default function Issues<
 						setLogin={() => 'Leerob'}
 					/>
 					<PaginationControls />
-				</div>
+				</div> */}
 			</AppLayout>
 		</>
 	);
@@ -130,7 +128,7 @@ export async function getStaticProps<P>(
 	>({
 		query: GetIssuesMinimalDocument,
 		variables: {
-			login: 'DopamineDriven'
+			login: 'Leerob'
 		}
 	});
 	return addApolloState(apolloClient, {

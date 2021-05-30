@@ -7,7 +7,6 @@ import {
 } from '@/lib/apollo';
 import GetRepoNames from '@/lib/get-repo-names';
 import {
-	GetStaticPaths,
 	GetStaticPathsContext,
 	GetStaticPropsContext,
 	GetStaticPropsResult,
@@ -18,13 +17,10 @@ import {
 	Fallback,
 	AgnosticCommentThread
 } from '@/components/UI';
-import RepoConstituents from '@/components/Repo/repo-constituents';
 import getReposByNameQuery, {
 	GetRepoByNameQueryBatched
 } from '@/lib/get-repo-by-name';
 import { slashExtractFragment } from '@/lib/string-manipulators';
-import { ParsedUrlQuery } from 'querystring';
-import RepoCards from '@/components/Repo/repo-cards';
 import { ImageLoader } from '@/lib/image-loader';
 import { GitHub } from '@/components/UI/Icons';
 import { Container } from '@/components/UI';
@@ -108,14 +104,18 @@ export default function RepoDynamic<
 	const router = useRouter();
 	const parsedUrl = router.query ? router.query.name : '';
 	console.log(parsedUrl ?? '');
+	const fallbackDate = Date.now();
 	return (
 		<>
 			{router.isFallback ? (
 				<Fallback />
 			) : (
 				<AppLayout title={'landing'} className='fit'>
-					<Container className='mx-auto justify-center content-center w-full min-w-full inline-block py-12 px-12'>
+					<Container className='mx-auto justify-center content-center font-sans w-full min-w-full inline-block py-12 px-12'>
 						<AgnosticCommentThread
+							primaryLanguage={
+								data.data.user?.repository?.primaryLanguage
+							}
 							source_icon={
 								<GitHub className='text-gray-200 fill-current' />
 							}
@@ -130,8 +130,18 @@ export default function RepoDynamic<
 							commenter_source_url={
 								data.data.user?.repository?.homepageUrl ?? '#'
 							}
-							commenter_created_timestamp={new Date(Date.now())}
-							commenter_updated_timestamp={new Date(Date.now())}
+							commenter_created_timestamp={
+								new Date(
+									data.data.user?.repository?.createdAt ??
+										fallbackDate
+								)
+							}
+							commenter_updated_timestamp={
+								new Date(
+									data.data.user?.repository?.updatedAt ??
+										fallbackDate
+								)
+							}
 							commenter_avatar={data.data.user?.avatarUrl}
 							commenter_fallback_avatar={'/doge-404.jpg'}
 							commenter_content={`${
@@ -142,7 +152,7 @@ export default function RepoDynamic<
 						>
 							<div className='rounded-full '>
 								<Image
-									className='object-cover'
+									className='object-cover rounded-full ring-2 ring-purple-0'
 									loader={ImageLoader}
 									width='200'
 									height='200'

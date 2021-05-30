@@ -59,6 +59,7 @@ const AgnosticCommentThread: FC<UICustomComment> = ({
 	commenter_source_url,
 	stars,
 	forks,
+	primaryLanguage,
 	source_icon,
 	subcommenter_name,
 	subcommenter_content,
@@ -86,6 +87,7 @@ const AgnosticCommentThread: FC<UICustomComment> = ({
 			commenter_name={commenterName}
 			forks={forks}
 			stars={stars}
+			primaryLanguage={primaryLanguage}
 			commenter_avatar={commenter_avatar}
 			commenter_fallback_avatar={commenter_fallback_avatar}
 			commenter_updated_timestamp={commenter_updated_timestamp}

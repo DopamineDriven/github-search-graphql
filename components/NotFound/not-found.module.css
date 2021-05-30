@@ -1,0 +1,13 @@
+.wow {
+	@apply font-semibold text-gray-200 underline;
+	&:hover {
+		@apply text-gray-400 transition-colors duration-300 ease-in-out transform;
+	}
+}
+
+.p a > p {
+	@apply w-auto lg:pl-4;
+	&:hover {
+		@apply text-purple-0;
+	}
+}

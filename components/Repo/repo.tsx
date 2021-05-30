@@ -85,7 +85,7 @@ const ReposCoalesced = ({
 									as={`/repositories/${slashExtractor[0]}/${slashExtractor[2]}`}
 								>
 									<Anchor
-										className='block transition-transform transform-gpu duration-150'
+										className='block transition-transform transform-gpu duration-150 gap-y-5 hover:bg-purple-600'
 										key={i++}
 									>
 										<RepoCards repo={repo} />

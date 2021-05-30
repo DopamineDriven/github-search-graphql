@@ -1,3 +1,5 @@
+# import GitHubPageInfoPartial from "./Partials/atomic/page-info-fields.graphql"
+
 query GetIssuesMinimalPagination(
 	$login: String!
 	$before: String
@@ -6,7 +8,7 @@ query GetIssuesMinimalPagination(
 	user(login: $login) {
 		id
 		login
-		avatarUrl(size: 500)
+		avatarUrl(size: 64)
 		issues(
 			first: 10
 			before: $before
@@ -15,10 +17,7 @@ query GetIssuesMinimalPagination(
 			orderBy: { field: UPDATED_AT, direction: DESC }
 		) {
 			pageInfo {
-				startCursor
-				endCursor
-				hasNextPage
-				hasPreviousPage
+				...GitHubPageInfoPartial
 			}
 			totalCount
 		}

@@ -46,6 +46,7 @@ const IssueCardCoalesced = ({
 		const AgnosticTemplate = (
 			<Container>
 				<AgnosticCommentThread
+					primaryLanguage={issue.repository.primaryLanguage}
 					forks={issue.repository.forkCount}
 					source_icon={<GitHub />}
 					stars={issue.repository.stargazerCount}
