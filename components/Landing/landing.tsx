@@ -43,6 +43,7 @@ const IssueFinder = ({
 
 					return usr ? (
 						<AgnosticCommentThread
+							primaryLanguage={usr.repository.primaryLanguage}
 							forks={usr.repository.forkCount}
 							source_icon={<GitHub />}
 							stars={usr.repository.stargazerCount}
