@@ -8,6 +8,6 @@
 .p a > p {
 	@apply w-auto lg:pl-4;
 	&:hover {
-		@apply text-purle-0;
+		@apply text-purple-0;
 	}
 }
