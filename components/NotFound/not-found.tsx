@@ -33,7 +33,6 @@ export default function NotFound({
 										Wow Not Found
 									</h2>
 									<h3 className='mt-2 text-2xl leading-8 font-extrabold tracking-tight text-purple-0 sm:text-3xl hover:text-olive-500 duration-300 transition-colors'>
-										{"That's a 404. Click "}
 										<Link href='/' as='/' passHref scroll={true}>
 											<a className='w-auto'>
 												<span className='sr-only'>
@@ -113,9 +112,7 @@ export default function NotFound({
 														clipRule='evenodd'
 													/>
 												</svg>
-												<span className='ml-2 text-purple-0'>
-													Photograph via CloudFront Doge
-												</span>
+												<span className='ml-2 text-purple-0'></span>
 											</figcaption>
 										</figure>
 									</div>
