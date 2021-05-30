@@ -32,7 +32,7 @@ const prettier = require('prettier');
 
 				return `
 			<url>
-				<loc>${`https://github-search-graphql.vercel.app${route}`}</loc>
+				<loc>${`https://github-search-graphql-blond.vercel.app${route}`}</loc>
 			</url>
 		`;
 			})

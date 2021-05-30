@@ -14,7 +14,7 @@ const Head = () => {
 				<meta property='og:type' content='website' />
 				<meta
 					property='og:url'
-					content='https://github-search-graphql.vercel.app/'
+					content='https://github-search-graphql-blond.vercel.app/'
 				/>
 				<meta
 					property='og:title'

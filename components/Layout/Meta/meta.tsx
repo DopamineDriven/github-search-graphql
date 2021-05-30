@@ -104,7 +104,7 @@ const MetaData = () => {
 				<link rel='shortcut icon' href='/meta/favicon.ico' />
 				<link
 					rel='canonical'
-					href={'https://github-search-graphql.vercel.app'}
+					href={'https://github-search-graphql-blond.vercel.app'}
 				/>
 				<meta name='robots' content='all' />
 				<meta
@@ -131,7 +131,7 @@ const MetaData = () => {
 				<meta
 					name='description'
 					content={
-						'%s | TypeSafe GraphQL-to-TypeScript Code Generation/Consumption powered by OneGraph + GitHub '
+						'%s | TypeSafe GraphQL-to-TypeScript Code Generation/Consumption powered by GitHub '
 					}
 				/>
 				<meta charSet='utf-8' />
@@ -152,7 +152,7 @@ const MetaData = () => {
 				<meta
 					name='twitter:description'
 					content={
-						'TypeSafe GraphQL-to-TypeScript Code Generation/Consumption powered by OneGraph + GitHub + Apollo Client - https://github-search-graphql.vercel.app/'
+						'TypeSafe GraphQL-to-TypeScript Code Generation/Consumption powered by GitHub + Apollo Client - https://github-search-graphql-blond.vercel.app/'
 					}
 				/>
 				<meta
@@ -168,7 +168,7 @@ const MetaData = () => {
 				<meta property='og:type' content='website' />
 				<meta
 					property='og:url'
-					content='https://github-search-graphql.vercel.app'
+					content='https://github-search-graphql-blond.vercel.app'
 				/>
 				<meta
 					property='og:title'
@@ -177,7 +177,7 @@ const MetaData = () => {
 				<meta
 					property='og:description'
 					content={
-						'TypeSafe GraphQL-to-TypeScript Code Generation/Consumption powered by OneGraph + GitHub + Apollo Client - https://github-search-graphql.vercel.app/'
+						'TypeSafe GraphQL-to-TypeScript Code Generation/Consumption powered by GitHub + Apollo Client - https://github-search-graphql-blond.vercel.app/'
 					}
 				/>
 				<meta

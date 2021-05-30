@@ -1,7 +1,7 @@
 {
 	"name": "GitHub Search GraphQL",
 	"short_name": "GitHub Search",
-	"start_url": "https://github-search-graphql.vercel.app",
+	"start_url": "https://github-search-graphql-blond.vercel.app",
 	"icons": [
 		{
 			"src": "/android-icon-36x36.png",
