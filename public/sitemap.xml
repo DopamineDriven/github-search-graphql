@@ -5,6 +5,8 @@
 	</url>
 
 	<url>
-		<loc>https://github-search-graphql-blond.vercel.app/issues</loc>
+		<loc
+			>https://github-search-graphql-blond.vercel.app/issues</loc
+		>
 	</url>
 </urlset>
