@@ -1,0 +1,22 @@
+# import GitHubPageInfoPartial from "./Partials/atomic/page-info-fields.graphql"
+
+query getRepoNames($login: String!) {
+	user(login: $login) {
+		repositories(
+			first: 100
+			orderBy: { field: UPDATED_AT, direction: DESC }
+		) {
+			pageInfo {
+				...GitHubPageInfoPartial
+			}
+			totalCount
+			nodes {
+				nameWithOwner
+				name
+				owner {
+					login
+				}
+			}
+		}
+	}
+}

@@ -101,6 +101,7 @@ module.exports = {
 				'accents-9': 'var(--accents-9)',
 				'theme-0': 'var(--theme-0)',
 				'theme-1': 'var(--theme-1)',
+				'purple-0': 'var(--purple-0)',
 				lightBlue: {
 					0: '#E3F8FF',
 					100: '#B3ECFF',

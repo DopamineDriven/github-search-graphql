@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
+import { useEffect, useState } from 'react';
 
 const COOKIE_NAME = 'github_search_graphql';
 
@@ -15,12 +15,7 @@ export const useAcceptCookies = () => {
 
 	const acceptCookies = () => {
 		setAcceptedCookies(true);
-		Cookies.set(COOKIE_NAME, 'accepted', {
-			expires: 365,
-			sameSite: 'strict',
-			secure:
-				process.env.NODE_ENV === 'production' ? true : false
-		});
+		Cookies.set(COOKIE_NAME, 'accepted', { expires: 365 });
 	};
 
 	return {

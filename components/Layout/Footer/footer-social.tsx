@@ -41,13 +41,17 @@ export const footerSocial: Readonly<FooterSocialProps[]> =
 			href: 'https://github.com/DopamineDriven',
 			label: 'GitHub',
 			id: 3,
-			icon: <GitHub />
+			icon: (
+				<GitHub className='fill-current stroke-current text-purple-0 hover:text-purple-700 transition-transform duration-150 transform-gpu' />
+			)
 		},
 		{
 			href: 'https://andrewross.dev',
 			label: 'Portfolio',
 			id: 4,
-			icon: <ExternalLink />
+			icon: (
+				<ExternalLink className='fill-current stroke-current w-7 h-7 text-purple-0 hover:text-purple-700 transition-transform duration-150 transform-gpu' />
+			)
 		}
 	] as const);
 
@@ -68,7 +72,7 @@ const FooterSocial: FC<FooterSocialPropsFC> = ({
 						href={social.href}
 						className={cn(
 							css.socialLink,
-							'text-purple-800 hover:text-purple-900 transition-transform duration-150 transform-gpu'
+							'text-purple-0 stroke-current fill-current hover:text-purple-700 transition-transform duration-150 transform-gpu'
 						)}
 					>
 						<span className='sr-only'>

@@ -4,7 +4,8 @@ export default function ExternalLink({ ...props }) {
 			xmlns='http://www.w3.org/2000/svg'
 			viewBox='0 0 20 20'
 			fill='currentColor'
-			className='-mr-1 ml-1 h-10 w-10 text-olive-300 hover:text-olive-400 transition-colors'
+			stroke='black'
+			className='-mr-1 ml-1 h-7 w-7 text-purple-700 transition-colors'
 			aria-hidden='true'
 			{...props}
 		>

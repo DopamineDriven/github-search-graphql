@@ -13,6 +13,12 @@ interface NavbarRef {
 
 const links: NavbarRef[] = [
 	{
+		id: 1,
+		href: '/issues',
+		as: '/issues',
+		label: 'Issues'
+	},
+	{
 		id: 0,
 		href: '/',
 		as: '/',
@@ -27,16 +33,21 @@ interface NavbarLinksProps {
 const NavbarLinks: FC<NavbarLinksProps> = ({ root }) => {
 	const { pathname } = useRouter();
 
-	const navbarList = links.map((link, index) => (
+	const navbarList = links.map((link, i) => (
 		<>
-			<Link key={index} href={link.href} as={link.as} passHref>
+			<Link
+				key={link.id}
+				href={link.href}
+				as={link.as}
+				passHref
+			>
 				<a
 					className={
 						pathname === link.href
 							? cn(css.linkActive, root)
 							: cn(css.link, root)
 					}
-					key={link.id}
+					key={i++}
 					aria-label={`to ${link.label}`}
 				>
 					{link.label}

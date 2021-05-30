@@ -231,5 +231,19 @@ fragment GitHubDiscussionsPartial on GitHubDiscussionConnection {
 ```
 
 ```bash
-
+Found 14 unused files:
+components/Context/index.tsx
+components/Landing/Card/card-coalesced.tsx
+components/Landing/Pagination/index.ts
+components/Landing/index.ts
+components/Layout/Featurebar/featurebar.module.css
+components/Layout/Featurebar/featurebar.tsx
+components/Layout/Featurebar/index.ts
+components/Layout/Header/header.tsx
+components/Layout/Header/index.ts
+components/Layout/Search/index.ts
+components/Layout/Search/search.tsx
+lib/colors.ts
+lib/fetchers.ts
+lib/helpers/filter-query.ts
 ```

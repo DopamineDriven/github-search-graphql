@@ -19,7 +19,7 @@ const FooterFixture: FC<FooterProps> = ({
 			<footer
 				className={cn(
 					className,
-					' bg-redditNav text-purple-800 select-none font-sans z-150 pt-12 md:pt-0'
+					' bg-redditNav text-purple-0 select-none font-sans z-150 pt-12 md:pt-0'
 				)}
 				aria-labelledby='footerHeading'
 			>
@@ -40,7 +40,7 @@ const FooterFixture: FC<FooterProps> = ({
 					</div>
 					<div className='py-12 flex flex-col md:flex-row justify-between items-center space-y-4'>
 						<div>
-							<span className='font-medium'>
+							<span className=' font-normal'>
 								&copy; {format(Date.now(), 'y')}, Andrew Ross. All
 								Rights Reserved.
 							</span>

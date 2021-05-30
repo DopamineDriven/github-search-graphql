@@ -1,10 +1,17 @@
+# import GitHubLanguagePartial from "./Partials/atomic/language-fields.graphql"
+# import GitHubPageInfoPartial from "./Partials/atomic/page-info-fields.graphql"
+
 query ViewerRepos {
 	viewer {
-		avatarUrl(size: 500)
+		avatarUrl(size: 250)
 		repositories(
 			first: 30
 			orderBy: { field: UPDATED_AT, direction: DESC }
 		) {
+			totalCount
+			pageInfo {
+				...GitHubPageInfoPartial
+			}
 			nodes {
 				id
 				url
@@ -20,9 +27,7 @@ query ViewerRepos {
 				isArchived
 				isInOrganization
 				primaryLanguage {
-					id
-					color
-					name
+					...GitHubLanguagePartial
 				}
 			}
 		}

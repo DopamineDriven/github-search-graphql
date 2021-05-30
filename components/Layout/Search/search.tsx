@@ -1,10 +1,11 @@
 import { FC, useEffect, useMemo, useState } from 'react';
 import cn from 'classnames';
-import css from './Searchbar.module.css';
+import css from './search.module.css';
 import { useRouter } from 'next/router';
 import { Input } from '../../UI';
 import { filterQuery } from '@/lib/helpers/filter-query';
-
+import { GitHub } from '@/components/UI/Icons';
+import { slashExtractFragment } from '@/lib/string-manipulators';
 interface Props {
 	className?: string;
 	id?: string;
@@ -16,10 +17,16 @@ const Searchbar: FC<Props> = ({
 }) => {
 	const router = useRouter();
 	const [value, setValue] = useState('');
+
+	console.log(router.query ?? '');
+	const xx = router.query ?? '';
+	const xxSlash = slashExtractFragment(`${xx}`);
+	console.log(xxSlash[0]);
+
 	useEffect(() => {
 		// router.prefetch(url, as)
 		router.prefetch(
-			'/github/[repository]',
+			'/github/[nameWithOwner]',
 			`/github/${router.query}`,
 			{
 				priority: true
@@ -36,11 +43,11 @@ const Searchbar: FC<Props> = ({
 				)}
 			>
 				<label className='sr-only' htmlFor={id}>
-					github
+					repo
 				</label>
 				<div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
 					<span className='text-gray-100 font-semibold sm:text-base'>
-						github
+						<GitHub />
 					</span>
 				</div>
 				<Input

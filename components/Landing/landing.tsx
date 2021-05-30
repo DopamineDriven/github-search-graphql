@@ -43,8 +43,9 @@ const IssueFinder = ({
 
 					return usr ? (
 						<AgnosticCommentThread
+							forks={usr.repository.forkCount}
 							source_icon={<GitHub />}
-							stars={1}
+							stars={usr.repository.stargazerCount}
 							key={usr.id}
 							commenter_name={'Active Issue'}
 							commenter_created_timestamp={fromUnixTime(
@@ -192,7 +193,7 @@ const IssueFinder = ({
 		</>
 	);
 };
-const landing = () => {
-	return <IssueFinder login={'DopamineDriven'} />;
-};
+// const landing = () => {
+// 	return <IssueFinder login={'DopamineDriven'} />;
+// };
 export default IssueFinder;

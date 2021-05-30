@@ -1,10 +1,11 @@
 import cn from 'classnames';
 import Image from 'next/image';
 import parser from 'html-react-parser';
-import { StarRating, ThreadTime } from '../index';
+import { ThreadTime } from '../../index';
 import { FC } from 'react';
 import type { CommenterProps } from '@/types/custom-comments';
 import { ImageLoader } from '@/lib/image-loader';
+import { GitHubFork, StarIcon } from '../../Icons';
 
 const CommenterTemplate: FC<CommenterProps> = ({
 	commenter_name,
@@ -17,6 +18,7 @@ const CommenterTemplate: FC<CommenterProps> = ({
 	commenter_fallback_avatar,
 	commenter_source_url,
 	stars,
+	forks,
 	source_icon,
 	children
 }) => {
@@ -65,9 +67,12 @@ const CommenterTemplate: FC<CommenterProps> = ({
 								</div>
 								<>
 									<div className='min-w-0 flex-1'>
-										{/* <p className='text-sm text-olive-300'>
-											<StarRating stars={stars} />
-										</p> */}
+										<p className='text-sm text-purple-0'>
+											<StarIcon stars={stars} /> {stars ?? 0}
+											&nbsp;&nbsp;&nbsp;
+											<GitHubFork /> {forks ?? 0}
+										</p>
+										<p></p>
 										<h2
 											id={'review-' + commenterName}
 											className='text-base font-medium tracking-wide text-gray-50 flex-row'
@@ -94,7 +99,7 @@ const CommenterTemplate: FC<CommenterProps> = ({
 							</div>
 							<p className='text-base font-medium text-secondary-0 mt-4'></p>
 						</div>
-						<blockquote className='mt-2 text-sm text-olive-300 space-y-4'>
+						<blockquote className='mt-2 text-sm text-purple-0 space-y-4'>
 							<p>{parser(`${commenter_content}`)}</p>
 							<figcaption className='mt-3 flex font-medium text-sm text-olive-300'>
 								<span className='ml-2 text-gray-200'>

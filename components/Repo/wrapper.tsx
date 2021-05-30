@@ -24,7 +24,7 @@ const RepoWrapper: FC<RepoWrapperProps> = ({
 							className
 						)}
 					>
-						<div className='relative max-w-8xl mx-auto pt-8 px-1 sm:px-6 lg:px-8'>
+						<div className='relative max-w-8xl mx-auto px-1 sm:px-6 lg:px-8'>
 							<div className='hidden lg:block bg-purple-700 absolute top-0 bottom-0 left-3/4 w-screen'></div>
 							<div className='mx-auto text-base max-w-prose lg:grid lg:grid-cols-9 lg:gap-8 lg:max-w-none'>
 								<div className='lg:col-span-5 pr-0 sm:pr-6 md:mr-10'>
@@ -33,7 +33,7 @@ const RepoWrapper: FC<RepoWrapperProps> = ({
 								<div className='mt-8 lg:grid lg:col-span-4 lg:gap-8 flex-grow'>
 									<div className='flex-col lg:row-start-1 lg:col-start-1'>
 										<svg
-											className='hidden lg:block absolute top-0 right-0 -mt-20 -mr-24 transform-gpu'
+											className='hidden lg:block absolute top-0 right-0 -mt-18 -mr-24 transform-gpu'
 											width='404'
 											height='384'
 											fill='none'
@@ -70,7 +70,7 @@ const RepoWrapper: FC<RepoWrapperProps> = ({
 												<div className='lg:aspect-none lg:mx-3'>
 													{children}
 												</div>
-												<figcaption className='mt-3 flex text-sm text-olive-300'>
+												<figcaption className='mt-3 flex text-sm text-gray-50'>
 													<span className='ml-2 text-secondary-0'></span>
 												</figcaption>
 											</figure>

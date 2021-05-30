@@ -21,8 +21,9 @@ export const CardTemplate = ({
 	const AgnosticTemplate = (
 		<Container>
 			<AgnosticCommentThread
+				forks={issue.repository.forkCount}
 				source_icon={<GitHub />}
-				stars={0}
+				stars={issue.repository.stargazerCount}
 				key={issue.id}
 				commenter_name={'Active Issue'}
 				commenter_created_timestamp={issue.createdAt}
