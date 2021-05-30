@@ -1,18 +1,16 @@
-import { FC, useState } from 'react';
 import {
 	useViewerReposQuery,
 	ViewerReposQuery,
 	Repository
 } from '@/graphql/graphql';
-import Image from 'next/image';
-import { ImageLoader } from '@/lib/image-loader';
 import parser from 'html-react-parser';
 import { TextEnhancer, LoadingSpinner } from '../UI';
+import { useRouter } from 'next/router';
 import cn from 'classnames';
 import dynamic from 'next/dynamic';
-import RepoConstituents from './repo-constituents';
 import Link from 'next/link';
 import { Container, Anchor } from '@/components/UI';
+import { slashExtractFragment } from '@/lib/string-manipulators';
 import RepoCards from './repo-cards';
 export type ViewerRepoQueryProps = {
 	className?: string;
@@ -34,6 +32,13 @@ const ReposCoalesced = ({
 }: ViewerRepoQueryProps) => {
 	const { data, loading, error } = useViewerReposQuery();
 	data ? data.viewer === viewer : '';
+	const router = useRouter();
+	const name = router.query
+		? router.query.name
+		: 'DopamineDriven';
+	const owner = router.query ?? 'DopamineDriven';
+
+	console.log('owner: ', owner ?? '', 'name', name ?? '');
 	return (
 		<Container
 			className={cn(
@@ -59,17 +64,25 @@ const ReposCoalesced = ({
 					{data?.viewer?.repositories.nodes &&
 					data.viewer.repositories.nodes.length > 0 ? (
 						data.viewer.repositories.nodes.map((repo, i) => {
-							const txt = parser(
-								repo?.description ? repo.description : ''
+							const slashExtractor = slashExtractFragment(
+								repo!.nameWithOwner
 							);
-							console.log(repo?.nameWithOwner);
+							// returns 3 strings -- "owner"[0] "/"[1] "name"[2]
+							repo?.nameWithOwner;
+							console.log(
+								'[index 0]: ',
+								slashExtractor[0],
+								' [index 1]: ',
+								slashExtractor[1],
+								' [index 2]: ',
+								slashExtractor[2]
+							);
 							return repo ? (
 								<Link
 									key={i++}
 									passHref
-									href={`/repo/[name]`}
-									as={`/repo/${encodeURIComponent(repo.name)}`}
-									shallow={true}
+									href={`/repositories/[owner]/[name]`}
+									as={`/repositories/${slashExtractor[0]}/${slashExtractor[2]}`}
 								>
 									<Anchor
 										className='block transition-transform transform-gpu duration-150'

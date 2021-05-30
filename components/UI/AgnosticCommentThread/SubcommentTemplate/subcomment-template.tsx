@@ -1,9 +1,9 @@
 import { SubcommenterProps } from '@/types/custom-comments';
 import Image from 'next/image';
 import parser from 'html-react-parser';
-import { ReplyIcon } from '../Icons';
+import { ReplyIcon } from '../../Icons';
 import cn from 'classnames';
-import { ThreadTime } from '../index';
+import { ThreadTime } from '../../index';
 import { ImageLoader } from '@/lib/image-loader';
 
 export default function SubcommentTemplate({

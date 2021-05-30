@@ -7,6 +7,7 @@ export { default as ExternalLink } from './external-link';
 export { default as Facebook } from './facebook';
 export { default as FontAwesomeHacked } from './font-awesome-hacked';
 export { default as GitHub } from './github';
+export { default as GitHubFork } from './github-fork';
 export { default as GoogleIcon } from './google';
 export { default as Heart } from './heart';
 export { default as ImageBackdrop } from './image-backdrop';

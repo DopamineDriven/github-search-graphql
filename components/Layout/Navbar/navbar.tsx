@@ -3,11 +3,13 @@ import cn from 'classnames';
 import NavbarLinks from './navbar-links';
 import css from './navbar.module.css';
 import { Transition } from '@headlessui/react/dist';
-import { AngledBracketClosed } from '../../UI/Icons';
+import {
+	AngledBracketClosed,
+	Menu,
+	X
+} from '../../UI/Icons';
 import Link from 'next/link';
 import throttle from 'lodash.throttle';
-import MenuIcon from '../../UI/Icons/menu-icon';
-import XIcon from '../../UI/Icons/x-icon';
 
 export interface NavbarProps {
 	className?: string;
@@ -65,14 +67,14 @@ const Navbar: FC<NavbarProps> = ({
 								>
 									<span className='sr-only'>Open Main Menu</span>
 									{menuOpen ? (
-										<MenuIcon
+										<Menu
 											className={cn('h-8 w-8 focus:outline-none', {
 												hidden: !menuOpen,
 												block: menuOpen
 											})}
 										/>
 									) : (
-										<XIcon
+										<X
 											className={cn('h-8 w-8 focus:outline-none', {
 												hidden: menuOpen,
 												block: !menuOpen

@@ -20423,6 +20423,44 @@ export type GitHubSearchResultItemConnectionPartialFragment =
 			>;
 		};
 
+export type GetRepoNamesQueryVariables = Exact<{
+	login: Scalars['String'];
+}>;
+
+export type GetRepoNamesQuery = { __typename?: 'Query' } & {
+	user?: Maybe<
+		{ __typename?: 'User' } & {
+			repositories: {
+				__typename?: 'RepositoryConnection';
+			} & Pick<RepositoryConnection, 'totalCount'> & {
+					pageInfo: {
+						__typename?: 'PageInfo';
+					} & GitHubPageInfoPartialFragment;
+					nodes?: Maybe<
+						Array<
+							Maybe<
+								{ __typename?: 'Repository' } & Pick<
+									Repository,
+									'nameWithOwner' | 'name'
+								> & {
+										owner:
+											| ({ __typename?: 'Organization' } & Pick<
+													Organization,
+													'login'
+											  >)
+											| ({ __typename?: 'User' } & Pick<
+													User,
+													'login'
+											  >);
+									}
+							>
+						>
+					>;
+				};
+		}
+	>;
+};
+
 export type ViewerReposQueryVariables = Exact<{
 	[key: string]: never;
 }>;
@@ -20432,38 +20470,114 @@ export type ViewerReposQuery = { __typename?: 'Query' } & {
 		User,
 		'avatarUrl'
 	> & {
-			repositories: { __typename?: 'RepositoryConnection' } & {
-				nodes?: Maybe<
-					Array<
-						Maybe<
-							{ __typename?: 'Repository' } & Pick<
-								Repository,
-								| 'id'
-								| 'url'
-								| 'nameWithOwner'
-								| 'description'
-								| 'name'
-								| 'createdAt'
-								| 'updatedAt'
-								| 'homepageUrl'
-								| 'stargazerCount'
-								| 'forkCount'
-								| 'openGraphImageUrl'
-								| 'isArchived'
-								| 'isInOrganization'
-							> & {
-									primaryLanguage?: Maybe<
-										{ __typename?: 'Language' } & Pick<
-											Language,
-											'id' | 'color' | 'name'
-										>
-									>;
-								}
+			repositories: {
+				__typename?: 'RepositoryConnection';
+			} & Pick<RepositoryConnection, 'totalCount'> & {
+					pageInfo: {
+						__typename?: 'PageInfo';
+					} & GitHubPageInfoPartialFragment;
+					nodes?: Maybe<
+						Array<
+							Maybe<
+								{ __typename?: 'Repository' } & Pick<
+									Repository,
+									| 'id'
+									| 'url'
+									| 'nameWithOwner'
+									| 'description'
+									| 'name'
+									| 'createdAt'
+									| 'updatedAt'
+									| 'homepageUrl'
+									| 'stargazerCount'
+									| 'forkCount'
+									| 'openGraphImageUrl'
+									| 'isArchived'
+									| 'isInOrganization'
+								> & {
+										primaryLanguage?: Maybe<
+											{
+												__typename?: 'Language';
+											} & GitHubLanguagePartialFragment
+										>;
+									}
+							>
 						>
-					>
-				>;
-			};
+					>;
+				};
 		};
+};
+
+export type GetRepoByNameQueryVariables = Exact<{
+	login: Scalars['String'];
+	name: Scalars['String'];
+}>;
+
+export type GetRepoByNameQuery = {
+	__typename?: 'Query';
+} & {
+	user?: Maybe<
+		{ __typename?: 'User' } & Pick<
+			User,
+			| 'bio'
+			| 'name'
+			| 'avatarUrl'
+			| 'location'
+			| 'login'
+			| 'websiteUrl'
+		> & {
+				repository?: Maybe<
+					{ __typename?: 'Repository' } & Pick<
+						Repository,
+						| 'id'
+						| 'nameWithOwner'
+						| 'createdAt'
+						| 'updatedAt'
+						| 'forkCount'
+						| 'stargazerCount'
+						| 'homepageUrl'
+						| 'isFork'
+						| 'description'
+						| 'isPrivate'
+						| 'openGraphImageUrl'
+					> & {
+							primaryLanguage?: Maybe<
+								{
+									__typename?: 'Language';
+								} & GitHubLanguagePartialFragment
+							>;
+							languages?: Maybe<
+								{ __typename?: 'LanguageConnection' } & Pick<
+									LanguageConnection,
+									'totalCount'
+								> & {
+										pageInfo: {
+											__typename?: 'PageInfo';
+										} & GitHubPageInfoPartialFragment;
+										nodes?: Maybe<
+											Array<
+												Maybe<
+													{
+														__typename?: 'Language';
+													} & GitHubLanguagePartialFragment
+												>
+											>
+										>;
+									}
+							>;
+							owner:
+								| ({ __typename?: 'Organization' } & Pick<
+										Organization,
+										'avatarUrl' | 'login' | 'url'
+								  >)
+								| ({ __typename?: 'User' } & Pick<
+										User,
+										'avatarUrl' | 'login' | 'url'
+								  >);
+						}
+				>;
+			}
+	>;
 };
 
 export type GetViewerQueryVariables = Exact<{
@@ -20564,7 +20678,11 @@ export type GetIssuesMinimalQuery = {
 											>;
 											repository: { __typename?: 'Repository' } & Pick<
 												Repository,
-												'nameWithOwner' | 'url' | 'openGraphImageUrl'
+												| 'nameWithOwner'
+												| 'forkCount'
+												| 'stargazerCount'
+												| 'url'
+												| 'openGraphImageUrl'
 											>;
 										}
 								>
@@ -20969,14 +21087,92 @@ export const GitHubSearchResultItemConnectionPartialFragmentDoc = gql`
 	${GitHubPageInfoPartialFragmentDoc}
 	${GitHubRepositoryPartialFragmentDoc}
 `;
+export const GetRepoNamesDocument = gql`
+	query getRepoNames($login: String!) {
+		user(login: $login) {
+			repositories(
+				first: 100
+				orderBy: { field: UPDATED_AT, direction: DESC }
+			) {
+				pageInfo {
+					...GitHubPageInfoPartial
+				}
+				totalCount
+				nodes {
+					nameWithOwner
+					name
+					owner {
+						login
+					}
+				}
+			}
+		}
+	}
+	${GitHubPageInfoPartialFragmentDoc}
+`;
+
+/**
+ * __useGetRepoNamesQuery__
+ *
+ * To run a query within a React component, call `useGetRepoNamesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRepoNamesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRepoNamesQuery({
+ *   variables: {
+ *      login: // value for 'login'
+ *   },
+ * });
+ */
+export function useGetRepoNamesQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		GetRepoNamesQuery,
+		GetRepoNamesQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<
+		GetRepoNamesQuery,
+		GetRepoNamesQueryVariables
+	>(GetRepoNamesDocument, options);
+}
+export function useGetRepoNamesLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		GetRepoNamesQuery,
+		GetRepoNamesQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<
+		GetRepoNamesQuery,
+		GetRepoNamesQueryVariables
+	>(GetRepoNamesDocument, options);
+}
+export type GetRepoNamesQueryHookResult = ReturnType<
+	typeof useGetRepoNamesQuery
+>;
+export type GetRepoNamesLazyQueryHookResult = ReturnType<
+	typeof useGetRepoNamesLazyQuery
+>;
+export type GetRepoNamesQueryResult = Apollo.QueryResult<
+	GetRepoNamesQuery,
+	GetRepoNamesQueryVariables
+>;
 export const ViewerReposDocument = gql`
 	query ViewerRepos {
 		viewer {
-			avatarUrl(size: 500)
+			avatarUrl(size: 250)
 			repositories(
 				first: 30
 				orderBy: { field: UPDATED_AT, direction: DESC }
 			) {
+				totalCount
+				pageInfo {
+					...GitHubPageInfoPartial
+				}
 				nodes {
 					id
 					url
@@ -20992,14 +21188,14 @@ export const ViewerReposDocument = gql`
 					isArchived
 					isInOrganization
 					primaryLanguage {
-						id
-						color
-						name
+						...GitHubLanguagePartial
 					}
 				}
 			}
 		}
 	}
+	${GitHubPageInfoPartialFragmentDoc}
+	${GitHubLanguagePartialFragmentDoc}
 `;
 
 /**
@@ -21050,6 +21246,105 @@ export type ViewerReposLazyQueryHookResult = ReturnType<
 export type ViewerReposQueryResult = Apollo.QueryResult<
 	ViewerReposQuery,
 	ViewerReposQueryVariables
+>;
+export const GetRepoByNameDocument = gql`
+	query getRepoByName($login: String!, $name: String!) {
+		user(login: $login) {
+			bio
+			name
+			avatarUrl(size: 250)
+			location
+			login
+			websiteUrl
+			repository(name: $name) {
+				id
+				nameWithOwner
+				createdAt
+				updatedAt
+				forkCount
+				stargazerCount
+				homepageUrl
+				isFork
+				description
+				isPrivate
+				openGraphImageUrl
+				primaryLanguage {
+					...GitHubLanguagePartial
+				}
+				languages(
+					first: 10
+					orderBy: { field: SIZE, direction: DESC }
+				) {
+					pageInfo {
+						...GitHubPageInfoPartial
+					}
+					totalCount
+					nodes {
+						...GitHubLanguagePartial
+					}
+				}
+				owner {
+					avatarUrl(size: 250)
+					login
+					url
+				}
+			}
+		}
+	}
+	${GitHubLanguagePartialFragmentDoc}
+	${GitHubPageInfoPartialFragmentDoc}
+`;
+
+/**
+ * __useGetRepoByNameQuery__
+ *
+ * To run a query within a React component, call `useGetRepoByNameQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRepoByNameQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRepoByNameQuery({
+ *   variables: {
+ *      login: // value for 'login'
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useGetRepoByNameQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		GetRepoByNameQuery,
+		GetRepoByNameQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<
+		GetRepoByNameQuery,
+		GetRepoByNameQueryVariables
+	>(GetRepoByNameDocument, options);
+}
+export function useGetRepoByNameLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		GetRepoByNameQuery,
+		GetRepoByNameQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<
+		GetRepoByNameQuery,
+		GetRepoByNameQueryVariables
+	>(GetRepoByNameDocument, options);
+}
+export type GetRepoByNameQueryHookResult = ReturnType<
+	typeof useGetRepoByNameQuery
+>;
+export type GetRepoByNameLazyQueryHookResult = ReturnType<
+	typeof useGetRepoByNameLazyQuery
+>;
+export type GetRepoByNameQueryResult = Apollo.QueryResult<
+	GetRepoByNameQuery,
+	GetRepoByNameQueryVariables
 >;
 export const GetViewerDocument = gql`
 	query GetViewer {
@@ -21214,6 +21509,8 @@ export const GetIssuesMinimalDocument = gql`
 					}
 					repository {
 						nameWithOwner
+						forkCount
+						stargazerCount
 						url
 						openGraphImageUrl
 					}

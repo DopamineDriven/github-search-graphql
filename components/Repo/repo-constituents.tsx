@@ -21,7 +21,10 @@ export type Repooo = {
 	repo: IRepo;
 };
 export default function RepoConstituents({ repo }: Repooo) {
-	const txt = parser(repo.description ?? repo.url);
+	const parserFeed = repo.description
+		? repo.description
+		: (repo.url as string);
+	const txt = parser(`${parserFeed}`);
 	return (
 		<ul
 			className='divide-y divide-purple-700 max-w-7xl mx-auto px-2 sm:px-1 lg:px-0'

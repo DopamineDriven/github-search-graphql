@@ -21,6 +21,8 @@ query getIssuesMinimal($login: String!) {
 				}
 				repository {
 					nameWithOwner
+					forkCount
+					stargazerCount
 					url
 					openGraphImageUrl
 				}

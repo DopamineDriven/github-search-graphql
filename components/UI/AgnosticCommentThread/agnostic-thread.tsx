@@ -1,7 +1,5 @@
-import {
-	SubcommentTemplate,
-	CommenterTemplate
-} from '../index';
+import { CommenterTemplate } from './CommenterTemplate';
+import { SubcommentTemplate } from './SubcommentTemplate';
 import { FC } from 'react';
 import type { UICustomComment } from '@/types/custom-comments';
 
@@ -60,6 +58,7 @@ const AgnosticCommentThread: FC<UICustomComment> = ({
 	commenter_fallback_avatar,
 	commenter_source_url,
 	stars,
+	forks,
 	source_icon,
 	subcommenter_name,
 	subcommenter_content,
@@ -85,6 +84,7 @@ const AgnosticCommentThread: FC<UICustomComment> = ({
 	return (
 		<CommenterTemplate
 			commenter_name={commenterName}
+			forks={forks}
 			stars={stars}
 			commenter_avatar={commenter_avatar}
 			commenter_fallback_avatar={commenter_fallback_avatar}

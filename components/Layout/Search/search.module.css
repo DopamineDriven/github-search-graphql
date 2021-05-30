@@ -1,14 +1,5 @@
 .input {
-	@apply bg-redditSearch px-3 pl-7 py-2 appearance-none w-full transition duration-150 ease-in-out pr-10 text-gray-100 font-semibold;
-
-	@screen sm {
-		min-width: 300px;
-		@apply text-lg;
-	}
-	@screen lg {
-		min-width: 600px;
-		@apply text-lg;
-	}
+	@apply bg-redditSearch px-3 pl-7 py-2 appearance-none w-full transition duration-150 ease-in-out pr-10 text-gray-100 font-semibold sm:text-lg;
 }
 
 .input:focus {

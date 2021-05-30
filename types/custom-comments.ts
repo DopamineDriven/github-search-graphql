@@ -8,9 +8,10 @@ export interface CommenterProps {
 	commenter_source_url?: string;
 	commenter_avatar?: string;
 	commenter_fallback_avatar: string;
-	commenter_created_timestamp: Date;
-	commenter_updated_timestamp?: Date;
+	commenter_created_timestamp: any;
+	commenter_updated_timestamp?: any;
 	commenter_content: string;
+	forks: number;
 	stars: number;
 	source_icon?: React.ReactNode;
 }
@@ -26,8 +27,8 @@ export interface SubcommenterProps {
 	subcommenter_source_url?: string;
 	subcommenter_avatar?: string;
 	subcommenter_fallback_avatar?: string;
-	subcommenter_created_timestamp?: Date;
-	subcommenter_updated_timestamp?: Date;
+	subcommenter_created_timestamp?: any;
+	subcommenter_updated_timestamp?: any;
 	subcommenter_content?: string;
 	subcommenter_business_name?: string;
 }

@@ -60,6 +60,7 @@ export default function Issues<
 
 					return usr ? (
 						<AgnosticCommentThread
+							forks={0}
 							source_icon={<GitHub />}
 							stars={1}
 							key={usr.id}
@@ -109,6 +110,7 @@ export default function Issues<
 
 							return usr ? (
 								<AgnosticCommentThread
+									forks={0}
 									source_icon={<GitHub />}
 									stars={1}
 									key={usr.id}
