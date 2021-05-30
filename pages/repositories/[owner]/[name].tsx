@@ -104,6 +104,7 @@ export default function RepoDynamic<
 	const router = useRouter();
 	const parsedUrl = router.query ? router.query.name : '';
 	console.log(parsedUrl ?? '');
+	const fallbackDate = Date.now();
 	return (
 		<>
 			{router.isFallback ? (
@@ -130,10 +131,16 @@ export default function RepoDynamic<
 								data.data.user?.repository?.homepageUrl ?? '#'
 							}
 							commenter_created_timestamp={
-								new Date(data.data.user?.repository?.createdAt)
+								new Date(
+									data.data.user?.repository?.createdAt ??
+										fallbackDate
+								)
 							}
 							commenter_updated_timestamp={
-								new Date(data.data.user?.repository?.updatedAt)
+								new Date(
+									data.data.user?.repository?.updatedAt ??
+										fallbackDate
+								)
 							}
 							commenter_avatar={data.data.user?.avatarUrl}
 							commenter_fallback_avatar={'/doge-404.jpg'}
