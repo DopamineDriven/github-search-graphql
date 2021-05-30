@@ -17,6 +17,7 @@ const CommenterTemplate: FC<CommenterProps> = ({
 	commenter_avatar,
 	commenter_fallback_avatar,
 	commenter_source_url,
+	primaryLanguage,
 	stars,
 	forks,
 	source_icon,
@@ -30,10 +31,10 @@ const CommenterTemplate: FC<CommenterProps> = ({
 			: commenter_name;
 	return (
 		<>
-			<ul className='list-none shadow-cardHover'>
+			<ul className='list-none'>
 				<li
 					className={cn(
-						'bg-redditNav px-4 py-6 shadow sm:p-6 sm:rounded-lg list-none max-w-5xl'
+						'bg-redditNav px-4 py-6 sm:p-6 sm:rounded-lg list-none max-w-5xl shadow-cardHover select-none'
 					)}
 				>
 					<article
@@ -44,7 +45,7 @@ const CommenterTemplate: FC<CommenterProps> = ({
 							<div className='flex space-x-3'>
 								<div
 									className={cn(
-										'flex-shrink-0 w-12 h-12 rounded-full'
+										'flex-shrink-0 w-12 h-12 rounded-full ring-2 ring-purple-0'
 									)}
 								>
 									<Image
@@ -67,12 +68,6 @@ const CommenterTemplate: FC<CommenterProps> = ({
 								</div>
 								<>
 									<div className='min-w-0 flex-1'>
-										<p className='text-sm text-purple-0'>
-											<StarIcon stars={stars} /> {stars ?? 0}
-											&nbsp;&nbsp;&nbsp;
-											<GitHubFork /> {forks ?? 0}
-										</p>
-										<p></p>
 										<h2
 											id={'review-' + commenterName}
 											className='text-base font-medium tracking-wide text-gray-50 flex-row'
@@ -91,18 +86,63 @@ const CommenterTemplate: FC<CommenterProps> = ({
 												</p>
 											)}
 										</h2>
+										<p className='text-sm text-gray-200'>
+											{primaryLanguage?.name !== undefined ? (
+												<p className='text-sm font-semibold text-gray-200 inline-block rounded-lg'>
+													<span className='sr-only'>
+														Primary Language:{' '}
+														{primaryLanguage
+															? primaryLanguage.id &&
+															  primaryLanguage.color &&
+															  primaryLanguage.name
+															: 'no primary Language for this repo'}
+													</span>
+													<span>
+														<svg
+															id={primaryLanguage.id ?? ''}
+															fill={`${
+																primaryLanguage.color ?? 'rgb(26,26,27)'
+															}`}
+															viewBox='0 0 100 100'
+															className='text-xs w-3 h-3 inline-block justify-start py-0.5'
+															xmlns='http://www.w3.org/2000/svg'
+														>
+															<circle cx='50' cy='50' r='50' />
+														</svg>
+														{primaryLanguage.name}
+													</span>
+												</p>
+											) : (
+												<p></p>
+											)}
+											&nbsp;&nbsp;&nbsp;
+											<StarIcon stars={stars} /> {stars ?? 0}
+											&nbsp;&nbsp;&nbsp;
+											<GitHubFork /> {forks ?? 0}
+										</p>
+										<p></p>
 									</div>
 								</>
 								<div className='flex-shrink-0 self-center flex'>
 									{source_icon}
 								</div>
 							</div>
-							<p className='text-base font-medium text-secondary-0 mt-4'></p>
 						</div>
 						<blockquote className='mt-2 text-sm text-purple-0 space-y-4'>
 							<p>{parser(`${commenter_content}`)}</p>
 							<figcaption className='mt-3 flex font-medium text-sm text-olive-300'>
-								<span className='ml-2 text-gray-200'>
+								<span className='ml-2 text-gray-200 inline-flex text-xs'>
+									Created&nbsp;
+									{commenter_updated_timestamp ? (
+										<ThreadTime time={commenter_created_timestamp} />
+									) : (
+										<ThreadTime time={commenter_created_timestamp} />
+									)}
+								</span>
+							</figcaption>
+							<figcaption className='mt-3 flex font-medium text-sm text-olive-300'>
+								<span className='ml-2 text-gray-200 inline-flex text-xs'>
+									Updated&nbsp;
 									{commenter_updated_timestamp ? (
 										<ThreadTime time={commenter_updated_timestamp} />
 									) : (

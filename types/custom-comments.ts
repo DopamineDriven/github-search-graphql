@@ -1,6 +1,13 @@
+import { GitHubLanguagePartialFragment } from '../graphql/graphql';
 /**
- * @interface CommenterPropsProps
+ * @interface CommenterProps
  */
+
+export type Language = {
+	name?: string;
+	color?: string;
+	id?: string | number;
+};
 export interface CommenterProps {
 	commenter_name: string;
 	commenter_first_name?: string;
@@ -11,6 +18,10 @@ export interface CommenterProps {
 	commenter_created_timestamp: any;
 	commenter_updated_timestamp?: any;
 	commenter_content: string;
+	primaryLanguage:
+		| GitHubLanguagePartialFragment
+		| undefined
+		| null;
 	forks: number;
 	stars: number;
 	source_icon?: React.ReactNode;

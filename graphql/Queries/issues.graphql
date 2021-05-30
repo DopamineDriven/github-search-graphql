@@ -1,3 +1,5 @@
+# import GitHubLanguagePartial from "./Partials/atomic/language-fields.graphql"
+
 query getIssuesMinimal($login: String!) {
 	user(login: $login) {
 		id
@@ -20,6 +22,9 @@ query getIssuesMinimal($login: String!) {
 					avatarUrl(size: 14)
 				}
 				repository {
+					primaryLanguage {
+						...GitHubLanguagePartial
+					}
 					nameWithOwner
 					forkCount
 					stargazerCount

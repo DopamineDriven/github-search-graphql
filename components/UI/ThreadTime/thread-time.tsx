@@ -1,7 +1,7 @@
 import { format, formatDistanceToNow } from 'date-fns';
 
 export interface ThreadTimeProps {
-	time: Date;
+	time: Date | number;
 }
 
 const ThreadTime = ({ time }: ThreadTimeProps) => {

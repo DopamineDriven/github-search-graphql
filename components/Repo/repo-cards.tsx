@@ -1,14 +1,12 @@
-import {
-	AgnosticCommentThread,
-	Container,
-	TextEnhancer
-} from '../UI';
+import { AgnosticCommentThread, Container } from '../UI';
 import { GitHub } from '../UI/Icons';
 import Image from 'next/image';
 import { ImageLoader } from '@/lib/image-loader';
-import { Maybe } from '../../graphql/graphql';
+import {
+	Maybe,
+	GitHubLanguagePartialFragment
+} from '@/graphql/graphql';
 import parser from 'html-react-parser';
-import { fromUnixTime } from 'date-fns';
 
 export type IRepoConstituents = {
 	login?: string;
@@ -25,14 +23,17 @@ export type IRepo = Partial<{
 	openGraphImageUrl: string;
 	id: string;
 	forkCount?: number;
+	primaryLanguage:
+		| GitHubLanguagePartialFragment
+		| undefined
+		| null;
 }>;
+
 export type Repooo = {
 	repo: IRepo;
 };
 export default function RepoCards({ repo }: Repooo) {
 	const newDateCreated = new Date(repo.createdAt);
-	console.log(repo.createdAt);
-	console.log(newDateCreated);
 	const newDateUpdated = new Date(repo.updatedAt);
 	const txtFeed = repo.description
 		? (repo.description as string)
@@ -48,9 +49,12 @@ export default function RepoCards({ repo }: Repooo) {
 				stars={repo.stargazerCount ?? 0}
 				key={repo.id}
 				commenter_name={repo.name ?? ''}
-				commenter_created_timestamp={fromUnixTime(Date.now())}
-				commenter_updated_timestamp={fromUnixTime(Date.now())}
+				commenter_created_timestamp={newDateCreated}
+				commenter_updated_timestamp={newDateUpdated}
 				commenter_avatar={repo.openGraphImageUrl}
+				primaryLanguage={
+					repo!.primaryLanguage ? repo.primaryLanguage : null
+				}
 				commenter_fallback_avatar={'/doge-404.jpg'}
 				commenter_content={`${txt as string}`}
 				forks={repo.forkCount ?? 0}

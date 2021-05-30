@@ -20008,6 +20008,26 @@ export type ViewerHovercardContext = HovercardContext & {
 	viewer: User;
 };
 
+export type UpdateDescriptionMutationVariables = Exact<{
+	repositoryId: Scalars['ID'];
+	description: Scalars['String'];
+}>;
+
+export type UpdateDescriptionMutation = {
+	__typename?: 'Mutation';
+} & {
+	updateRepository?: Maybe<
+		{ __typename?: 'UpdateRepositoryPayload' } & {
+			repository?: Maybe<
+				{ __typename?: 'Repository' } & Pick<
+					Repository,
+					'id' | 'description'
+				>
+			>;
+		}
+	>;
+};
+
 type GitHubActorPartial_Bot_Fragment = {
 	__typename?: 'Bot';
 } & Pick<Bot, 'avatarUrl' | 'url' | 'login'>;
@@ -20610,13 +20630,9 @@ export type GetIssuesMinimalPaginationQuery = {
 					IssueConnection,
 					'totalCount'
 				> & {
-						pageInfo: { __typename?: 'PageInfo' } & Pick<
-							PageInfo,
-							| 'startCursor'
-							| 'endCursor'
-							| 'hasNextPage'
-							| 'hasPreviousPage'
-						>;
+						pageInfo: {
+							__typename?: 'PageInfo';
+						} & GitHubPageInfoPartialFragment;
 					};
 			}
 	>;
@@ -20683,7 +20699,13 @@ export type GetIssuesMinimalQuery = {
 												| 'stargazerCount'
 												| 'url'
 												| 'openGraphImageUrl'
-											>;
+											> & {
+													primaryLanguage?: Maybe<
+														{
+															__typename?: 'Language';
+														} & GitHubLanguagePartialFragment
+													>;
+												};
 										}
 								>
 							>
@@ -21087,6 +21109,69 @@ export const GitHubSearchResultItemConnectionPartialFragmentDoc = gql`
 	${GitHubPageInfoPartialFragmentDoc}
 	${GitHubRepositoryPartialFragmentDoc}
 `;
+export const UpdateDescriptionDocument = gql`
+	mutation updateDescription(
+		$repositoryId: ID!
+		$description: String!
+	) {
+		updateRepository(
+			input: {
+				repositoryId: $repositoryId
+				description: $description
+			}
+		) {
+			repository {
+				id
+				description
+			}
+		}
+	}
+`;
+export type UpdateDescriptionMutationFn =
+	Apollo.MutationFunction<
+		UpdateDescriptionMutation,
+		UpdateDescriptionMutationVariables
+	>;
+
+/**
+ * __useUpdateDescriptionMutation__
+ *
+ * To run a mutation, you first call `useUpdateDescriptionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateDescriptionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateDescriptionMutation, { data, loading, error }] = useUpdateDescriptionMutation({
+ *   variables: {
+ *      repositoryId: // value for 'repositoryId'
+ *      description: // value for 'description'
+ *   },
+ * });
+ */
+export function useUpdateDescriptionMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		UpdateDescriptionMutation,
+		UpdateDescriptionMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		UpdateDescriptionMutation,
+		UpdateDescriptionMutationVariables
+	>(UpdateDescriptionDocument, options);
+}
+export type UpdateDescriptionMutationHookResult =
+	ReturnType<typeof useUpdateDescriptionMutation>;
+export type UpdateDescriptionMutationResult =
+	Apollo.MutationResult<UpdateDescriptionMutation>;
+export type UpdateDescriptionMutationOptions =
+	Apollo.BaseMutationOptions<
+		UpdateDescriptionMutation,
+		UpdateDescriptionMutationVariables
+	>;
 export const GetRepoNamesDocument = gql`
 	query getRepoNames($login: String!) {
 		user(login: $login) {
@@ -21351,7 +21436,7 @@ export const GetViewerDocument = gql`
 		viewer {
 			login
 			name
-			avatarUrl(size: 12)
+			avatarUrl(size: 64)
 		}
 	}
 `;
@@ -21414,7 +21499,7 @@ export const GetIssuesMinimalPaginationDocument = gql`
 		user(login: $login) {
 			id
 			login
-			avatarUrl(size: 500)
+			avatarUrl(size: 64)
 			issues(
 				first: 10
 				before: $before
@@ -21423,15 +21508,13 @@ export const GetIssuesMinimalPaginationDocument = gql`
 				orderBy: { field: UPDATED_AT, direction: DESC }
 			) {
 				pageInfo {
-					startCursor
-					endCursor
-					hasNextPage
-					hasPreviousPage
+					...GitHubPageInfoPartial
 				}
 				totalCount
 			}
 		}
 	}
+	${GitHubPageInfoPartialFragmentDoc}
 `;
 
 /**
@@ -21508,6 +21591,9 @@ export const GetIssuesMinimalDocument = gql`
 						avatarUrl(size: 14)
 					}
 					repository {
+						primaryLanguage {
+							...GitHubLanguagePartial
+						}
 						nameWithOwner
 						forkCount
 						stargazerCount
@@ -21522,6 +21608,7 @@ export const GetIssuesMinimalDocument = gql`
 			}
 		}
 	}
+	${GitHubLanguagePartialFragmentDoc}
 `;
 
 /**
