@@ -6,15 +6,14 @@ import {
 import {
 	initializeApollo,
 	addApolloState
-} from '../lib/apollo';
+} from '@/lib/apollo';
 import Image from 'next/image';
 import { ImageLoader } from '@/lib/image-loader';
-import { GetIssuesMinimalDocument } from '../graphql/graphql';
-import { ApolloError } from '@apollo/client';
 import {
+	GetIssuesMinimalDocument,
 	GetIssuesMinimalQueryVariables,
 	GetIssuesMinimalQuery
-} from '../graphql/graphql';
+} from '@/graphql/graphql';
 import PaginationControls from '@/components/Landing/Pagination/controls';
 import {
 	Container,
@@ -27,21 +26,6 @@ import { useState, useRef } from 'react';
 import SearchForm from '@/components/Landing/search-form';
 import IssueFinder from '@/components/Landing/Pagination/paginaton';
 import { AppLayout } from '@/components/Layout';
-const X = () => {
-	const [login, setLogin] = useState<string>(
-		'DopamineDriven'
-	);
-	const loginRef = useRef(login);
-	return (
-		<>
-			<div className='container font-sans text-gray-50'>
-				<h1>GitHub Issue Tracker</h1>
-				<SearchForm login={login} setLogin={setLogin} />
-			</div>
-			<IssueFinder login={login} />
-		</>
-	);
-};
 
 export default function Issues<
 	T extends typeof getStaticProps
@@ -51,54 +35,6 @@ export default function Issues<
 	);
 	const loginRef = useRef(login);
 	const { user: userData } = user;
-	const AgnosticTemplate = (
-		<Container>
-			{user?.user?.issues?.nodes &&
-			user.user.issues.nodes.length > 0 ? (
-				user.user.issues.nodes.map((usr, i) => {
-					const getTime = Date.now();
-
-					return usr ? (
-						<AgnosticCommentThread
-							forks={0}
-							source_icon={<GitHub />}
-							stars={1}
-							key={usr.id}
-							commenter_name={'Active Issue'}
-							commenter_created_timestamp={fromUnixTime(
-								getTime.valueOf()
-							)}
-							commenter_avatar={'/meta/android-chrome-192x192.png'}
-							commenter_fallback_avatar={
-								'/meta/android-chrome-192x192.png'
-							}
-							commenter_content={`${
-								++i + ':' + HTMLReactParser(usr.bodyHTML ?? '')
-							}`}
-						>
-							<Image
-								className='object-cover  backdrop-blur-3xl'
-								loader={ImageLoader}
-								width='400'
-								height='400'
-								quality={100}
-								alt={usr?.author?.login ? usr.author.login : ''}
-								src={
-									usr.author?.avatarUrl
-										? usr.author.avatarUrl
-										: '/architecture.jpg'
-								}
-							/>
-						</AgnosticCommentThread>
-					) : (
-						<></>
-					);
-				})
-			) : (
-				<></>
-			)}
-		</Container>
-	);
 	return (
 		<>
 			<AppLayout>
@@ -110,9 +46,9 @@ export default function Issues<
 
 							return usr ? (
 								<AgnosticCommentThread
-									forks={0}
+									forks={usr.repository.forkCount}
 									source_icon={<GitHub />}
-									stars={1}
+									stars={usr.repository.stargazerCount}
 									key={usr.id}
 									commenter_name={'Active Issue'}
 									commenter_created_timestamp={fromUnixTime(
@@ -181,8 +117,6 @@ export async function getStaticProps<P>(
 	GetStaticPropsResult<
 		P & {
 			user: GetIssuesMinimalQuery;
-			error: ApolloError;
-			loading: boolean;
 		}
 	>
 > {
@@ -190,11 +124,7 @@ export async function getStaticProps<P>(
 	console.log(p ?? 'no params at the moment');
 	const apolloClient = initializeApollo();
 
-	const {
-		data: user,
-		loading,
-		error
-	} = await apolloClient.query<
+	const { data: user } = await apolloClient.query<
 		GetIssuesMinimalQuery,
 		GetIssuesMinimalQueryVariables
 	>({
@@ -208,3 +138,69 @@ export async function getStaticProps<P>(
 		revalidate: 120
 	});
 }
+
+/**
+ * 	const AgnosticTemplate = (
+		<Container>
+			{user?.user?.issues?.nodes &&
+			user.user.issues.nodes.length > 0 ? (
+				user.user.issues.nodes.map((usr, i) => {
+					const getTime = Date.now();
+
+					return usr ? (
+						<AgnosticCommentThread
+							forks={usr.repository.forkCount}
+							source_icon={<GitHub />}
+							stars={usr.repository.stargazerCount}
+							key={usr.id}
+							commenter_name={'Active Issue'}
+							commenter_created_timestamp={fromUnixTime(
+								getTime.valueOf()
+							)}
+							commenter_avatar={'/meta/android-chrome-192x192.png'}
+							commenter_fallback_avatar={
+								'/meta/android-chrome-192x192.png'
+							}
+							commenter_content={`${
+								++i + ':' + HTMLReactParser(usr.bodyHTML ?? '')
+							}`}
+						>
+							<Image
+								className='object-cover  backdrop-blur-3xl'
+								loader={ImageLoader}
+								width='400'
+								height='400'
+								quality={100}
+								alt={usr?.author?.login ? usr.author.login : ''}
+								src={
+									usr.author?.avatarUrl
+										? usr.author.avatarUrl
+										: '/architecture.jpg'
+								}
+							/>
+						</AgnosticCommentThread>
+					) : (
+						<></>
+					);
+				})
+			) : (
+				<></>
+			)}
+		</Container>
+	);
+ */
+// const X = () => {
+// 	const [login, setLogin] = useState<string>(
+// 		'DopamineDriven'
+// 	);
+// 	const loginRef = useRef(login);
+// 	return (
+// 		<>
+// 			<div className='container font-sans text-gray-50'>
+// 				<h1>GitHub Issue Tracker</h1>
+// 				<SearchForm login={login} setLogin={setLogin} />
+// 			</div>
+// 			<IssueFinder login={login} />
+// 		</>
+// 	);
+// };
