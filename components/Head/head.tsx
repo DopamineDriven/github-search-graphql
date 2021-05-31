@@ -2,6 +2,7 @@ import { DefaultSeo } from 'next-seo';
 import Config from '@/config/next-seo';
 import NextHead from 'next/head';
 
+// inject in root _app.tsx file
 const Head = () => {
 	return (
 		<>

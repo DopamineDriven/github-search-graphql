@@ -13,12 +13,6 @@ interface NavbarRef {
 
 const links: NavbarRef[] = [
 	{
-		id: 1,
-		href: '/issues',
-		as: '/issues',
-		label: 'Issues'
-	},
-	{
 		id: 0,
 		href: '/',
 		as: '/',

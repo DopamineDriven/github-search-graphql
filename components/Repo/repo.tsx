@@ -32,13 +32,6 @@ const ReposCoalesced = ({
 }: ViewerRepoQueryProps) => {
 	const { data, loading, error } = useViewerReposQuery();
 	data ? data.viewer === viewer : '';
-	const router = useRouter();
-	const name = router.query
-		? router.query.name
-		: 'DopamineDriven';
-	const owner = router.query ?? 'DopamineDriven';
-
-	console.log('owner: ', owner ?? '', 'name', name ?? '');
 	return (
 		<Container
 			className={cn(
@@ -68,15 +61,6 @@ const ReposCoalesced = ({
 								repo!.nameWithOwner
 							);
 							// returns 3 strings -- "owner"[0] "/"[1] "name"[2]
-							repo?.nameWithOwner;
-							console.log(
-								'[index 0]: ',
-								slashExtractor[0],
-								' [index 1]: ',
-								slashExtractor[1],
-								' [index 2]: ',
-								slashExtractor[2]
-							);
 							return repo ? (
 								<Link
 									key={i++}

@@ -1,4 +1,4 @@
-export { default as AgnosticCommentThread } from './AgnosticCommentThread';
+export { default as AgnosticRepoTemplate } from './AgnosticRepoTemplate';
 export { default as Anchor } from './Anchor';
 export { default as ApolloError } from './ApolloError';
 export { default as Button } from './Button';
@@ -10,6 +10,7 @@ export { default as LoadingSpinner } from './LoadingSpinner';
 export { default as Logo } from './Logo';
 export { default as Modal } from './Modal';
 export { Skeleton } from './Skeleton';
+export { default as SocialSidebar } from './SocialSidebar';
 export { default as TextEnhancer } from './SyntaxHighlighter';
 export { default as StarRating } from './StarRating';
 export { default as ThreadTime } from './ThreadTime';

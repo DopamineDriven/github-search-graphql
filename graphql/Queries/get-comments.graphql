@@ -1,0 +1,29 @@
+# import GitHubPageInfoPartial from "./Partials/atomic/page-info-fields.graphql"
+
+query GetComments(
+	$owner: String!
+	$name: String!
+	$number: Int!
+	$after: String
+	$first: Int = 7
+) {
+	repository(owner: $owner, name: $name) {
+		issue(number: $number) {
+			comments(first: $first, after: $after) {
+				totalCount
+				pageInfo {
+					...GitHubPageInfoPartial
+				}
+				nodes {
+					id
+					author {
+						avatarUrl
+						login
+					}
+					updatedAt
+					bodyHTML
+				}
+			}
+		}
+	}
+}

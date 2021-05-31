@@ -3,7 +3,7 @@ import { StarIcon } from '../Icons';
 export type StarRatingProps = {
 	stars: number;
 };
-
+// for business reviews -- 1 through 5 rating
 const StarRating: FC<StarRatingProps> = ({ stars }) => {
 	const Star = <StarIcon />;
 	return (

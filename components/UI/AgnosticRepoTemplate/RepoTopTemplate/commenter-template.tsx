@@ -3,20 +3,20 @@ import Image from 'next/image';
 import parser from 'html-react-parser';
 import { ThreadTime } from '../../index';
 import { FC } from 'react';
-import type { CommenterProps } from '@/types/custom-comments';
+import type { RepoOverviewProps } from '@/types/custom-comments';
 import { ImageLoader } from '@/lib/image-loader';
 import { GitHubFork, StarIcon } from '../../Icons';
 
-const CommenterTemplate: FC<CommenterProps> = ({
-	commenter_name,
-	commenter_first_name,
-	commenter_last_name,
-	commenter_content,
-	commenter_created_timestamp,
-	commenter_updated_timestamp,
-	commenter_avatar,
-	commenter_fallback_avatar,
-	commenter_source_url,
+const CommenterTemplate: FC<RepoOverviewProps> = ({
+	repo_user_name,
+	repo_user_first_name,
+	repo_user_last_name,
+	repo_user_content,
+	repo_user_created_timestamp,
+	repo_user_updated_timestamp,
+	repo_user_avatar,
+	repo_user_fallback_avatar,
+	repo_user_source_url,
 	primaryLanguage,
 	stars,
 	forks,
@@ -24,11 +24,11 @@ const CommenterTemplate: FC<CommenterProps> = ({
 	children
 }) => {
 	const commenterName =
-		commenter_last_name != null
-			? `${commenter_first_name} + ${commenter_last_name}`
-			: commenter_first_name
-			? commenter_first_name
-			: commenter_name;
+		repo_user_last_name != null
+			? `${repo_user_first_name} + ${repo_user_last_name}`
+			: repo_user_first_name
+			? repo_user_first_name
+			: repo_user_name;
 	return (
 		<>
 			<ul className='list-none'>
@@ -58,9 +58,9 @@ const CommenterTemplate: FC<CommenterProps> = ({
 										height={500}
 										objectFit='fill'
 										src={
-											commenter_avatar!
-												? commenter_avatar
-												: commenter_fallback_avatar
+											repo_user_avatar!
+												? repo_user_avatar
+												: repo_user_fallback_avatar
 										}
 										priority
 										quality={100}
@@ -72,11 +72,11 @@ const CommenterTemplate: FC<CommenterProps> = ({
 											id={'review-' + commenterName}
 											className='text-base font-medium tracking-wide text-gray-50 flex-row'
 										>
-											{commenter_source_url ? (
+											{repo_user_source_url ? (
 												<a
-													href={commenter_source_url}
+													href={repo_user_source_url}
 													target='__blank'
-													className='capitalize font-bold no-underline mx-0.5'
+													className='capitalize font-bold no-underline mx-0.5 hover:text-gray-300 duration-300 ease-in-out transition-transform transform-gpu'
 												>
 													{commenterName}
 												</a>
@@ -132,24 +132,24 @@ const CommenterTemplate: FC<CommenterProps> = ({
 							</div>
 						</div>
 						<blockquote className='mt-2 text-sm text-purple-0 space-y-4'>
-							<p>{parser(`${commenter_content}`)}</p>
+							<p>{parser(`${repo_user_content}`)}</p>
 							<figcaption className='mt-3 flex font-medium text-sm text-olive-300'>
 								<span className='ml-2 text-gray-200 inline-flex text-xs'>
 									Created&nbsp;
-									{commenter_updated_timestamp ? (
-										<ThreadTime time={commenter_created_timestamp} />
+									{repo_user_updated_timestamp ? (
+										<ThreadTime time={repo_user_created_timestamp} />
 									) : (
-										<ThreadTime time={commenter_created_timestamp} />
+										<ThreadTime time={repo_user_created_timestamp} />
 									)}
 								</span>
 							</figcaption>
 							<figcaption className='mt-3 flex font-medium text-sm text-olive-300'>
 								<span className='ml-2 text-gray-200 inline-flex text-xs'>
 									Updated&nbsp;
-									{commenter_updated_timestamp ? (
-										<ThreadTime time={commenter_updated_timestamp} />
+									{repo_user_updated_timestamp ? (
+										<ThreadTime time={repo_user_updated_timestamp} />
 									) : (
-										<ThreadTime time={commenter_created_timestamp} />
+										<ThreadTime time={repo_user_created_timestamp} />
 									)}
 								</span>
 							</figcaption>

@@ -2,8 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { ApolloQueryResult } from '@apollo/client';
 import GetRepoNames, {
 	GetRepoNamesQueryBatched
-} from '@/lib/get-repo-names';
-import { slashExtractFragment } from '@/lib/string-manipulators';
+} from '@/lib/ServerlessSnacks/get-repo-names';
 
 export default async function (
 	req: NextApiRequest,
@@ -16,7 +15,6 @@ export default async function (
 	} = req;
 
 	try {
-		const qSlashExtract = slashExtractFragment(q as string);
 		console.log(q);
 		const data = q
 			? await GetRepoNames({ login: q as string })
@@ -28,7 +26,7 @@ export default async function (
 			'Cache-Control',
 			'public, s-maxage=1200, stale-while-revalidate=600'
 		);
-		return res.status(200).json(data);
+		return res.status(200).send(data);
 	} catch (error) {
 		throw new Error('error in api/search-repos-by-login.ts');
 	}

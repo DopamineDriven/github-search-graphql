@@ -24,6 +24,7 @@ import Searchbar from '@/components/Layout/Search/search';
 import { Container } from '@/components/UI';
 import { slashExtractFragment } from '../lib/string-manipulators';
 import { Header } from '@/components/Layout/Header';
+import { SearchUser } from '@/components/Layout/SearchUser';
 
 export default function Index<
 	T extends typeof getStaticProps
@@ -31,25 +32,18 @@ export default function Index<
 	const userName = user.user?.login
 		? user.user.login
 		: 'DopamineDriven';
-	const [userState, setUserState] = useState(userName);
+	// const [userState, setUserState] = useState(userName);
 	const [search, setSearch] = useState('');
-	const { asPath } = useRouter();
-	const repos = repo.viewer.repositories.nodes?.map(xx => {
-		console.log(xx?.nameWithOwner);
-		const y = xx?.nameWithOwner;
-		const yy = y!.split(/([/])/);
-		console.log(y);
-		return { y };
-	});
-	console.log(repos![0]);
+	const { asPath: login, asPath } = useRouter();
+
 	useEffect(() => {
 		const pathSubString = asPath.split('/');
-		if (!asPath.includes('/github/[owner]/[name]')) {
+		if (!asPath.includes('/repositories/[owner]/[name]')) {
 			setSearch('');
 			return;
 		}
 		if (
-			asPath.includes('/github/[owner]/[name]') &&
+			asPath.includes('/repositories/[owner]/[name]') &&
 			asPath.length === 3
 		) {
 			setSearch(pathSubString[3]);
@@ -58,24 +52,45 @@ export default function Index<
 		console.log(search);
 	}, [asPath]);
 
+	useEffect(() => {
+		const pathSubString = login.split('/');
+		if (!login.includes('/repos/[login]')) {
+			setSearch('');
+			return;
+		}
+		if (
+			login.includes('/repos/[login]') &&
+			login.length === 2
+		) {
+			setSearch(pathSubString[2]);
+			return;
+		}
+		console.log(search);
+	}, [login]);
+
 	const searchBarStyled = (
 		<Container className='px-1/12 sm:px-1/6 lg:px-1/4 my-10'>
+			{'Feeling lucky: '}
 			<Searchbar />
+		</Container>
+	);
+	const searchUserStyled = (
+		<Container className='px-1/12 sm:px-1/6 lg:px-1/4 my-10'>
+			{'Search by user: '}
+			<SearchUser />
 		</Container>
 	);
 	return (
 		<>
 			<AppLayout>
 				<div className='bg-purple-0 text-gray-50 font-bold font-sans text-4xl mx-auto justify-center flex select-none'>
-					{/* <p className='max-w-sm pl-0.5 pt-0.5 text-3xl tracking-wide'>
-						{
-							'Configuring dynamic routing for on-demand generation of paths/pages in real-time for any given repo(s) queried.\n \n Searchbars, mutations, and more with an Open issue tracker nearly completed. JWT Auth incoming over the weekend as well.'
-						}
-					</p> */}
 					<RepoWrapper
 						otherData={<ReposCoalesced viewer={repo.viewer} />}
 					>
-						<Container>{searchBarStyled}</Container>
+						<Container>
+							<p>{searchBarStyled}</p>
+							<p>{searchUserStyled}</p>
+						</Container>
 					</RepoWrapper>
 				</div>
 			</AppLayout>
@@ -93,12 +108,7 @@ export async function getStaticProps<P>(
 		}
 	>
 > {
-	const p = ctx.params
-		? (ctx.params.q as string | string[])
-		: '';
-	const pp = slashExtractFragment(p as string);
-	console.log(pp[0]);
-	console.log(pp[2]);
+	console.log(ctx.params ?? '');
 	const apolloClient = initializeApollo();
 
 	const { data: repo } = await apolloClient.query<
@@ -122,17 +132,3 @@ export async function getStaticProps<P>(
 		revalidate: 120
 	});
 }
-
-/**
- * 				<Image
-					className=' object-cover rounded-full'
-					loader={ImageLoader}
-					width='400'
-					height='400'
-					src={
-						userData?.avatarUrl
-							? userData.avatarUrl
-							: '/architecture.jpg'
-					}
-				/>
- */

@@ -1,6 +1,6 @@
 # import GitHubPageInfoPartial from "./Partials/atomic/page-info-fields.graphql"
 
-query GetIssuesMinimalPagination(
+query GetIssuesMinimalWithPagination(
 	$login: String!
 	$before: String
 	$after: String
@@ -8,18 +8,34 @@ query GetIssuesMinimalPagination(
 	user(login: $login) {
 		id
 		login
-		avatarUrl(size: 64)
+		avatarUrl(size: 250)
 		issues(
 			first: 10
 			before: $before
 			after: $after
-			states: [OPEN]
 			orderBy: { field: UPDATED_AT, direction: DESC }
+			states: [OPEN]
 		) {
 			pageInfo {
 				...GitHubPageInfoPartial
 			}
 			totalCount
+			nodes {
+				id
+				url
+				number
+				author {
+					avatarUrl(size: 250)
+					login
+				}
+				repository {
+					nameWithOwner
+					url
+				}
+				title
+				bodyHTML
+				updatedAt
+			}
 		}
 	}
 }

@@ -16,10 +16,15 @@ query getIssuesMinimal($login: String!) {
 				url
 				bodyUrl
 				number
+				title
+				body
+				bodyText
+				bodyHTML
+				updatedAt
 				author {
 					url
 					login
-					avatarUrl(size: 14)
+					avatarUrl(size: 250)
 				}
 				repository {
 					primaryLanguage {
@@ -31,10 +36,6 @@ query getIssuesMinimal($login: String!) {
 					url
 					openGraphImageUrl
 				}
-				title
-				bodyText
-				bodyHTML
-				updatedAt
 			}
 		}
 	}
