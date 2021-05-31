@@ -48,7 +48,7 @@ export default function NextApp({
 }
 
 const quickMetricsKey =
-	process.env.QUICK_METRICS_API_KEY ?? '';
+	process.env.NEXT_PUBLIC_QUICK_METRICS_API_KEY ?? '';
 
 // quickmetrics
 const sendAnalytics = ({

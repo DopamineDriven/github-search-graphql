@@ -17,7 +17,8 @@ import { IncomingHttpHeaders } from 'http';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
-const token = process.env.GITHUB_OAUTH_TOKEN ?? '';
+const token =
+	process.env.NEXT_PUBLIC_GITHUB_OAUTH_TOKEN ?? '';
 const authorization = `Bearer ${token}`;
 
 let apolloClient:
