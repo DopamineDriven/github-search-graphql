@@ -2,7 +2,7 @@
 
 ### Getting Started
 
-- Please see [`environmental-variables.md`](./environmental-variables)
+- Please see [`environmental-variables.md`](https://github.com/DopamineDriven/github-search-graphql/blob/main/environmental-variables.md)
 
 Next, TypeScript, GraphQL, Apollo Client, SWR, Codegen, Tailwindcss, OneGraph Integration
 
