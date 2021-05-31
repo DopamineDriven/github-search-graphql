@@ -1,5 +1,9 @@
 # github-search-graphql
 
+### Getting Started
+
+- Please see [`environmental-variables.md`](./environmental-variables)
+
 Next, TypeScript, GraphQL, Apollo Client, SWR, Codegen, Tailwindcss, OneGraph Integration
 
 ```graphql

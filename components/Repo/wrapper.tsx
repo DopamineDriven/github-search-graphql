@@ -25,7 +25,7 @@ const RepoWrapper: FC<RepoWrapperProps> = ({
 						)}
 					>
 						<div className='relative max-w-8xl mx-auto px-1 sm:px-6 lg:px-8'>
-							<div className='hidden lg:block bg-purple-700 absolute top-0 bottom-0 left-3/4 w-screen'></div>
+							<div className='hidden lg:block bg-redditBG absolute top-0 bottom-0 left-3/4 w-screen'></div>
 							<div className='mx-auto text-base max-w-prose lg:grid lg:grid-cols-9 lg:gap-8 lg:max-w-none'>
 								<div className='lg:col-span-5 pr-0 sm:pr-6 md:mr-10'>
 									{otherData}
@@ -68,15 +68,20 @@ const RepoWrapper: FC<RepoWrapperProps> = ({
 										<div className='relative text-base mx-auto max-w-prose lg:max-w-none'>
 											<figure>
 												<div className='lg:aspect-none lg:mx-3'>
-													{children}
+													<div className='lg:aspect-none lg:mx-3'>
+														{children}
+													</div>
+													<div className='aspect-w-12 aspect-h-7 lg:aspect-none'>
+														<TypeScript className='lg:w-full lg:min-h-full z-14 lg:p-12 lg:bg-opacity-50 w-30 h-30' />
+													</div>
+													<figcaption className='mt-3 flex text-sm text-gray-50'>
+														<span className='ml-2 text-secondary-0'></span>
+													</figcaption>
 												</div>
-												<figcaption className='mt-3 flex text-sm text-gray-50'>
-													<span className='ml-2 text-secondary-0'></span>
-												</figcaption>
 											</figure>
-											<div className='lg:w-full lg:min-h-full lg:m-24  lg:pl-12 lg:flex-grow lg:border-collapse lg:rounded-xl lg:mx-auto'>
+											{/* <div className='lg:w-full lg:min-h-full lg:m-24  lg:pl-12 lg:flex-grow lg:border-collapse lg:rounded-xl lg:mx-auto'>
 												<TypeScript className='w-64 h-64' />
-											</div>
+											</div> */}
 										</div>
 									</div>
 								</div>
