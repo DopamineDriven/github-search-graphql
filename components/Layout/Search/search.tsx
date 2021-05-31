@@ -4,14 +4,14 @@ import css from './search.module.css';
 import { useRouter } from 'next/router';
 import { Input } from '../../UI';
 import { filterQuery } from '@/lib/helpers/filter-query';
-import { GitHub } from '@/components/UI/Icons';
 import { slashExtractFragment } from '@/lib/string-manipulators';
-interface Props {
+
+export interface SearchbarProps {
 	className?: string;
 	id?: string;
 }
 
-const Searchbar: FC<Props> = ({
+const Searchbar: FC<SearchbarProps> = ({
 	className,
 	id = 'repositories/'
 }) => {
@@ -33,7 +33,7 @@ const Searchbar: FC<Props> = ({
 			}
 		);
 	}, [value]);
-
+	// memoize returned jsx for global state
 	return useMemo(
 		() => (
 			<div
@@ -45,17 +45,12 @@ const Searchbar: FC<Props> = ({
 				<label className='sr-only' htmlFor={id}>
 					repo
 				</label>
-				<div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
-					<span className='text-gray-100 font-semibold sm:text-base'>
-						<GitHub />
-					</span>
-				</div>
 				<Input
 					id={id}
 					name={id}
 					onChange={setValue}
 					className={css.input}
-					// placeholder='/github/'
+					placeholder='GitHub Username...'
 					defaultValue={
 						router && router.query
 							? (router.query.q as string)
@@ -69,7 +64,7 @@ const Searchbar: FC<Props> = ({
 
 							router.push(
 								{
-									pathname: `/github/${q}`,
+									pathname: `/repositories/${q}`,
 									query: q ? filterQuery({ q }) : {}
 								},
 								undefined,
@@ -98,3 +93,8 @@ const Searchbar: FC<Props> = ({
 };
 
 export default Searchbar;
+/* <div className='absolute inset-y-0 left-0 pl-1 flex items-center pointer-events-none'>
+	<span className='text-gray-100 font-semibold sm:text-base'>
+		<GitHub className='fill-current text-gray-500' />
+	</span>
+</div> */

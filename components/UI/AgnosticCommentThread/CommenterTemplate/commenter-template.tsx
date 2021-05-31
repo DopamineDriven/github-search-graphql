@@ -87,7 +87,7 @@ const CommenterTemplate: FC<CommenterProps> = ({
 											)}
 										</h2>
 										<p className='text-sm text-gray-200'>
-											{primaryLanguage?.name !== undefined ? (
+											{
 												<p className='text-sm font-semibold text-gray-200 inline-block rounded-lg'>
 													<span className='sr-only'>
 														Primary Language:{' '}
@@ -99,9 +99,9 @@ const CommenterTemplate: FC<CommenterProps> = ({
 													</span>
 													<span>
 														<svg
-															id={primaryLanguage.id ?? ''}
+															id={primaryLanguage?.id ?? ''}
 															fill={`${
-																primaryLanguage.color ?? 'rgb(26,26,27)'
+																primaryLanguage?.color ?? 'rgb(88,166,255)'
 															}`}
 															viewBox='0 0 100 100'
 															className='text-xs w-3 h-3 inline-block justify-start py-0.5'
@@ -109,16 +109,19 @@ const CommenterTemplate: FC<CommenterProps> = ({
 														>
 															<circle cx='50' cy='50' r='50' />
 														</svg>
-														{primaryLanguage.name}
+														{primaryLanguage?.name ?? 'Markdown'}
 													</span>
 												</p>
-											) : (
-												<p></p>
-											)}
+											}
 											&nbsp;&nbsp;&nbsp;
-											<StarIcon stars={stars} /> {stars ?? 0}
+											<StarIcon
+												stars={stars}
+												className='w-5 h-5 inline-block justify-start py-0.5 text-xs '
+											/>{' '}
+											{stars ?? 0}
 											&nbsp;&nbsp;&nbsp;
-											<GitHubFork /> {forks ?? 0}
+											<GitHubFork className='w-5 h-5 inline-block justify-start py-0.5 text-xs ' />{' '}
+											{forks ?? 0}
 										</p>
 										<p></p>
 									</div>

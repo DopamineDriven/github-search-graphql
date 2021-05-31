@@ -32,7 +32,7 @@ interface Nav {
 
 export default function Example() {
 	return (
-		<div className='bg-white pb-8 sm:pb-12 lg:pb-12'>
+		<div className='bg-redditBG'>
 			<div className='pt-8 overflow-hidden sm:pt-12 lg:relative lg:py-48'>
 				<div className='mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-24'>
 					<div>
@@ -46,7 +46,7 @@ export default function Example() {
 						<div className='mt-20'>
 							<div>
 								<a href='#' className='inline-flex space-x-4'>
-									<span className='rounded bg-indigo-50 px-2.5 py-1 text-xs font-semibold text-indigo-600 tracking-wide uppercase'>
+									<span className='rounded bg-purple-0 px-2.5 py-1 text-xs font-semibold text-indigo-600 tracking-wide uppercase'>
 										{"What's new"}
 									</span>
 									<span className='inline-flex items-center text-sm font-medium text-indigo-600 space-x-1'>
@@ -114,9 +114,9 @@ export default function Example() {
 				<div className='sm:mx-auto sm:max-w-3xl sm:px-6'>
 					<div className='py-12 sm:relative sm:mt-12 sm:py-16 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2'>
 						<div className='hidden sm:block'>
-							<div className='absolute inset-y-0 left-1/2 w-screen bg-gray-50 rounded-l-3xl lg:left-80 lg:right-0 lg:w-full' />
+							<div className='absolute inset-y-0 left-1/2 w-screen bg-purple-0 lg:left-80 lg:right-0 lg:w-full' />
 							<svg
-								className='absolute top-8 right-1/2 -mr-3 lg:m-0 lg:left-0'
+								className='absolute top-8 right-1/3 -mr-3 lg:m-0 lg:left-0'
 								width={404}
 								height={392}
 								fill='none'

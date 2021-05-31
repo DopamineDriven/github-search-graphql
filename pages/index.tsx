@@ -23,6 +23,7 @@ import { useRouter } from 'next/router';
 import Searchbar from '@/components/Layout/Search/search';
 import { Container } from '@/components/UI';
 import { slashExtractFragment } from '../lib/string-manipulators';
+import { Header } from '@/components/Layout/Header';
 
 export default function Index<
 	T extends typeof getStaticProps
@@ -65,16 +66,16 @@ export default function Index<
 	return (
 		<>
 			<AppLayout>
-				<div className='bg-purple-700 filter saturate-50 text-gray-50 font-bold font-sans text-4xl mx-auto justify-center flex select-none'>
-					<p className='max-w-sm pl-0.5 pt-0.5 text-3xl tracking-wide'>
+				<div className='bg-purple-0 text-gray-50 font-bold font-sans text-4xl mx-auto justify-center flex select-none'>
+					{/* <p className='max-w-sm pl-0.5 pt-0.5 text-3xl tracking-wide'>
 						{
 							'Configuring dynamic routing for on-demand generation of paths/pages in real-time for any given repo(s) queried.\n \n Searchbars, mutations, and more with an Open issue tracker nearly completed. JWT Auth incoming over the weekend as well.'
 						}
-					</p>
-					<RepoWrapper otherData={searchBarStyled}>
-						<Container>
-							<ReposCoalesced viewer={repo.viewer} />
-						</Container>
+					</p> */}
+					<RepoWrapper
+						otherData={<ReposCoalesced viewer={repo.viewer} />}
+					>
+						<Container>{searchBarStyled}</Container>
 					</RepoWrapper>
 				</div>
 			</AppLayout>

@@ -30,9 +30,6 @@ export default function NextApp({
 	const apolloClient = useApollo(pageProps);
 
 	const LayoutNoop = (Component as any).LayoutNoop || Noop;
-
-	// const router = useRouter();
-
 	// remove chrome-bug.css loading class on FCP
 	useEffect(() => {
 		document.body.classList?.remove('loading');
@@ -40,17 +37,18 @@ export default function NextApp({
 
 	return (
 		<>
-			{/* <SWRConfig value={configValues}> */}
 			<ApolloProvider client={apolloClient}>
 				<Head />
 				<LayoutNoop pageProps={pageProps}>
 					<Component {...pageProps} />
 				</LayoutNoop>
 			</ApolloProvider>
-			{/* </SWRConfig> */}
 		</>
 	);
 }
+
+const quickMetricsKey =
+	process.env.QUICK_METRICS_API_KEY ?? '';
 
 // quickmetrics
 const sendAnalytics = ({
@@ -58,7 +56,7 @@ const sendAnalytics = ({
 	value
 }: NextWebVitalsMetric): void => {
 	if (process.env.NEXT_PUBLIC_SEND_ANALYTICS) {
-		const url = `https://qckm.io?m=${name}&v=${value}&k=${process.env.NEXT_PUBLIC_QUICK_METRICS_API_KEY}`;
+		const url = `https://qckm.io?m=${name}&v=${value}&k=${quickMetricsKey}`;
 		if (navigator.sendBeacon) {
 			navigator.sendBeacon(url);
 		} else {
@@ -102,5 +100,6 @@ export function reportWebVitals(
 				break;
 		}
 	}
+	// don't send analytics in process.env.NODE_ENV === "dev"
 	console.log('metric: ', metric);
 }

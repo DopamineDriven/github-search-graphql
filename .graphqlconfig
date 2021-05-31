@@ -6,7 +6,7 @@
       "Github GraphQL Endpoint": {
         "url": "https://api.github.com/graphql",
         "headers": {
-          "Authorization": "Bearer ${env:NEXT_PUBLIC_GITHUB_OAUTH_TOKEN_YML}"
+          "Authorization": "Bearer ${env:GITHUB_OAUTH_TOKEN_YML}"
         },
         "introspect": true
       }

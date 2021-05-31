@@ -29,18 +29,22 @@ export default function NotFound({
 							<div className='hidden lg:block bg-redditBG absolute top-0 bottom-0 left-3/4 w-screen'></div>
 							<div className='mx-auto text-base max-w-prose lg:grid lg:grid-cols-2 lg:gap-8 lg:max-w-none'>
 								<div className='lg:col-span-2'>
-									<h2 className='text-4xl text-purple-0 font-semibold tracking-wide uppercase'>
+									<h2 className='text-4xl text-gray-200 font-semibold tracking-wide uppercase'>
 										Wow Not Found
 									</h2>
-									<h3 className='mt-2 text-2xl leading-8 font-extrabold tracking-tight text-purple-0 sm:text-3xl hover:text-olive-500 duration-300 transition-colors'>
+									<h3 className='mt-2 text-2xl leading-8 font-semibold tracking-tight text-gray-50 sm:text-3xl hover:text-redditBG duration-300 transition-colors'>
 										<Link href='/' as='/' passHref scroll={true}>
-											<a className='w-auto'>
+											<a className='w-auto inline-flex'>
 												<span className='sr-only'>
 													{
 														"That's a 404 Not Found Error. Click Here to Return Home."
 													}
 												</span>
-												<p className={css.p}>{'here'}</p>
+												{"That's a 404. Click"} &nbsp;
+												<p className={cn(css.p, 'underline')}>
+													{'here'}
+												</p>
+												&nbsp; to return home.
 											</a>
 										</Link>
 									</h3>
@@ -70,7 +74,7 @@ export default function NotFound({
 													y='0'
 													width='4'
 													height='4'
-													className='text-purple-0'
+													className='text-gray-50'
 													fill='currentColor'
 												/>
 											</pattern>
