@@ -2,6 +2,6 @@ query GetViewer {
 	viewer {
 		login
 		name
-		avatarUrl(size: 64)
+		avatarUrl(size: 250)
 	}
 }

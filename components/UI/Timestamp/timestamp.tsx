@@ -2,16 +2,16 @@ import { parseISO, format } from 'date-fns';
 import { FC } from 'react';
 import cn from 'classnames';
 
-interface TimestampProps {
+export interface TimestampProps {
 	timestamp: string;
 	className?: string;
+	date: Date;
 }
 
-const Timestamp: FC<TimestampProps> = ({
-	timestamp,
-	className
-}) => {
-	const date: Date = parseISO(timestamp);
+export default function Timestamp<
+	P extends TimestampProps
+>({ timestamp, className, date }: P) {
+	date = parseISO(timestamp);
 	return (
 		<time
 			dateTime={timestamp}
@@ -20,6 +20,4 @@ const Timestamp: FC<TimestampProps> = ({
 			{format(date, 'LLLL	d, yyyy')}
 		</time>
 	);
-};
-
-export default Timestamp;
+}

@@ -8,7 +8,7 @@ import {
 import {
 	CommentsSkeleton,
 	Container,
-	AgnosticCommentThread,
+	AgnosticRepoTemplate,
 	TextEnhancer
 } from '@/components/UI';
 import Image from 'next/image';
@@ -45,20 +45,20 @@ const IssueCardCoalesced = ({
 		const parsed = HTMLReactParser(issue.bodyHTML);
 		const AgnosticTemplate = (
 			<Container>
-				<AgnosticCommentThread
+				<AgnosticRepoTemplate
 					primaryLanguage={issue.repository.primaryLanguage}
 					forks={issue.repository.forkCount}
 					source_icon={<GitHub />}
 					stars={issue.repository.stargazerCount}
-					key={issue.id}
-					commenter_name={'Active Issue'}
-					commenter_created_timestamp={issue.createdAt}
-					commenter_updated_timestamp={issue.updatedAt}
-					commenter_avatar={'/meta/android-chrome-192x192.png'}
-					commenter_fallback_avatar={
+					key={i++}
+					repo_user_name={'Active Issue'}
+					repo_user_created_timestamp={issue.createdAt}
+					repo_user_updated_timestamp={issue.updatedAt}
+					repo_user_avatar={'/meta/android-chrome-192x192.png'}
+					repo_user_fallback_avatar={
 						'/meta/android-chrome-192x192.png'
 					}
-					commenter_content={`${(
+					repo_user_content={`${(
 						<TextEnhancer
 							textToTransform={
 								(parsed as string) ?? issue.bodyHTML
@@ -67,7 +67,7 @@ const IssueCardCoalesced = ({
 					)}`}
 				>
 					<Image
-						className='backdrop-blur-3xl'
+						className='object-cover'
 						loader={ImageLoader}
 						width='400'
 						height='400'
@@ -75,7 +75,7 @@ const IssueCardCoalesced = ({
 						alt={issue.title}
 						src={'/doge-404.jpg'}
 					/>
-				</AgnosticCommentThread>
+				</AgnosticRepoTemplate>
 			</Container>
 		);
 		return AgnosticTemplate;
@@ -94,7 +94,7 @@ const IssueCardCoalesced = ({
 	);
 };
 
-const CardCoalescence = () => {
-	return <IssueCardCoalesced login={'DopamineDriven'} />;
-};
-export default CardCoalescence;
+// const CardCoalescence = () => {
+// 	return <IssueCardCoalesced login={'DopamineDriven'} />;
+// };
+export default IssueCardCoalesced;

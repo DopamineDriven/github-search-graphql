@@ -10,6 +10,7 @@ import {
 } from '../../UI/Icons';
 import Link from 'next/link';
 import throttle from 'lodash.throttle';
+import { SearchUser } from '../SearchUser';
 
 export interface NavbarProps {
 	className?: string;
@@ -111,6 +112,7 @@ const Navbar: FC<NavbarProps> = ({
 												</a>
 											</Link>
 										</div>
+
 										<Transition show={isOpen && !hasScrolled}>
 											<Transition.Child
 												enter='transition ease-out duration-200'
@@ -136,6 +138,9 @@ const Navbar: FC<NavbarProps> = ({
 										</Transition>
 									</div>
 								</div>
+							</div>
+							<div className='float-right inline-flex w-full'>
+								<SearchUser />
 							</div>
 						</div>
 					</div>

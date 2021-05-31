@@ -20008,6 +20008,90 @@ export type ViewerHovercardContext = HovercardContext & {
 	viewer: User;
 };
 
+export type AddCommentMutationVariables = Exact<{
+	issueId: Scalars['ID'];
+	body: Scalars['String'];
+}>;
+
+export type AddCommentMutation = {
+	__typename?: 'Mutation';
+} & {
+	addComment?: Maybe<
+		{ __typename?: 'AddCommentPayload' } & {
+			commentEdge?: Maybe<
+				{ __typename?: 'IssueCommentEdge' } & Pick<
+					IssueCommentEdge,
+					'cursor'
+				> & {
+						node?: Maybe<
+							{ __typename?: 'IssueComment' } & Pick<
+								IssueComment,
+								'id' | 'bodyHTML' | 'updatedAt'
+							> & {
+									author?: Maybe<
+										| ({ __typename?: 'Bot' } & Pick<
+												Bot,
+												'login' | 'avatarUrl'
+										  >)
+										| ({
+												__typename?: 'EnterpriseUserAccount';
+										  } & Pick<
+												EnterpriseUserAccount,
+												'login' | 'avatarUrl'
+										  >)
+										| ({ __typename?: 'Mannequin' } & Pick<
+												Mannequin,
+												'login' | 'avatarUrl'
+										  >)
+										| ({ __typename?: 'Organization' } & Pick<
+												Organization,
+												'login' | 'avatarUrl'
+										  >)
+										| ({ __typename?: 'User' } & Pick<
+												User,
+												'login' | 'avatarUrl'
+										  >)
+									>;
+								}
+						>;
+					}
+			>;
+		}
+	>;
+};
+
+export type CloseIssueMutationVariables = Exact<{
+	issueId: Scalars['ID'];
+}>;
+
+export type CloseIssueMutation = {
+	__typename?: 'Mutation';
+} & {
+	closeIssue?: Maybe<
+		{ __typename?: 'CloseIssuePayload' } & {
+			issue?: Maybe<
+				{ __typename?: 'Issue' } & Pick<Issue, 'id' | 'state'>
+			>;
+		}
+	>;
+};
+
+export type ReopenIssueMutationVariables = Exact<{
+	issueId: Scalars['ID'];
+}>;
+
+export type ReopenIssueMutation = {
+	__typename?: 'Mutation';
+} & {
+	reopenIssue?: Maybe<
+		{ __typename?: 'ReopenIssuePayload' } & {
+			issue?: Maybe<
+				{ __typename?: 'Issue' } & Pick<Issue, 'id' | 'state'>
+			>;
+		}
+	>;
+};
+
 export type UpdateDescriptionMutationVariables = Exact<{
 	repositoryId: Scalars['ID'];
 	description: Scalars['String'];
@@ -20301,6 +20385,40 @@ export type GitHubRepoOwnerPartialFragment =
 	| GitHubRepoOwnerPartial_Organization_Fragment
 	| GitHubRepoOwnerPartial_User_Fragment;
 
+export type RepoPartialFragment = {
+	__typename?: 'Repository';
+} & Pick<
+	Repository,
+	| 'name'
+	| 'stargazerCount'
+	| 'forkCount'
+	| 'id'
+	| 'url'
+	| 'nameWithOwner'
+	| 'description'
+	| 'createdAt'
+	| 'updatedAt'
+	| 'homepageUrl'
+	| 'openGraphImageUrl'
+	| 'isArchived'
+	| 'isInOrganization'
+	| 'isFork'
+	| 'isPrivate'
+> & {
+		owner:
+			| ({ __typename?: 'Organization' } & Pick<
+					Organization,
+					'id' | 'login'
+			  >)
+			| ({ __typename?: 'User' } & Pick<User, 'id' | 'login'>);
+		primaryLanguage?: Maybe<
+			{ __typename?: 'Language' } & Pick<
+				Language,
+				'name' | 'color' | 'id'
+			>
+		>;
+	};
+
 export type GitHubUserPartialFragment = {
 	__typename?: 'User';
 } & Pick<
@@ -20528,6 +20646,282 @@ export type ViewerReposQuery = { __typename?: 'Query' } & {
 		};
 };
 
+export type GetCommentsQueryVariables = Exact<{
+	owner: Scalars['String'];
+	name: Scalars['String'];
+	number: Scalars['Int'];
+	after?: Maybe<Scalars['String']>;
+	first?: Maybe<Scalars['Int']>;
+}>;
+
+export type GetCommentsQuery = { __typename?: 'Query' } & {
+	repository?: Maybe<
+		{ __typename?: 'Repository' } & {
+			issue?: Maybe<
+				{ __typename?: 'Issue' } & {
+					comments: {
+						__typename?: 'IssueCommentConnection';
+					} & Pick<IssueCommentConnection, 'totalCount'> & {
+							pageInfo: {
+								__typename?: 'PageInfo';
+							} & GitHubPageInfoPartialFragment;
+							nodes?: Maybe<
+								Array<
+									Maybe<
+										{ __typename?: 'IssueComment' } & Pick<
+											IssueComment,
+											'id' | 'updatedAt' | 'bodyHTML'
+										> & {
+												author?: Maybe<
+													| ({ __typename?: 'Bot' } & Pick<
+															Bot,
+															'avatarUrl' | 'login'
+													  >)
+													| ({
+															__typename?: 'EnterpriseUserAccount';
+													  } & Pick<
+															EnterpriseUserAccount,
+															'avatarUrl' | 'login'
+													  >)
+													| ({ __typename?: 'Mannequin' } & Pick<
+															Mannequin,
+															'avatarUrl' | 'login'
+													  >)
+													| ({ __typename?: 'Organization' } & Pick<
+															Organization,
+															'avatarUrl' | 'login'
+													  >)
+													| ({ __typename?: 'User' } & Pick<
+															User,
+															'avatarUrl' | 'login'
+													  >)
+												>;
+											}
+									>
+								>
+							>;
+						};
+				}
+			>;
+		}
+	>;
+};
+
+export type GetFineDetailsByRepoQueryVariables = Exact<{
+	login: Scalars['String'];
+	name: Scalars['String'];
+}>;
+
+export type GetFineDetailsByRepoQuery = {
+	__typename?: 'Query';
+} & {
+	user?: Maybe<
+		{ __typename?: 'User' } & Pick<
+			User,
+			'id' | 'bio' | 'twitterUsername' | 'login' | 'avatarUrl'
+		> & {
+				repository?: Maybe<
+					{ __typename?: 'Repository' } & {
+						commitComments: {
+							__typename?: 'CommitCommentConnection';
+						} & {
+							pageInfo: {
+								__typename?: 'PageInfo';
+							} & GitHubPageInfoPartialFragment;
+							nodes?: Maybe<
+								Array<
+									Maybe<
+										{ __typename?: 'CommitComment' } & Pick<
+											CommitComment,
+											| 'body'
+											| 'bodyText'
+											| 'bodyHTML'
+											| 'id'
+											| 'authorAssociation'
+											| 'createdAt'
+										> & {
+												author?: Maybe<
+													| ({ __typename?: 'Bot' } & Pick<
+															Bot,
+															'login' | 'avatarUrl' | 'url'
+													  >)
+													| ({
+															__typename?: 'EnterpriseUserAccount';
+													  } & Pick<
+															EnterpriseUserAccount,
+															'login' | 'avatarUrl' | 'url'
+													  >)
+													| ({ __typename?: 'Mannequin' } & Pick<
+															Mannequin,
+															'login' | 'avatarUrl' | 'url'
+													  >)
+													| ({ __typename?: 'Organization' } & Pick<
+															Organization,
+															'login' | 'avatarUrl' | 'url'
+													  >)
+													| ({ __typename?: 'User' } & Pick<
+															User,
+															'login' | 'avatarUrl' | 'url'
+													  >)
+												>;
+											}
+									>
+								>
+							>;
+						};
+						issues: { __typename?: 'IssueConnection' } & Pick<
+							IssueConnection,
+							'totalCount'
+						> & {
+								pageInfo: {
+									__typename?: 'PageInfo';
+								} & GitHubPageInfoPartialFragment;
+								nodes?: Maybe<
+									Array<
+										Maybe<
+											{ __typename?: 'Issue' } & Pick<
+												Issue,
+												| 'id'
+												| 'url'
+												| 'bodyUrl'
+												| 'number'
+												| 'title'
+												| 'body'
+												| 'bodyText'
+												| 'state'
+												| 'bodyHTML'
+												| 'createdAt'
+												| 'updatedAt'
+											> & {
+													author?: Maybe<
+														| ({ __typename?: 'Bot' } & Pick<
+																Bot,
+																'url' | 'login' | 'avatarUrl'
+														  >)
+														| ({
+																__typename?: 'EnterpriseUserAccount';
+														  } & Pick<
+																EnterpriseUserAccount,
+																'url' | 'login' | 'avatarUrl'
+														  >)
+														| ({ __typename?: 'Mannequin' } & Pick<
+																Mannequin,
+																'url' | 'login' | 'avatarUrl'
+														  >)
+														| ({ __typename?: 'Organization' } & Pick<
+																Organization,
+																'url' | 'login' | 'avatarUrl'
+														  >)
+														| ({ __typename?: 'User' } & Pick<
+																User,
+																'url' | 'login' | 'avatarUrl'
+														  >)
+													>;
+													reactions: {
+														__typename?: 'ReactionConnection';
+													} & Pick<ReactionConnection, 'totalCount'> & {
+															pageInfo: {
+																__typename?: 'PageInfo';
+															} & GitHubPageInfoPartialFragment;
+															nodes?: Maybe<
+																Array<
+																	Maybe<
+																		{ __typename?: 'Reaction' } & Pick<
+																			Reaction,
+																			'content'
+																		>
+																	>
+																>
+															>;
+														};
+													comments: {
+														__typename?: 'IssueCommentConnection';
+													} & Pick<
+														IssueCommentConnection,
+														'totalCount'
+													> & {
+															pageInfo: {
+																__typename?: 'PageInfo';
+															} & GitHubPageInfoPartialFragment;
+															nodes?: Maybe<
+																Array<
+																	Maybe<
+																		{ __typename?: 'IssueComment' } & Pick<
+																			IssueComment,
+																			'bodyText' | 'createdAt' | 'updatedAt'
+																		> & {
+																				author?: Maybe<
+																					| ({ __typename?: 'Bot' } & Pick<
+																							Bot,
+																							'avatarUrl' | 'login' | 'url'
+																					  >)
+																					| ({
+																							__typename?: 'EnterpriseUserAccount';
+																					  } & Pick<
+																							EnterpriseUserAccount,
+																							'avatarUrl' | 'login' | 'url'
+																					  >)
+																					| ({ __typename?: 'Mannequin' } & Pick<
+																							Mannequin,
+																							'avatarUrl' | 'login' | 'url'
+																					  >)
+																					| ({
+																							__typename?: 'Organization';
+																					  } & Pick<
+																							Organization,
+																							'avatarUrl' | 'login' | 'url'
+																					  >)
+																					| ({ __typename?: 'User' } & Pick<
+																							User,
+																							'avatarUrl' | 'login' | 'url'
+																					  >)
+																				>;
+																				reactions: {
+																					__typename?: 'ReactionConnection';
+																				} & Pick<
+																					ReactionConnection,
+																					'totalCount'
+																				> & {
+																						pageInfo: {
+																							__typename?: 'PageInfo';
+																						} & GitHubPageInfoPartialFragment;
+																						nodes?: Maybe<
+																							Array<
+																								Maybe<
+																									{ __typename?: 'Reaction' } & Pick<
+																										Reaction,
+																										'content' | 'createdAt'
+																									> & {
+																											user?: Maybe<
+																												{ __typename?: 'User' } & Pick<
+																													User,
+																													| 'login'
+																													| 'avatarUrl'
+																													| 'twitterUsername'
+																													| 'url'
+																												>
+																											>;
+																										}
+																								>
+																							>
+																						>;
+																					};
+																			}
+																	>
+																>
+															>;
+														};
+												}
+										>
+									>
+								>;
+							};
+					} & RepoPartialFragment
+				>;
+			}
+	>;
+};
+
 export type GetRepoByNameQueryVariables = Exact<{
 	login: Scalars['String'];
 	name: Scalars['String'];
@@ -20600,6 +20994,310 @@ export type GetRepoByNameQuery = {
 	>;
 };
 
+export type GetOrgRepoWithDetailsQueryVariables = Exact<{
+	login: Scalars['String'];
+	name: Scalars['String'];
+}>;
+
+export type GetOrgRepoWithDetailsQuery = {
+	__typename?: 'Query';
+} & {
+	organization?: Maybe<
+		{ __typename?: 'Organization' } & Pick<
+			Organization,
+			'id' | 'login' | 'avatarUrl'
+		> & {
+				repository?: Maybe<
+					{ __typename?: 'Repository' } & {
+						commitComments: {
+							__typename?: 'CommitCommentConnection';
+						} & {
+							pageInfo: {
+								__typename?: 'PageInfo';
+							} & GitHubPageInfoPartialFragment;
+							nodes?: Maybe<
+								Array<
+									Maybe<
+										{ __typename?: 'CommitComment' } & Pick<
+											CommitComment,
+											| 'body'
+											| 'bodyText'
+											| 'bodyHTML'
+											| 'id'
+											| 'authorAssociation'
+											| 'createdAt'
+										> & {
+												author?: Maybe<
+													| ({ __typename?: 'Bot' } & Pick<
+															Bot,
+															'login' | 'avatarUrl' | 'url'
+													  >)
+													| ({
+															__typename?: 'EnterpriseUserAccount';
+													  } & Pick<
+															EnterpriseUserAccount,
+															'login' | 'avatarUrl' | 'url'
+													  >)
+													| ({ __typename?: 'Mannequin' } & Pick<
+															Mannequin,
+															'login' | 'avatarUrl' | 'url'
+													  >)
+													| ({ __typename?: 'Organization' } & Pick<
+															Organization,
+															'login' | 'avatarUrl' | 'url'
+													  >)
+													| ({ __typename?: 'User' } & Pick<
+															User,
+															'login' | 'avatarUrl' | 'url'
+													  >)
+												>;
+											}
+									>
+								>
+							>;
+						};
+						issues: { __typename?: 'IssueConnection' } & Pick<
+							IssueConnection,
+							'totalCount'
+						> & {
+								pageInfo: {
+									__typename?: 'PageInfo';
+								} & GitHubPageInfoPartialFragment;
+								nodes?: Maybe<
+									Array<
+										Maybe<
+											{ __typename?: 'Issue' } & Pick<
+												Issue,
+												| 'id'
+												| 'url'
+												| 'bodyUrl'
+												| 'number'
+												| 'title'
+												| 'body'
+												| 'bodyText'
+												| 'state'
+												| 'bodyHTML'
+												| 'createdAt'
+												| 'updatedAt'
+											> & {
+													author?: Maybe<
+														| ({ __typename?: 'Bot' } & Pick<
+																Bot,
+																'url' | 'login' | 'avatarUrl'
+														  >)
+														| ({
+																__typename?: 'EnterpriseUserAccount';
+														  } & Pick<
+																EnterpriseUserAccount,
+																'url' | 'login' | 'avatarUrl'
+														  >)
+														| ({ __typename?: 'Mannequin' } & Pick<
+																Mannequin,
+																'url' | 'login' | 'avatarUrl'
+														  >)
+														| ({ __typename?: 'Organization' } & Pick<
+																Organization,
+																'url' | 'login' | 'avatarUrl'
+														  >)
+														| ({ __typename?: 'User' } & Pick<
+																User,
+																'url' | 'login' | 'avatarUrl'
+														  >)
+													>;
+													reactions: {
+														__typename?: 'ReactionConnection';
+													} & Pick<ReactionConnection, 'totalCount'> & {
+															pageInfo: {
+																__typename?: 'PageInfo';
+															} & GitHubPageInfoPartialFragment;
+															nodes?: Maybe<
+																Array<
+																	Maybe<
+																		{ __typename?: 'Reaction' } & Pick<
+																			Reaction,
+																			'content'
+																		>
+																	>
+																>
+															>;
+														};
+													comments: {
+														__typename?: 'IssueCommentConnection';
+													} & Pick<
+														IssueCommentConnection,
+														'totalCount'
+													> & {
+															pageInfo: {
+																__typename?: 'PageInfo';
+															} & GitHubPageInfoPartialFragment;
+															nodes?: Maybe<
+																Array<
+																	Maybe<
+																		{ __typename?: 'IssueComment' } & Pick<
+																			IssueComment,
+																			'bodyText' | 'createdAt' | 'updatedAt'
+																		> & {
+																				author?: Maybe<
+																					| ({ __typename?: 'Bot' } & Pick<
+																							Bot,
+																							'avatarUrl' | 'login' | 'url'
+																					  >)
+																					| ({
+																							__typename?: 'EnterpriseUserAccount';
+																					  } & Pick<
+																							EnterpriseUserAccount,
+																							'avatarUrl' | 'login' | 'url'
+																					  >)
+																					| ({ __typename?: 'Mannequin' } & Pick<
+																							Mannequin,
+																							'avatarUrl' | 'login' | 'url'
+																					  >)
+																					| ({
+																							__typename?: 'Organization';
+																					  } & Pick<
+																							Organization,
+																							'avatarUrl' | 'login' | 'url'
+																					  >)
+																					| ({ __typename?: 'User' } & Pick<
+																							User,
+																							'avatarUrl' | 'login' | 'url'
+																					  >)
+																				>;
+																				reactions: {
+																					__typename?: 'ReactionConnection';
+																				} & Pick<
+																					ReactionConnection,
+																					'totalCount'
+																				> & {
+																						pageInfo: {
+																							__typename?: 'PageInfo';
+																						} & GitHubPageInfoPartialFragment;
+																						nodes?: Maybe<
+																							Array<
+																								Maybe<
+																									{ __typename?: 'Reaction' } & Pick<
+																										Reaction,
+																										'content' | 'createdAt'
+																									> & {
+																											user?: Maybe<
+																												{ __typename?: 'User' } & Pick<
+																													User,
+																													| 'login'
+																													| 'avatarUrl'
+																													| 'twitterUsername'
+																													| 'url'
+																												>
+																											>;
+																										}
+																								>
+																							>
+																						>;
+																					};
+																			}
+																	>
+																>
+															>;
+														};
+												}
+										>
+									>
+								>;
+							};
+					} & RepoPartialFragment
+				>;
+			}
+	>;
+};
+
+export type GetReposWithDetailsQueryVariables = Exact<{
+	login: Scalars['String'];
+}>;
+
+export type GetReposWithDetailsQuery = {
+	__typename?: 'Query';
+} & {
+	user?: Maybe<
+		{ __typename?: 'User' } & Pick<
+			User,
+			'id' | 'bio' | 'twitterUsername' | 'login' | 'avatarUrl'
+		> & {
+				repositories: {
+					__typename?: 'RepositoryConnection';
+				} & Pick<RepositoryConnection, 'totalCount'> & {
+						pageInfo: {
+							__typename?: 'PageInfo';
+						} & GitHubPageInfoPartialFragment;
+						edges?: Maybe<
+							Array<
+								Maybe<
+									{ __typename?: 'RepositoryEdge' } & Pick<
+										RepositoryEdge,
+										'cursor'
+									> & {
+											node?: Maybe<
+												{ __typename?: 'Repository' } & {
+													commitComments: {
+														__typename?: 'CommitCommentConnection';
+													} & Pick<
+														CommitCommentConnection,
+														'totalCount'
+													> & {
+															pageInfo: {
+																__typename?: 'PageInfo';
+															} & GitHubPageInfoPartialFragment;
+															nodes?: Maybe<
+																Array<
+																	Maybe<
+																		{ __typename?: 'CommitComment' } & Pick<
+																			CommitComment,
+																			| 'body'
+																			| 'bodyText'
+																			| 'bodyHTML'
+																			| 'id'
+																			| 'createdAt'
+																		> & {
+																				author?: Maybe<
+																					| ({ __typename?: 'Bot' } & Pick<
+																							Bot,
+																							'login' | 'avatarUrl' | 'url'
+																					  >)
+																					| ({
+																							__typename?: 'EnterpriseUserAccount';
+																					  } & Pick<
+																							EnterpriseUserAccount,
+																							'login' | 'avatarUrl' | 'url'
+																					  >)
+																					| ({ __typename?: 'Mannequin' } & Pick<
+																							Mannequin,
+																							'login' | 'avatarUrl' | 'url'
+																					  >)
+																					| ({
+																							__typename?: 'Organization';
+																					  } & Pick<
+																							Organization,
+																							'login' | 'avatarUrl' | 'url'
+																					  >)
+																					| ({ __typename?: 'User' } & Pick<
+																							User,
+																							'login' | 'avatarUrl' | 'url'
+																					  >)
+																				>;
+																			}
+																	>
+																>
+															>;
+														};
+												} & RepoPartialFragment
+											>;
+										}
+								>
+							>
+						>;
+					};
+			}
+	>;
+};
+
 export type GetViewerQueryVariables = Exact<{
 	[key: string]: never;
 }>;
@@ -20611,14 +21309,154 @@ export type GetViewerQuery = { __typename?: 'Query' } & {
 	>;
 };
 
-export type GetIssuesMinimalPaginationQueryVariables =
+export type GetIssuesFullQueryVariables = Exact<{
+	login: Scalars['String'];
+	after?: Maybe<Scalars['String']>;
+	commentCount?: Maybe<Scalars['Int']>;
+}>;
+
+export type GetIssuesFullQuery = {
+	__typename?: 'Query';
+} & {
+	user?: Maybe<
+		{ __typename?: 'User' } & Pick<User, 'id'> & {
+				issues: { __typename?: 'IssueConnection' } & Pick<
+					IssueConnection,
+					'totalCount'
+				> & {
+						pageInfo: {
+							__typename?: 'PageInfo';
+						} & GitHubPageInfoPartialFragment;
+						nodes?: Maybe<
+							Array<
+								Maybe<
+									{ __typename?: 'Issue' } & Pick<
+										Issue,
+										| 'id'
+										| 'url'
+										| 'state'
+										| 'number'
+										| 'title'
+										| 'bodyHTML'
+										| 'updatedAt'
+										| 'viewerDidAuthor'
+									> & {
+											author?: Maybe<
+												| ({ __typename?: 'Bot' } & Pick<
+														Bot,
+														'avatarUrl' | 'login'
+												  >)
+												| ({
+														__typename?: 'EnterpriseUserAccount';
+												  } & Pick<
+														EnterpriseUserAccount,
+														'avatarUrl' | 'login'
+												  >)
+												| ({ __typename?: 'Mannequin' } & Pick<
+														Mannequin,
+														'avatarUrl' | 'login'
+												  >)
+												| ({ __typename?: 'Organization' } & Pick<
+														Organization,
+														'avatarUrl' | 'login'
+												  >)
+												| ({ __typename?: 'User' } & Pick<
+														User,
+														'avatarUrl' | 'login'
+												  >)
+											>;
+											repository: { __typename?: 'Repository' } & Pick<
+												Repository,
+												'nameWithOwner' | 'url'
+											>;
+											reactions: {
+												__typename?: 'ReactionConnection';
+											} & {
+												nodes?: Maybe<
+													Array<
+														Maybe<
+															{ __typename?: 'Reaction' } & Pick<
+																Reaction,
+																'content'
+															> & {
+																	user?: Maybe<
+																		{ __typename?: 'User' } & Pick<
+																			User,
+																			'avatarUrl' | 'login'
+																		>
+																	>;
+																}
+														>
+													>
+												>;
+											};
+											participants: {
+												__typename?: 'UserConnection';
+											} & Pick<UserConnection, 'totalCount'>;
+											comments: {
+												__typename?: 'IssueCommentConnection';
+											} & Pick<
+												IssueCommentConnection,
+												'totalCount'
+											> & {
+													pageInfo: {
+														__typename?: 'PageInfo';
+													} & GitHubPageInfoPartialFragment;
+													nodes?: Maybe<
+														Array<
+															Maybe<
+																{ __typename?: 'IssueComment' } & Pick<
+																	IssueComment,
+																	'id' | 'updatedAt' | 'bodyHTML'
+																> & {
+																		author?: Maybe<
+																			| ({ __typename?: 'Bot' } & Pick<
+																					Bot,
+																					'avatarUrl' | 'login'
+																			  >)
+																			| ({
+																					__typename?: 'EnterpriseUserAccount';
+																			  } & Pick<
+																					EnterpriseUserAccount,
+																					'avatarUrl' | 'login'
+																			  >)
+																			| ({ __typename?: 'Mannequin' } & Pick<
+																					Mannequin,
+																					'avatarUrl' | 'login'
+																			  >)
+																			| ({
+																					__typename?: 'Organization';
+																			  } & Pick<
+																					Organization,
+																					'avatarUrl' | 'login'
+																			  >)
+																			| ({ __typename?: 'User' } & Pick<
+																					User,
+																					'avatarUrl' | 'login'
+																			  >)
+																		>;
+																	}
+															>
+														>
+													>;
+												};
+										}
+								>
+							>
+						>;
+					};
+			}
+	>;
+};
+
+export type GetIssuesMinimalWithPaginationQueryVariables =
 	Exact<{
 		login: Scalars['String'];
 		before?: Maybe<Scalars['String']>;
 		after?: Maybe<Scalars['String']>;
 	}>;
 
-export type GetIssuesMinimalPaginationQuery = {
+export type GetIssuesMinimalWithPaginationQuery = {
 	__typename?: 'Query';
 } & {
 	user?: Maybe<
@@ -20633,6 +21471,50 @@ export type GetIssuesMinimalPaginationQuery = {
 						pageInfo: {
 							__typename?: 'PageInfo';
 						} & GitHubPageInfoPartialFragment;
+						nodes?: Maybe<
+							Array<
+								Maybe<
+									{ __typename?: 'Issue' } & Pick<
+										Issue,
+										| 'id'
+										| 'url'
+										| 'number'
+										| 'title'
+										| 'bodyHTML'
+										| 'updatedAt'
+									> & {
+											author?: Maybe<
+												| ({ __typename?: 'Bot' } & Pick<
+														Bot,
+														'avatarUrl' | 'login'
+												  >)
+												| ({
+														__typename?: 'EnterpriseUserAccount';
+												  } & Pick<
+														EnterpriseUserAccount,
+														'avatarUrl' | 'login'
+												  >)
+												| ({ __typename?: 'Mannequin' } & Pick<
+														Mannequin,
+														'avatarUrl' | 'login'
+												  >)
+												| ({ __typename?: 'Organization' } & Pick<
+														Organization,
+														'avatarUrl' | 'login'
+												  >)
+												| ({ __typename?: 'User' } & Pick<
+														User,
+														'avatarUrl' | 'login'
+												  >)
+											>;
+											repository: { __typename?: 'Repository' } & Pick<
+												Repository,
+												'nameWithOwner' | 'url'
+											>;
+										}
+								>
+							>
+						>;
 					};
 			}
 	>;
@@ -20664,6 +21546,7 @@ export type GetIssuesMinimalQuery = {
 										| 'bodyUrl'
 										| 'number'
 										| 'title'
+										| 'body'
 										| 'bodyText'
 										| 'bodyHTML'
 										| 'updatedAt'
@@ -21006,6 +21889,38 @@ export const GitHubPinnedIssuePartialFragmentDoc = gql`
 	}
 	${GitHubIssuePartialFragmentDoc}
 `;
+export const RepoPartialFragmentDoc = gql`
+	fragment RepoPartial on Repository {
+		name
+		stargazerCount
+		forkCount
+		id
+		url
+		owner {
+			id
+			login
+		}
+		nameWithOwner
+		description
+		name
+		createdAt
+		updatedAt
+		homepageUrl
+		stargazerCount
+		forkCount
+		openGraphImageUrl
+		isArchived
+		isInOrganization
+		primaryLanguage {
+			name
+			color
+			id
+		}
+		isFork
+		isPrivate
+		isArchived
+	}
+`;
 export const GitHubRepoOwnerPartialFragmentDoc = gql`
 	fragment GitHubRepoOwnerPartial on RepositoryOwner {
 		avatarUrl(size: 12)
@@ -21109,6 +22024,177 @@ export const GitHubSearchResultItemConnectionPartialFragmentDoc = gql`
 	${GitHubPageInfoPartialFragmentDoc}
 	${GitHubRepositoryPartialFragmentDoc}
 `;
+export const AddCommentDocument = gql`
+	mutation AddComment($issueId: ID!, $body: String!) {
+		addComment(input: { subjectId: $issueId, body: $body }) {
+			commentEdge {
+				cursor
+				node {
+					id
+					bodyHTML
+					updatedAt
+					author {
+						login
+						avatarUrl
+					}
+				}
+			}
+		}
+	}
+`;
+export type AddCommentMutationFn = Apollo.MutationFunction<
+	AddCommentMutation,
+	AddCommentMutationVariables
+>;
+
+/**
+ * __useAddCommentMutation__
+ *
+ * To run a mutation, you first call `useAddCommentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddCommentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addCommentMutation, { data, loading, error }] = useAddCommentMutation({
+ *   variables: {
+ *      issueId: // value for 'issueId'
+ *      body: // value for 'body'
+ *   },
+ * });
+ */
+export function useAddCommentMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		AddCommentMutation,
+		AddCommentMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		AddCommentMutation,
+		AddCommentMutationVariables
+	>(AddCommentDocument, options);
+}
+export type AddCommentMutationHookResult = ReturnType<
+	typeof useAddCommentMutation
+>;
+export type AddCommentMutationResult =
+	Apollo.MutationResult<AddCommentMutation>;
+export type AddCommentMutationOptions =
+	Apollo.BaseMutationOptions<
+		AddCommentMutation,
+		AddCommentMutationVariables
+	>;
+export const CloseIssueDocument = gql`
+	mutation CloseIssue($issueId: ID!) {
+		closeIssue(input: { issueId: $issueId }) {
+			issue {
+				id
+				state
+			}
+		}
+	}
+`;
+export type CloseIssueMutationFn = Apollo.MutationFunction<
+	CloseIssueMutation,
+	CloseIssueMutationVariables
+>;
+
+/**
+ * __useCloseIssueMutation__
+ *
+ * To run a mutation, you first call `useCloseIssueMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCloseIssueMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [closeIssueMutation, { data, loading, error }] = useCloseIssueMutation({
+ *   variables: {
+ *      issueId: // value for 'issueId'
+ *   },
+ * });
+ */
+export function useCloseIssueMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		CloseIssueMutation,
+		CloseIssueMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		CloseIssueMutation,
+		CloseIssueMutationVariables
+	>(CloseIssueDocument, options);
+}
+export type CloseIssueMutationHookResult = ReturnType<
+	typeof useCloseIssueMutation
+>;
+export type CloseIssueMutationResult =
+	Apollo.MutationResult<CloseIssueMutation>;
+export type CloseIssueMutationOptions =
+	Apollo.BaseMutationOptions<
+		CloseIssueMutation,
+		CloseIssueMutationVariables
+	>;
+export const ReopenIssueDocument = gql`
+	mutation ReopenIssue($issueId: ID!) {
+		reopenIssue(input: { issueId: $issueId }) {
+			issue {
+				id
+				state
+			}
+		}
+	}
+`;
+export type ReopenIssueMutationFn = Apollo.MutationFunction<
+	ReopenIssueMutation,
+	ReopenIssueMutationVariables
+>;
+
+/**
+ * __useReopenIssueMutation__
+ *
+ * To run a mutation, you first call `useReopenIssueMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useReopenIssueMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [reopenIssueMutation, { data, loading, error }] = useReopenIssueMutation({
+ *   variables: {
+ *      issueId: // value for 'issueId'
+ *   },
+ * });
+ */
+export function useReopenIssueMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		ReopenIssueMutation,
+		ReopenIssueMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useMutation<
+		ReopenIssueMutation,
+		ReopenIssueMutationVariables
+	>(ReopenIssueDocument, options);
+}
+export type ReopenIssueMutationHookResult = ReturnType<
+	typeof useReopenIssueMutation
+>;
+export type ReopenIssueMutationResult =
+	Apollo.MutationResult<ReopenIssueMutation>;
+export type ReopenIssueMutationOptions =
+	Apollo.BaseMutationOptions<
+		ReopenIssueMutation,
+		ReopenIssueMutationVariables
+	>;
 export const UpdateDescriptionDocument = gql`
 	mutation updateDescription(
 		$repositoryId: ID!
@@ -21251,7 +22337,7 @@ export const ViewerReposDocument = gql`
 		viewer {
 			avatarUrl(size: 250)
 			repositories(
-				first: 30
+				first: 100
 				orderBy: { field: UPDATED_AT, direction: DESC }
 			) {
 				totalCount
@@ -21332,6 +22418,252 @@ export type ViewerReposQueryResult = Apollo.QueryResult<
 	ViewerReposQuery,
 	ViewerReposQueryVariables
 >;
+export const GetCommentsDocument = gql`
+	query GetComments(
+		$owner: String!
+		$name: String!
+		$number: Int!
+		$after: String
+		$first: Int = 7
+	) {
+		repository(owner: $owner, name: $name) {
+			issue(number: $number) {
+				comments(first: $first, after: $after) {
+					totalCount
+					pageInfo {
+						...GitHubPageInfoPartial
+					}
+					nodes {
+						id
+						author {
+							avatarUrl
+							login
+						}
+						updatedAt
+						bodyHTML
+					}
+				}
+			}
+		}
+	}
+	${GitHubPageInfoPartialFragmentDoc}
+`;
+
+/**
+ * __useGetCommentsQuery__
+ *
+ * To run a query within a React component, call `useGetCommentsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCommentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCommentsQuery({
+ *   variables: {
+ *      owner: // value for 'owner'
+ *      name: // value for 'name'
+ *      number: // value for 'number'
+ *      after: // value for 'after'
+ *      first: // value for 'first'
+ *   },
+ * });
+ */
+export function useGetCommentsQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		GetCommentsQuery,
+		GetCommentsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<
+		GetCommentsQuery,
+		GetCommentsQueryVariables
+	>(GetCommentsDocument, options);
+}
+export function useGetCommentsLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		GetCommentsQuery,
+		GetCommentsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<
+		GetCommentsQuery,
+		GetCommentsQueryVariables
+	>(GetCommentsDocument, options);
+}
+export type GetCommentsQueryHookResult = ReturnType<
+	typeof useGetCommentsQuery
+>;
+export type GetCommentsLazyQueryHookResult = ReturnType<
+	typeof useGetCommentsLazyQuery
+>;
+export type GetCommentsQueryResult = Apollo.QueryResult<
+	GetCommentsQuery,
+	GetCommentsQueryVariables
+>;
+export const GetFineDetailsByRepoDocument = gql`
+	query GetFineDetailsByRepo(
+		$login: String!
+		$name: String!
+	) {
+		user(login: $login) {
+			id
+			bio
+			twitterUsername
+			login
+			avatarUrl(size: 250)
+			repository(name: $name) {
+				...RepoPartial
+				commitComments(last: 1) {
+					pageInfo {
+						...GitHubPageInfoPartial
+					}
+					nodes {
+						body
+						bodyText
+						bodyHTML
+						id
+						authorAssociation
+						bodyText
+						createdAt
+						author {
+							login
+							avatarUrl(size: 250)
+							url
+						}
+					}
+				}
+				issues(
+					first: 10
+					states: [OPEN]
+					orderBy: { field: UPDATED_AT, direction: DESC }
+				) {
+					totalCount
+					pageInfo {
+						...GitHubPageInfoPartial
+					}
+					nodes {
+						id
+						url
+						bodyUrl
+						number
+						title
+						body
+						bodyText
+						state
+						bodyHTML
+						createdAt
+						updatedAt
+						author {
+							url
+							login
+							avatarUrl(size: 250)
+						}
+						reactions(first: 10) {
+							totalCount
+							pageInfo {
+								...GitHubPageInfoPartial
+							}
+							nodes {
+								content
+							}
+						}
+						comments(
+							first: 10
+							orderBy: { field: UPDATED_AT, direction: DESC }
+						) {
+							totalCount
+							pageInfo {
+								...GitHubPageInfoPartial
+							}
+							nodes {
+								bodyText
+								author {
+									avatarUrl(size: 250)
+									login
+									url
+								}
+								createdAt
+								updatedAt
+								reactions(first: 10) {
+									totalCount
+									pageInfo {
+										...GitHubPageInfoPartial
+									}
+									nodes {
+										content
+										createdAt
+										user {
+											login
+											avatarUrl(size: 250)
+											twitterUsername
+											url
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	${RepoPartialFragmentDoc}
+	${GitHubPageInfoPartialFragmentDoc}
+`;
+
+/**
+ * __useGetFineDetailsByRepoQuery__
+ *
+ * To run a query within a React component, call `useGetFineDetailsByRepoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFineDetailsByRepoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFineDetailsByRepoQuery({
+ *   variables: {
+ *      login: // value for 'login'
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useGetFineDetailsByRepoQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		GetFineDetailsByRepoQuery,
+		GetFineDetailsByRepoQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<
+		GetFineDetailsByRepoQuery,
+		GetFineDetailsByRepoQueryVariables
+	>(GetFineDetailsByRepoDocument, options);
+}
+export function useGetFineDetailsByRepoLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		GetFineDetailsByRepoQuery,
+		GetFineDetailsByRepoQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<
+		GetFineDetailsByRepoQuery,
+		GetFineDetailsByRepoQueryVariables
+	>(GetFineDetailsByRepoDocument, options);
+}
+export type GetFineDetailsByRepoQueryHookResult =
+	ReturnType<typeof useGetFineDetailsByRepoQuery>;
+export type GetFineDetailsByRepoLazyQueryHookResult =
+	ReturnType<typeof useGetFineDetailsByRepoLazyQuery>;
+export type GetFineDetailsByRepoQueryResult =
+	Apollo.QueryResult<
+		GetFineDetailsByRepoQuery,
+		GetFineDetailsByRepoQueryVariables
+	>;
 export const GetRepoByNameDocument = gql`
 	query getRepoByName($login: String!, $name: String!) {
 		user(login: $login) {
@@ -21431,12 +22763,269 @@ export type GetRepoByNameQueryResult = Apollo.QueryResult<
 	GetRepoByNameQuery,
 	GetRepoByNameQueryVariables
 >;
+export const GetOrgRepoWithDetailsDocument = gql`
+	query getOrgRepoWithDetails(
+		$login: String!
+		$name: String!
+	) {
+		organization(login: $login) {
+			id
+			login
+			avatarUrl(size: 250)
+			repository(name: $name) {
+				...RepoPartial
+				commitComments(last: 1) {
+					pageInfo {
+						...GitHubPageInfoPartial
+					}
+					nodes {
+						body
+						bodyText
+						bodyHTML
+						id
+						authorAssociation
+						bodyText
+						createdAt
+						author {
+							login
+							avatarUrl(size: 250)
+							url
+						}
+					}
+				}
+				issues(
+					first: 10
+					states: [OPEN]
+					orderBy: { field: UPDATED_AT, direction: DESC }
+				) {
+					totalCount
+					pageInfo {
+						...GitHubPageInfoPartial
+					}
+					nodes {
+						id
+						url
+						bodyUrl
+						number
+						title
+						body
+						bodyText
+						state
+						bodyHTML
+						createdAt
+						updatedAt
+						author {
+							url
+							login
+							avatarUrl(size: 250)
+						}
+						reactions(first: 10) {
+							totalCount
+							pageInfo {
+								...GitHubPageInfoPartial
+							}
+							nodes {
+								content
+							}
+						}
+						comments(
+							first: 10
+							orderBy: { field: UPDATED_AT, direction: DESC }
+						) {
+							totalCount
+							pageInfo {
+								...GitHubPageInfoPartial
+							}
+							nodes {
+								bodyText
+								author {
+									avatarUrl(size: 250)
+									login
+									url
+								}
+								createdAt
+								updatedAt
+								reactions(first: 10) {
+									totalCount
+									pageInfo {
+										...GitHubPageInfoPartial
+									}
+									nodes {
+										content
+										createdAt
+										user {
+											login
+											avatarUrl(size: 250)
+											twitterUsername
+											url
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	${RepoPartialFragmentDoc}
+	${GitHubPageInfoPartialFragmentDoc}
+`;
+
+/**
+ * __useGetOrgRepoWithDetailsQuery__
+ *
+ * To run a query within a React component, call `useGetOrgRepoWithDetailsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetOrgRepoWithDetailsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetOrgRepoWithDetailsQuery({
+ *   variables: {
+ *      login: // value for 'login'
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useGetOrgRepoWithDetailsQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		GetOrgRepoWithDetailsQuery,
+		GetOrgRepoWithDetailsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<
+		GetOrgRepoWithDetailsQuery,
+		GetOrgRepoWithDetailsQueryVariables
+	>(GetOrgRepoWithDetailsDocument, options);
+}
+export function useGetOrgRepoWithDetailsLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		GetOrgRepoWithDetailsQuery,
+		GetOrgRepoWithDetailsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<
+		GetOrgRepoWithDetailsQuery,
+		GetOrgRepoWithDetailsQueryVariables
+	>(GetOrgRepoWithDetailsDocument, options);
+}
+export type GetOrgRepoWithDetailsQueryHookResult =
+	ReturnType<typeof useGetOrgRepoWithDetailsQuery>;
+export type GetOrgRepoWithDetailsLazyQueryHookResult =
+	ReturnType<typeof useGetOrgRepoWithDetailsLazyQuery>;
+export type GetOrgRepoWithDetailsQueryResult =
+	Apollo.QueryResult<
+		GetOrgRepoWithDetailsQuery,
+		GetOrgRepoWithDetailsQueryVariables
+	>;
+export const GetReposWithDetailsDocument = gql`
+	query getReposWithDetails($login: String!) {
+		user(login: $login) {
+			id
+			bio
+			twitterUsername
+			login
+			avatarUrl(size: 250)
+			repositories(
+				first: 100
+				orderBy: { field: UPDATED_AT, direction: DESC }
+			) {
+				totalCount
+				pageInfo {
+					...GitHubPageInfoPartial
+				}
+				edges {
+					cursor
+					node {
+						...RepoPartial
+						commitComments(first: 10) {
+							totalCount
+							pageInfo {
+								...GitHubPageInfoPartial
+							}
+							nodes {
+								body
+								bodyText
+								bodyHTML
+								id
+								bodyText
+								createdAt
+								author {
+									login
+									avatarUrl(size: 250)
+									url
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	${GitHubPageInfoPartialFragmentDoc}
+	${RepoPartialFragmentDoc}
+`;
+
+/**
+ * __useGetReposWithDetailsQuery__
+ *
+ * To run a query within a React component, call `useGetReposWithDetailsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetReposWithDetailsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetReposWithDetailsQuery({
+ *   variables: {
+ *      login: // value for 'login'
+ *   },
+ * });
+ */
+export function useGetReposWithDetailsQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		GetReposWithDetailsQuery,
+		GetReposWithDetailsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<
+		GetReposWithDetailsQuery,
+		GetReposWithDetailsQueryVariables
+	>(GetReposWithDetailsDocument, options);
+}
+export function useGetReposWithDetailsLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		GetReposWithDetailsQuery,
+		GetReposWithDetailsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<
+		GetReposWithDetailsQuery,
+		GetReposWithDetailsQueryVariables
+	>(GetReposWithDetailsDocument, options);
+}
+export type GetReposWithDetailsQueryHookResult = ReturnType<
+	typeof useGetReposWithDetailsQuery
+>;
+export type GetReposWithDetailsLazyQueryHookResult =
+	ReturnType<typeof useGetReposWithDetailsLazyQuery>;
+export type GetReposWithDetailsQueryResult =
+	Apollo.QueryResult<
+		GetReposWithDetailsQuery,
+		GetReposWithDetailsQueryVariables
+	>;
 export const GetViewerDocument = gql`
 	query GetViewer {
 		viewer {
 			login
 			name
-			avatarUrl(size: 64)
+			avatarUrl(size: 250)
 		}
 	}
 `;
@@ -21490,27 +23079,69 @@ export type GetViewerQueryResult = Apollo.QueryResult<
 	GetViewerQuery,
 	GetViewerQueryVariables
 >;
-export const GetIssuesMinimalPaginationDocument = gql`
-	query GetIssuesMinimalPagination(
+export const GetIssuesFullDocument = gql`
+	query GetIssuesFull(
 		$login: String!
-		$before: String
 		$after: String
+		$commentCount: Int = 10
 	) {
 		user(login: $login) {
 			id
-			login
-			avatarUrl(size: 64)
 			issues(
-				first: 10
-				before: $before
 				after: $after
-				states: [OPEN]
+				first: 10
 				orderBy: { field: UPDATED_AT, direction: DESC }
+				states: [OPEN]
 			) {
+				totalCount
 				pageInfo {
 					...GitHubPageInfoPartial
 				}
-				totalCount
+				nodes {
+					id
+					url
+					state
+					author {
+						avatarUrl(size: 250)
+						login
+					}
+					repository {
+						nameWithOwner
+						url
+					}
+					number
+					title
+					bodyHTML
+					updatedAt
+					viewerDidAuthor
+					reactions(first: 10) {
+						nodes {
+							user {
+								avatarUrl(size: 250)
+								login
+							}
+							content
+						}
+					}
+					participants(first: 0) {
+						totalCount
+					}
+					comments(first: $commentCount) {
+						totalCount
+						pageInfo {
+							...GitHubPageInfoPartial
+						}
+						nodes {
+							id
+							author {
+								avatarUrl(size: 250)
+								login
+							}
+							updatedAt
+							bodyHTML
+						}
+					}
+				}
 			}
 		}
 	}
@@ -21518,16 +23149,111 @@ export const GetIssuesMinimalPaginationDocument = gql`
 `;
 
 /**
- * __useGetIssuesMinimalPaginationQuery__
+ * __useGetIssuesFullQuery__
  *
- * To run a query within a React component, call `useGetIssuesMinimalPaginationQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetIssuesMinimalPaginationQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetIssuesFullQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetIssuesFullQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetIssuesMinimalPaginationQuery({
+ * const { data, loading, error } = useGetIssuesFullQuery({
+ *   variables: {
+ *      login: // value for 'login'
+ *      after: // value for 'after'
+ *      commentCount: // value for 'commentCount'
+ *   },
+ * });
+ */
+export function useGetIssuesFullQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		GetIssuesFullQuery,
+		GetIssuesFullQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<
+		GetIssuesFullQuery,
+		GetIssuesFullQueryVariables
+	>(GetIssuesFullDocument, options);
+}
+export function useGetIssuesFullLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		GetIssuesFullQuery,
+		GetIssuesFullQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<
+		GetIssuesFullQuery,
+		GetIssuesFullQueryVariables
+	>(GetIssuesFullDocument, options);
+}
+export type GetIssuesFullQueryHookResult = ReturnType<
+	typeof useGetIssuesFullQuery
+>;
+export type GetIssuesFullLazyQueryHookResult = ReturnType<
+	typeof useGetIssuesFullLazyQuery
+>;
+export type GetIssuesFullQueryResult = Apollo.QueryResult<
+	GetIssuesFullQuery,
+	GetIssuesFullQueryVariables
+>;
+export const GetIssuesMinimalWithPaginationDocument = gql`
+	query GetIssuesMinimalWithPagination(
+		$login: String!
+		$before: String
+		$after: String
+	) {
+		user(login: $login) {
+			id
+			login
+			avatarUrl(size: 250)
+			issues(
+				first: 10
+				before: $before
+				after: $after
+				orderBy: { field: UPDATED_AT, direction: DESC }
+				states: [OPEN]
+			) {
+				pageInfo {
+					...GitHubPageInfoPartial
+				}
+				totalCount
+				nodes {
+					id
+					url
+					number
+					author {
+						avatarUrl(size: 250)
+						login
+					}
+					repository {
+						nameWithOwner
+						url
+					}
+					title
+					bodyHTML
+					updatedAt
+				}
+			}
+		}
+	}
+	${GitHubPageInfoPartialFragmentDoc}
+`;
+
+/**
+ * __useGetIssuesMinimalWithPaginationQuery__
+ *
+ * To run a query within a React component, call `useGetIssuesMinimalWithPaginationQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetIssuesMinimalWithPaginationQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetIssuesMinimalWithPaginationQuery({
  *   variables: {
  *      login: // value for 'login'
  *      before: // value for 'before'
@@ -21535,38 +23261,40 @@ export const GetIssuesMinimalPaginationDocument = gql`
  *   },
  * });
  */
-export function useGetIssuesMinimalPaginationQuery(
+export function useGetIssuesMinimalWithPaginationQuery(
 	baseOptions: Apollo.QueryHookOptions<
-		GetIssuesMinimalPaginationQuery,
-		GetIssuesMinimalPaginationQueryVariables
+		GetIssuesMinimalWithPaginationQuery,
+		GetIssuesMinimalWithPaginationQueryVariables
 	>
 ) {
 	const options = { ...defaultOptions, ...baseOptions };
 	return Apollo.useQuery<
-		GetIssuesMinimalPaginationQuery,
-		GetIssuesMinimalPaginationQueryVariables
-	>(GetIssuesMinimalPaginationDocument, options);
+		GetIssuesMinimalWithPaginationQuery,
+		GetIssuesMinimalWithPaginationQueryVariables
+	>(GetIssuesMinimalWithPaginationDocument, options);
 }
-export function useGetIssuesMinimalPaginationLazyQuery(
+export function useGetIssuesMinimalWithPaginationLazyQuery(
 	baseOptions?: Apollo.LazyQueryHookOptions<
-		GetIssuesMinimalPaginationQuery,
-		GetIssuesMinimalPaginationQueryVariables
+		GetIssuesMinimalWithPaginationQuery,
+		GetIssuesMinimalWithPaginationQueryVariables
 	>
 ) {
 	const options = { ...defaultOptions, ...baseOptions };
 	return Apollo.useLazyQuery<
-		GetIssuesMinimalPaginationQuery,
-		GetIssuesMinimalPaginationQueryVariables
-	>(GetIssuesMinimalPaginationDocument, options);
+		GetIssuesMinimalWithPaginationQuery,
+		GetIssuesMinimalWithPaginationQueryVariables
+	>(GetIssuesMinimalWithPaginationDocument, options);
 }
-export type GetIssuesMinimalPaginationQueryHookResult =
-	ReturnType<typeof useGetIssuesMinimalPaginationQuery>;
-export type GetIssuesMinimalPaginationLazyQueryHookResult =
-	ReturnType<typeof useGetIssuesMinimalPaginationLazyQuery>;
-export type GetIssuesMinimalPaginationQueryResult =
+export type GetIssuesMinimalWithPaginationQueryHookResult =
+	ReturnType<typeof useGetIssuesMinimalWithPaginationQuery>;
+export type GetIssuesMinimalWithPaginationLazyQueryHookResult =
+	ReturnType<
+		typeof useGetIssuesMinimalWithPaginationLazyQuery
+	>;
+export type GetIssuesMinimalWithPaginationQueryResult =
 	Apollo.QueryResult<
-		GetIssuesMinimalPaginationQuery,
-		GetIssuesMinimalPaginationQueryVariables
+		GetIssuesMinimalWithPaginationQuery,
+		GetIssuesMinimalWithPaginationQueryVariables
 	>;
 export const GetIssuesMinimalDocument = gql`
 	query getIssuesMinimal($login: String!) {
@@ -21585,10 +23313,15 @@ export const GetIssuesMinimalDocument = gql`
 					url
 					bodyUrl
 					number
+					title
+					body
+					bodyText
+					bodyHTML
+					updatedAt
 					author {
 						url
 						login
-						avatarUrl(size: 14)
+						avatarUrl(size: 250)
 					}
 					repository {
 						primaryLanguage {
@@ -21600,10 +23333,6 @@ export const GetIssuesMinimalDocument = gql`
 						url
 						openGraphImageUrl
 					}
-					title
-					bodyText
-					bodyHTML
-					updatedAt
 				}
 			}
 		}

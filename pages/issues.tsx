@@ -14,17 +14,17 @@ import {
 	GetIssuesMinimalQueryVariables,
 	GetIssuesMinimalQuery
 } from '@/graphql/graphql';
-import PaginationControls from '@/components/Landing/Pagination/controls';
+import PaginationControls from '@/components/UnderConstruction/Pagination/controls';
 import {
 	Container,
-	AgnosticCommentThread
+	AgnosticRepoTemplate
 } from '@/components/UI';
 import { GitHub } from '@/components/UI/Icons';
 import { fromUnixTime } from 'date-fns';
 import HTMLReactParser from 'html-react-parser';
 import { useState, useRef } from 'react';
-import SearchForm from '@/components/Landing/search-form';
-import IssueFinder from '@/components/Landing/Pagination/paginaton';
+import SearchForm from '@/components/UnderConstruction/search-form';
+import IssueFinder from '@/components/UnderConstruction/Pagination/paginaton';
 import { AppLayout } from '@/components/Layout';
 
 export default function Issues<
@@ -44,21 +44,21 @@ export default function Issues<
 						user.user.issues.nodes.map((usr, i) => {
 							const getTime = Date.now();
 							return usr ? (
-								<AgnosticCommentThread
+								<AgnosticRepoTemplate
 									primaryLanguage={usr.repository.primaryLanguage}
 									forks={usr.repository.forkCount}
 									source_icon={<GitHub />}
 									stars={usr.repository.stargazerCount}
 									key={i++}
-									commenter_name={'Active Issue'}
-									commenter_created_timestamp={fromUnixTime(
+									repo_user_name={'Active Issue'}
+									repo_user_created_timestamp={fromUnixTime(
 										getTime.valueOf()
 									)}
-									commenter_avatar={usr.author?.avatarUrl}
-									commenter_fallback_avatar={
+									repo_user_avatar={usr.author?.avatarUrl}
+									repo_user_fallback_avatar={
 										'/meta/android-chrome-192x192.png'
 									}
-									commenter_content={`${HTMLReactParser(
+									repo_user_content={`${HTMLReactParser(
 										usr.bodyHTML ?? ''
 									)}`}
 								>
@@ -75,7 +75,7 @@ export default function Issues<
 												: '/architecture.jpg'
 										}
 									/>
-								</AgnosticCommentThread>
+								</AgnosticRepoTemplate>
 							) : (
 								<></>
 							);
@@ -146,20 +146,20 @@ export async function getStaticProps<P>(
 					const getTime = Date.now();
 
 					return usr ? (
-						<AgnosticCommentThread
+						<AgnosticRepoTemplate
 							forks={usr.repository.forkCount}
 							source_icon={<GitHub />}
 							stars={usr.repository.stargazerCount}
 							key={usr.id}
-							commenter_name={'Active Issue'}
-							commenter_created_timestamp={fromUnixTime(
+							repo_user_name={'Active Issue'}
+							repo_user_created_timestamp={fromUnixTime(
 								getTime.valueOf()
 							)}
-							commenter_avatar={'/meta/android-chrome-192x192.png'}
-							commenter_fallback_avatar={
+							repo_user_avatar={'/meta/android-chrome-192x192.png'}
+							repo_user_fallback_avatar={
 								'/meta/android-chrome-192x192.png'
 							}
-							commenter_content={`${
+							repo_user_content={`${
 								++i + ':' + HTMLReactParser(usr.bodyHTML ?? '')
 							}`}
 						>
@@ -176,7 +176,7 @@ export async function getStaticProps<P>(
 										: '/architecture.jpg'
 								}
 							/>
-						</AgnosticCommentThread>
+						</AgnosticRepoTemplate>
 					) : (
 						<></>
 					);

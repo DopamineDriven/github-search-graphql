@@ -1,4 +1,4 @@
-import { SubcommenterProps } from '@/types/custom-comments';
+import { SubRepoOverviewProps } from '@/types/custom-comments';
 import Image from 'next/image';
 import parser from 'html-react-parser';
 import { ReplyIcon } from '../../Icons';
@@ -7,22 +7,22 @@ import { ThreadTime } from '../../index';
 import { ImageLoader } from '@/lib/image-loader';
 
 export default function SubcommentTemplate({
-	subcommenter_content,
-	subcommenter_avatar,
-	subcommenter_fallback_avatar,
-	subcommenter_business_name,
-	subcommenter_created_timestamp,
-	subcommenter_updated_timestamp,
-	subcommenter_first_name,
-	subcommenter_last_name,
-	subcommenter_name
-}: SubcommenterProps) {
+	subrepo_user_content,
+	subrepo_user_avatar,
+	subrepo_user_fallback_avatar,
+	subrepo_user_business_name,
+	subrepo_user_created_timestamp,
+	subrepo_user_updated_timestamp,
+	subrepo_user_first_name,
+	subrepo_user_last_name,
+	subrepo_user_name
+}: SubRepoOverviewProps) {
 	const subcommenterName =
-		subcommenter_last_name != null
-			? `${subcommenter_first_name} + ${subcommenter_last_name}`
-			: subcommenter_first_name
-			? subcommenter_first_name
-			: subcommenter_name;
+		subrepo_user_last_name != null
+			? `${subrepo_user_first_name} + ${subrepo_user_last_name}`
+			: subrepo_user_first_name
+			? subrepo_user_first_name
+			: subrepo_user_name;
 
 	return (
 		<>
@@ -39,7 +39,7 @@ export default function SubcommentTemplate({
 								)}
 							>
 								<Image
-									alt={subcommenter_name}
+									alt={subrepo_user_name}
 									loader={ImageLoader}
 									className='h-10 w-10 rounded-full'
 									width={500}
@@ -48,9 +48,9 @@ export default function SubcommentTemplate({
 									height={500}
 									objectFit='fill'
 									src={
-										subcommenter_avatar!
-											? subcommenter_avatar
-											: subcommenter_fallback_avatar!
+										subrepo_user_avatar!
+											? subrepo_user_avatar
+											: subrepo_user_fallback_avatar!
 									}
 									priority
 									quality={100}
@@ -59,7 +59,7 @@ export default function SubcommentTemplate({
 							<>
 								<div className='min-w-0 flex-1'>
 									<p className='text-sm font-medium text-olive-300'>
-										{subcommenter_business_name ?? ' '}
+										{subrepo_user_business_name ?? ' '}
 									</p>
 									<h2
 										id={'reply-' + subcommenterName}
@@ -74,16 +74,16 @@ export default function SubcommentTemplate({
 						</div>
 						<p className='text-base font-medium text-secondary-0 mt-4'></p>
 						<blockquote className='mt-2 text-sm text-olive-300 space-y-4'>
-							<p>{parser(`${subcommenter_content}`)}</p>
+							<p>{parser(`${subrepo_user_content}`)}</p>
 							<figcaption className='mt-3 flex text-sm'>
 								<span className='ml-2'>
-									{subcommenter_updated_timestamp ? (
+									{subrepo_user_updated_timestamp ? (
 										<ThreadTime
-											time={subcommenter_updated_timestamp}
+											time={subrepo_user_updated_timestamp}
 										/>
 									) : (
 										<ThreadTime
-											time={subcommenter_created_timestamp!}
+											time={subrepo_user_created_timestamp!}
 										/>
 									)}
 								</span>

@@ -1,5 +1,5 @@
 import { ApolloQueryResult } from '@apollo/client';
-import { initializeApollo } from './apollo';
+import { initializeApollo } from '../apollo';
 import {
 	Exact,
 	Scalars,

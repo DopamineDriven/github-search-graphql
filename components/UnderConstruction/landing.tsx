@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { ImageLoader } from '@/lib/image-loader';
 import cn from 'classnames';
 import parser from 'html-react-parser';
-import AgnosticCommentThread from '../UI/AgnosticCommentThread/agnostic-thread';
+import AgnosticRepoTemplate from '../UI/AgnosticRepoTemplate/agnostic-thread';
 import { fromUnixTime } from 'date-fns';
 
 export type IssueFinderProps = {
@@ -42,21 +42,21 @@ const IssueFinder = ({
 					const getTime = Date.now();
 
 					return usr ? (
-						<AgnosticCommentThread
+						<AgnosticRepoTemplate
 							primaryLanguage={usr.repository.primaryLanguage}
 							forks={usr.repository.forkCount}
 							source_icon={<GitHub />}
 							stars={usr.repository.stargazerCount}
 							key={usr.id}
-							commenter_name={'Active Issue'}
-							commenter_created_timestamp={fromUnixTime(
+							repo_user_name={'Active Issue'}
+							repo_user_created_timestamp={fromUnixTime(
 								getTime.valueOf()
 							)}
-							commenter_avatar={'/meta/android-chrome-192x192.png'}
-							commenter_fallback_avatar={
+							repo_user_avatar={'/meta/android-chrome-192x192.png'}
+							repo_user_fallback_avatar={
 								'/meta/android-chrome-192x192.png'
 							}
-							commenter_content={`${
+							repo_user_content={`${
 								++i + ':' + parser(usr.bodyHTML ?? '')
 							}`}
 						>
@@ -73,7 +73,7 @@ const IssueFinder = ({
 										: '/architecture.jpg'
 								}
 							/>
-						</AgnosticCommentThread>
+						</AgnosticRepoTemplate>
 					) : (
 						<></>
 					);

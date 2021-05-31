@@ -28,21 +28,25 @@ export const footerSocial: Readonly<FooterSocialProps[]> =
 			href: 'https://www.linkedin.com/in/asross',
 			label: 'LinkedIn',
 			id: 1,
-			icon: <LinkedIn />
+			icon: (
+				<LinkedIn className='fill-current text-purple-0 hover:text-purple-700 transition-transform duration-150 transform-gpu' />
+			)
 		},
 		{
 			href:
 				'https://stackoverflow.com/users/13243520/andrew-ross?tab=profile',
 			label: 'GitHub',
 			id: 2,
-			icon: <StackOverflow />
+			icon: (
+				<StackOverflow className='fill-current text-purple-0 hover:text-purple-700 transition-transform duration-150 transform-gpu' />
+			)
 		},
 		{
 			href: 'https://github.com/DopamineDriven',
 			label: 'GitHub',
 			id: 3,
 			icon: (
-				<GitHub className='fill-current stroke-current text-purple-0 hover:text-purple-700 transition-transform duration-150 transform-gpu' />
+				<GitHub className='fill-current text-purple-0 hover:text-purple-700 transition-transform duration-150 transform-gpu' />
 			)
 		},
 		{
@@ -72,7 +76,7 @@ const FooterSocial: FC<FooterSocialPropsFC> = ({
 						href={social.href}
 						className={cn(
 							css.socialLink,
-							'text-purple-0 stroke-current fill-current hover:text-purple-700 transition-transform duration-150 transform-gpu'
+							'text-purple-0 fill-current hover:text-purple-700 transition-transform duration-150 transform-gpu'
 						)}
 					>
 						<span className='sr-only'>

@@ -5,7 +5,7 @@ query ViewerRepos {
 	viewer {
 		avatarUrl(size: 250)
 		repositories(
-			first: 30
+			first: 100
 			orderBy: { field: UPDATED_AT, direction: DESC }
 		) {
 			totalCount

@@ -1,0 +1,67 @@
+# import GitHubPageInfoPartial from "./Partials/atomic/page-info-fields.graphql"
+
+query GetIssuesFull(
+	$login: String!
+	$after: String
+	$commentCount: Int = 10
+) {
+	user(login: $login) {
+		id
+		issues(
+			after: $after
+			first: 10
+			orderBy: { field: UPDATED_AT, direction: DESC }
+			states: [OPEN]
+		) {
+			totalCount
+			pageInfo {
+				...GitHubPageInfoPartial
+			}
+			nodes {
+				id
+				url
+				state
+				author {
+					avatarUrl(size: 250)
+					login
+				}
+				repository {
+					nameWithOwner
+					url
+				}
+				number
+				title
+				bodyHTML
+				updatedAt
+				viewerDidAuthor
+				reactions(first: 10) {
+					nodes {
+						user {
+							avatarUrl(size: 250)
+							login
+						}
+						content
+					}
+				}
+				participants(first: 0) {
+					totalCount
+				}
+				comments(first: $commentCount) {
+					totalCount
+					pageInfo {
+						...GitHubPageInfoPartial
+					}
+					nodes {
+						id
+						author {
+							avatarUrl(size: 250)
+							login
+						}
+						updatedAt
+						bodyHTML
+					}
+				}
+			}
+		}
+	}
+}

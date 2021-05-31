@@ -1,4 +1,4 @@
-import { AgnosticCommentThread, Container } from '../UI';
+import { AgnosticRepoTemplate, Container } from '../UI';
 import { GitHub } from '../UI/Icons';
 import Image from 'next/image';
 import { ImageLoader } from '@/lib/image-loader';
@@ -42,21 +42,21 @@ export default function RepoCards({ repo }: Repooo) {
 
 	return (
 		<Container className='transition-transform transform-gpu duration-150 max-w-4xl ring-1 ring-purple-0'>
-			<AgnosticCommentThread
+			<AgnosticRepoTemplate
 				source_icon={
 					<GitHub className='text-gray-200 fill-current' />
 				}
 				stars={repo.stargazerCount ?? 0}
 				key={repo.id}
-				commenter_name={repo.name ?? ''}
-				commenter_created_timestamp={newDateCreated}
-				commenter_updated_timestamp={newDateUpdated}
-				commenter_avatar={repo.openGraphImageUrl}
+				repo_user_name={repo.name ?? ''}
+				repo_user_created_timestamp={newDateCreated}
+				repo_user_updated_timestamp={newDateUpdated}
+				repo_user_avatar={repo.openGraphImageUrl}
 				primaryLanguage={
 					repo!.primaryLanguage ? repo.primaryLanguage : null
 				}
-				commenter_fallback_avatar={'/doge-404.jpg'}
-				commenter_content={`${txt as string}`}
+				repo_user_fallback_avatar={'/doge-404.jpg'}
+				repo_user_content={`${txt as string}`}
 				forks={repo.forkCount ?? 0}
 			>
 				<div className='rounded-full '>
@@ -70,7 +70,7 @@ export default function RepoCards({ repo }: Repooo) {
 						src={repo.openGraphImageUrl ?? '/doge-404.jpg'}
 					/>
 				</div>
-			</AgnosticCommentThread>
+			</AgnosticRepoTemplate>
 		</Container>
 	);
 }

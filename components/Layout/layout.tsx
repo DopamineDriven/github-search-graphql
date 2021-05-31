@@ -6,7 +6,8 @@ import { Button, Fallback } from '../UI';
 import { useAcceptCookies } from '@/lib/use-accept-cookies';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 const dynamicProps = {
 	loading: () => <Fallback />
@@ -35,6 +36,26 @@ function AppLayout({
 }: LayoutProps) {
 	const { acceptedCookies, onAcceptCookies } =
 		useAcceptCookies();
+	const [search, setSearch] = useState('');
+
+	const { asPath: login } = useRouter();
+
+	useEffect(() => {
+		const pathSubString = login.split('/');
+		if (!login.includes('/repos/[login]')) {
+			setSearch('');
+			return;
+		}
+		if (
+			login.includes('/repos/[login]') &&
+			login.length === 2
+		) {
+			setSearch(pathSubString[2]);
+			return;
+		}
+		console.log(search);
+	}, [login]);
+
 	return (
 		<>
 			<Head>

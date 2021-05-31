@@ -1,0 +1,30 @@
+fragment RepoPartial on Repository {
+	name
+	stargazerCount
+	forkCount
+	id
+	url
+	owner {
+		id
+		login
+	}
+	nameWithOwner
+	description
+	name
+	createdAt
+	updatedAt
+	homepageUrl
+	stargazerCount
+	forkCount
+	openGraphImageUrl
+	isArchived
+	isInOrganization
+	primaryLanguage {
+		name
+		color
+		id
+	}
+	isFork
+	isPrivate
+	isArchived
+}

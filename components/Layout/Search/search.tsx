@@ -18,10 +18,8 @@ const Searchbar: FC<SearchbarProps> = ({
 	const router = useRouter();
 	const [value, setValue] = useState('');
 
-	console.log(router.query ?? '');
 	const xx = router.query ?? '';
 	const xxSlash = slashExtractFragment(`${xx}`);
-	console.log(xxSlash[0]);
 
 	useEffect(() => {
 		// router.prefetch(url, as)
@@ -50,7 +48,7 @@ const Searchbar: FC<SearchbarProps> = ({
 					name={id}
 					onChange={setValue}
 					className={css.input}
-					placeholder='GitHub Username...'
+					placeholder='Username/Repo...proceed with caution'
 					defaultValue={
 						router && router.query
 							? (router.query.q as string)

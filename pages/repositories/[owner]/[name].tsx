@@ -5,7 +5,7 @@ import {
 	initializeApollo,
 	addApolloState
 } from '@/lib/apollo';
-import GetRepoNames from '@/lib/get-repo-names';
+import GetRepoNames from '@/lib/ServerlessSnacks/get-repo-names';
 import {
 	GetStaticPathsContext,
 	GetStaticPropsContext,
@@ -15,11 +15,11 @@ import {
 import { AppLayout } from '@/components/Layout';
 import {
 	Fallback,
-	AgnosticCommentThread
+	AgnosticRepoTemplate
 } from '@/components/UI';
 import getReposByNameQuery, {
 	GetRepoByNameQueryBatched
-} from '@/lib/get-repo-by-name';
+} from '@/lib/ServerlessSnacks/get-repo-by-name';
 import { slashExtractFragment } from '@/lib/string-manipulators';
 import { ImageLoader } from '@/lib/image-loader';
 import { GitHub } from '@/components/UI/Icons';
@@ -73,8 +73,9 @@ export async function getStaticProps<P>(
 	const apolloClient = initializeApollo();
 	// const names = await getStaticPaths({
 	// 	locales: ctx.locales
-	// });
+	// })
 
+	console.log(ctx.params);
 	const name = ctx?.params
 		? ctx.params.name
 		: 'DopamineDriven';
@@ -83,13 +84,16 @@ export async function getStaticProps<P>(
 		? ctx.params.owner
 		: 'DopamineDriven';
 	const nameSplit = slashExtractFragment(
-		ctx.params!.name as string
+		ctx.params?.name as string
 	);
+	console.log(nameSplit);
+
 	//  names.paths![0];
 	console.log(nameSplit[0]);
+	console.log(nameSplit[2] as string);
 	const data = await getReposByNameQuery({
-		login: 'DopamineDriven',
-		name: ctx.params!.name as string
+		login: 'LeeRob' as string,
+		name: ctx.params?.name as string
 	});
 
 	return addApolloState(apolloClient, {
@@ -103,7 +107,6 @@ export default function RepoDynamic<
 >({ data }: InferGetStaticPropsType<T>) {
 	const router = useRouter();
 	const parsedUrl = router.query ? router.query.name : '';
-	console.log(parsedUrl ?? '');
 	const fallbackDate = Date.now();
 	return (
 		<>
@@ -112,7 +115,7 @@ export default function RepoDynamic<
 			) : (
 				<AppLayout title={'landing'} className='fit'>
 					<Container className='mx-auto justify-center content-center font-sans w-full min-w-full inline-block py-12 px-12'>
-						<AgnosticCommentThread
+						<AgnosticRepoTemplate
 							primaryLanguage={
 								data.data.user?.repository?.primaryLanguage
 							}
@@ -124,27 +127,27 @@ export default function RepoDynamic<
 							}
 							forks={data.data.user?.repository?.forkCount ?? 0}
 							key={data.data.user?.repository?.id}
-							commenter_name={
+							repo_user_name={
 								data.data.user?.repository?.nameWithOwner ?? ''
 							}
-							commenter_source_url={
+							repo_user_source_url={
 								data.data.user?.repository?.homepageUrl ?? '#'
 							}
-							commenter_created_timestamp={
+							repo_user_created_timestamp={
 								new Date(
 									data.data.user?.repository?.createdAt ??
 										fallbackDate
 								)
 							}
-							commenter_updated_timestamp={
+							repo_user_updated_timestamp={
 								new Date(
 									data.data.user?.repository?.updatedAt ??
 										fallbackDate
 								)
 							}
-							commenter_avatar={data.data.user?.avatarUrl}
-							commenter_fallback_avatar={'/doge-404.jpg'}
-							commenter_content={`${
+							repo_user_avatar={data.data.user?.avatarUrl}
+							repo_user_fallback_avatar={'/doge-404.jpg'}
+							repo_user_content={`${
 								(data.data.user?.repository
 									?.description as string) ??
 								'No description provided'
@@ -152,9 +155,9 @@ export default function RepoDynamic<
 						>
 							<div className='rounded-full '>
 								<Image
-									className='object-cover rounded-full ring-2 ring-purple-0'
+									className='object-cover ring-2 ring-purple-0'
 									loader={ImageLoader}
-									width='200'
+									width='400'
 									height='200'
 									quality={100}
 									alt={data.data.user?.name ?? 'no user.name'}
@@ -164,7 +167,7 @@ export default function RepoDynamic<
 									}
 								/>
 							</div>
-						</AgnosticCommentThread>
+						</AgnosticRepoTemplate>
 					</Container>
 				</AppLayout>
 			)}

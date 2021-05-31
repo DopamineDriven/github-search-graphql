@@ -9,7 +9,7 @@ import {
 } from '@/components/UI';
 import {
 	Issue,
-	useGetIssuesMinimalPaginationQuery
+	useGetIssuesMinimalWithPaginationQuery
 } from '@/graphql/graphql';
 import dynamic from 'next/dynamic';
 
@@ -34,7 +34,7 @@ export default function IssueFinder({
 	const [cursorState, setCursorState] =
 		useState<CursorStateProps>();
 	const { data, loading, error } =
-		useGetIssuesMinimalPaginationQuery({
+		useGetIssuesMinimalWithPaginationQuery({
 			variables: {
 				login,
 				...[cursorState]

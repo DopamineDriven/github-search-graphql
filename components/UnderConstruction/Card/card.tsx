@@ -1,5 +1,5 @@
 import {
-	AgnosticCommentThread,
+	AgnosticRepoTemplate,
 	TextEnhancer,
 	CommentsSkeleton,
 	Container
@@ -20,20 +20,20 @@ export const CardTemplate = ({
 	const parsed = parser(issue.bodyHTML);
 	const AgnosticTemplate = (
 		<Container>
-			<AgnosticCommentThread
+			<AgnosticRepoTemplate
 				primaryLanguage={issue.repository.primaryLanguage}
 				forks={issue.repository.forkCount}
 				source_icon={<GitHub />}
 				stars={issue.repository.stargazerCount}
 				key={issue.id}
-				commenter_name={'Active Issue'}
-				commenter_created_timestamp={issue.createdAt}
-				commenter_updated_timestamp={issue.updatedAt}
-				commenter_avatar={'/meta/android-chrome-192x192.png'}
-				commenter_fallback_avatar={
+				repo_user_name={'Active Issue'}
+				repo_user_created_timestamp={issue.createdAt}
+				repo_user_updated_timestamp={issue.updatedAt}
+				repo_user_avatar={'/meta/android-chrome-192x192.png'}
+				repo_user_fallback_avatar={
 					'/meta/android-chrome-192x192.png'
 				}
-				commenter_content={`${(
+				repo_user_content={`${(
 					<TextEnhancer
 						textToTransform={(parsed as string) ?? issue.bodyHTML}
 					/>
@@ -48,7 +48,7 @@ export const CardTemplate = ({
 					alt={issue.title}
 					src={'/doge-404.jpg'}
 				/>
-			</AgnosticCommentThread>
+			</AgnosticRepoTemplate>
 		</Container>
 	);
 	return AgnosticTemplate;
