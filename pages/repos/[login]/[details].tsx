@@ -9,7 +9,7 @@ import {
 	AgnosticRepoTemplate,
 	ThreadTime,
 	TextEnhancer,
-	SocialSidebar
+	Button
 } from '@/components/UI';
 import { GitHub, ReplyIcon } from '@/components/UI/Icons';
 import {
@@ -27,8 +27,6 @@ import {
 	ReactionContent
 } from '@/graphql/graphql';
 import cn from 'classnames';
-import parser from 'html-react-parser';
-import Button from '../../../components/UI/Button/button';
 
 export async function getServerSideProps<
 	P extends GetFineDetailsByRepoQueryBatched
@@ -42,7 +40,7 @@ export async function getServerSideProps<
 		: 'no login';
 	const details = context.query
 		? context.query.details
-		: 'no details ';
+		: 'no details';
 	const apolloClient = initializeApollo();
 	const data = await apolloClient.query<P>({
 		query: GetFineDetailsByRepoDocument,

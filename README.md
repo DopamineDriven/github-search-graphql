@@ -14,9 +14,7 @@
 
 - make sure the username exists when searching from the landing page. I am using all serverside rendering for the search/details for any given user routes; conversely, I am using getStaticPaths and getStaticProps as a POC for my personal repos. It harnesses the power of ISR (incremental static regeneration). That said, it is probably ideal to use getServerSideProps over getStaticPaths/getStaticProps for an app of this nature due to the virtually infinite amount of data that can be fetched depending on user/org queried.
 
-### A word about github deployment status
-
-- The github deployment status indicator is incorrect. I have been using the `vercel cli` to deploy the repo which interfered with the git connection that github has with the vercel repo. It successfully deploys in both preview and production from the cli but fails from github. I use `vercel` to build the preview and `vercel --prod` to build the production build from the integrated bash terminal in VSCode.
+![analytics.png](./public/analytics.png)
 
 ### Underway
 
@@ -328,22 +326,4 @@ fragment GitHubDiscussionsPartial on GitHubDiscussionConnection {
 		}
 	}
 }
-```
-
-```bash
-Found 14 unused files:
-components/Context/index.tsx
-components/Landing/Card/card-coalesced.tsx
-components/Landing/Pagination/index.ts
-components/Landing/index.ts
-components/Layout/Featurebar/featurebar.module.css
-components/Layout/Featurebar/featurebar.tsx
-components/Layout/Featurebar/index.ts
-components/Layout/Header/header.tsx
-components/Layout/Header/index.ts
-components/Layout/Search/index.ts
-components/Layout/Search/search.tsx
-lib/colors.ts
-lib/fetchers.ts
-lib/helpers/filter-query.ts
 ```

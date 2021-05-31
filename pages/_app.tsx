@@ -4,23 +4,9 @@ import '@/styles/chrome-bug.css';
 import { AppProps, NextWebVitalsMetric } from 'next/app';
 import { ApolloProvider } from '@apollo/client';
 import { useApollo } from '@/lib/apollo';
-// import { useRouter } from 'next/router';
 import { useEffect, FC } from 'react';
 import { Head } from '@/components/Head';
-import { SWRConfig } from 'swr';
-import { Configuration, Fetcher } from 'swr/dist/types';
 import fetch from 'isomorphic-unfetch';
-
-const configValues = {
-	errorRetryCount: 5,
-	refreshInterval: 43200 * 10,
-	onLoadingSlow: (
-		key: string,
-		config: Readonly<
-			Required<Configuration<any, any, Fetcher<any>>>
-		>
-	) => [key, { ...config }]
-};
 
 const Noop: FC = ({ children }) => <>{children}</>;
 export default function NextApp({
@@ -103,3 +89,14 @@ export function reportWebVitals(
 	// don't send analytics in process.env.NODE_ENV === "dev"
 	console.log('metric: ', metric);
 }
+
+// const configValues = {
+// 	errorRetryCount: 5,
+// 	refreshInterval: 43200 * 10,
+// 	onLoadingSlow: (
+// 		key: string,
+// 		config: Readonly<
+// 			Required<Configuration<any, any, Fetcher<any>>>
+// 		>
+// 	) => [key, { ...config }]
+// };

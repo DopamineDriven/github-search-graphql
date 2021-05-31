@@ -22,17 +22,11 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Searchbar from '@/components/Layout/Search/search';
 import { Container } from '@/components/UI';
-import { slashExtractFragment } from '../lib/string-manipulators';
-import { Header } from '@/components/Layout/Header';
 import { SearchUser } from '@/components/Layout/SearchUser';
 
 export default function Index<
 	T extends typeof getStaticProps
->({ user, repo }: InferGetStaticPropsType<T>) {
-	const userName = user.user?.login
-		? user.user.login
-		: 'DopamineDriven';
-	// const [userState, setUserState] = useState(userName);
+>({ repo }: InferGetStaticPropsType<T>) {
 	const [search, setSearch] = useState('');
 	const { asPath: login, asPath } = useRouter();
 
