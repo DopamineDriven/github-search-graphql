@@ -1,5 +1,7 @@
 # github-search-graphql
 
+![dynamic-routing](./public/dynamic-routing.png)
+
 ### Getting Started
 
 - Please see [`environmental-variables.md`](https://github.com/DopamineDriven/github-search-graphql/blob/main/environmental-variables.md)
