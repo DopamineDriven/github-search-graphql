@@ -8,7 +8,7 @@ import { useEffect, FC } from 'react';
 import { Head } from '@/components/Head';
 import fetch from 'isomorphic-unfetch';
 import { useRouter } from 'next/router';
-import * as ga from '@/lib/analytics';
+import * as gtag from '@/lib/analytics';
 
 const Noop: FC = ({ children }) => <>{children}</>;
 export default function NextApp({
@@ -25,10 +25,8 @@ export default function NextApp({
 	}, []);
 
 	useEffect(() => {
-		const handleRouteChange = (
-			url: UniversalAnalytics.FieldsObject
-		) => {
-			ga.pageview(url);
+		const handleRouteChange = (url: URL) => {
+			gtag.pageview(url);
 		};
 		router.events.on(
 			'routeChangeComplete',

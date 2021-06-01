@@ -1,33 +1,22 @@
-export const UniversalGA =
+// https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/google.analytics/index.d.ts
+
+export const GA_TRACKING_ID =
 	process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ?? '';
 
-export const pageview = <
-	P extends UniversalAnalytics.FieldsObject
->(
-	url: P
-) => {
-	window.location !== undefined
-		? window.ga('config', UniversalGA, {
-				page: url ?? ''
-		  })
-		: ga('config', UniversalGA, {
-				page: url ?? ''
-		  });
-};
-
-export const event = <
-	P extends UniversalAnalytics.FieldsObject
->({
-	eventAction,
-	eventCategory,
-	eventLabel,
-	eventValue
-}: P): void => {
-	window.ga('event', eventAction ?? '', {
-		eventCategory: eventCategory ?? '',
-		eventLabel: eventLabel ?? '',
-		eventValue: eventValue ?? ''
+export const pageview = (url: URL) => {
+	// if (typeof window !== 'undefined') {
+	window.gtag('config', GA_TRACKING_ID, {
+		page_path: url
 	});
 };
 
-// https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/google.analytics/index.d.ts
+export const event = (
+	action: Gtag.EventNames,
+	{ event_category, event_label, value }: Gtag.EventParams
+) => {
+	window.gtag('event', action, {
+		event_category,
+		event_label,
+		value
+	});
+};
