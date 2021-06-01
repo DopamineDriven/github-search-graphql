@@ -10,17 +10,15 @@
 
 - I use yarn so please do not use npm to install the dependencies unless you delete `yarn.lock` prior to installing. That said, after installing dependencies, add the environmental variables -- instructions can be found in the root `./environmental-variables.md` file. Then, run `yarn codegen`. After successfully generating typescript definitions from graphql fragments/queries/mutations, run `yarn dev`. That's it!
 
-### tips
+### Tips
 
-- make sure the username exists when searching from the landing page. I am using all serverside rendering for the search/details for any given user routes; conversely, I am using getStaticPaths and getStaticProps as a POC for my personal repos. It harnesses the power of ISR (incremental static regeneration). That said, it is probably ideal to use getServerSideProps over getStaticPaths/getStaticProps for an app of this nature due to the virtually infinite amount of data that can be fetched depending on user/org queried.
+- Ensure the username exists when searching from the landing page. I am using `getServerSideProps` for all dynamic search/details-handling for any given user routes (in `pages/repos/[login].tsx` and `pages/repos/[login]/[details].tsx`). Conversely, I am using `getStaticPaths` and `getStaticProps` as a POC for my personal repos in `pages/repositories/[owner]/[name].tsx`. The latter config harnesses the power of ISR (Incremental Static Regeneration). That said, it is probably ideal to use getServerSideProps over getStaticPaths/getStaticProps for an app of this nature due to the virtually infinite amount of data that can be fetched depending on user/org queried. Therefore, I intend to implement SWR for client-side caching after preliminary data is injected via inference of server-shuttled data on the client.
 
-### A word about github deployment status
-
-- The github deployment status indicator is incorrect. I have been using the `vercel cli` to deploy the repo which interfered with the git connection that github has with the vercel repo. It successfully deploys in both preview and production from the cli but fails from github. I use `vercel` to build the preview and `vercel --prod` to build the production build from the integrated bash terminal in VSCode.
+![analytics.png](./public/analytics.png)
 
 ### Underway
 
-- I have several bigger picture goals underway in this app including auth+mutations such as leaving comments and opening or closing issues. Another goal is pagination. Many of the components involved in the underway context can be found in components/Landing
+- I have several bigger picture goals underway in this app including auth+mutations such as leaving comments and opening or closing issues. Another goal is pagination. Many of the components involved in current construction can be found in `components/UnderConstruction`.
 
 ### Housekeeping continued
 
@@ -328,22 +326,4 @@ fragment GitHubDiscussionsPartial on GitHubDiscussionConnection {
 		}
 	}
 }
-```
-
-```bash
-Found 14 unused files:
-components/Context/index.tsx
-components/Landing/Card/card-coalesced.tsx
-components/Landing/Pagination/index.ts
-components/Landing/index.ts
-components/Layout/Featurebar/featurebar.module.css
-components/Layout/Featurebar/featurebar.tsx
-components/Layout/Featurebar/index.ts
-components/Layout/Header/header.tsx
-components/Layout/Header/index.ts
-components/Layout/Search/index.ts
-components/Layout/Search/search.tsx
-lib/colors.ts
-lib/fetchers.ts
-lib/helpers/filter-query.ts
 ```

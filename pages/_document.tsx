@@ -7,7 +7,7 @@ import Document, {
 	DocumentProps,
 	DocumentInitialProps
 } from 'next/document';
-
+import { UniversalGA } from '@/lib/analytics';
 export default class FadeDocument extends Document<
 	DocumentProps | unknown
 > {
@@ -40,6 +40,21 @@ export default class FadeDocument extends Document<
 						href='https://rsms.me/inter/inter.css'
 					/>
 					<link rel='shortcut icon' href='/meta/favicon.ico' />
+					<script
+						async
+						src={`https://www.googletagmanager.com/gtag/js?id=${UniversalGA}`}
+					/>
+					<script
+						dangerouslySetInnerHTML={{
+							__html: `window.dataLayer = window.dataLayer || [];
+									function gtag(){dataLayer.push(arguments);}
+									gtag('js', new Date());
+
+									gtag('config', '${UniversalGA}', {
+										page: window.location.pathname
+									});`
+						}}
+					/>
 				</Head>
 				<body className='loading'>
 					<Main />

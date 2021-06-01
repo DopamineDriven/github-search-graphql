@@ -13,7 +13,7 @@
 `.env`
 
 ```s
-NEXT_PUBLIC_GITHUB_OAUTH_TOKEN_YML="YOUR_TOKEN_HERE"
+GITHUB_OAUTH_TOKEN_YML="YOUR_TOKEN_HERE"
 NEXT_PUBLIC_GITHUB_GRAPHQL_ENDPOINT_YML="https://api.github.com/graphql"
 ```
 
@@ -25,13 +25,13 @@ NEXT_PUBLIC_GITHUB_GRAPHQL_ENDPOINT_YML="https://api.github.com/graphql"
 `.env.local`
 
 ```s
-NEXT_PUBLIC_GITHUB_OAUTH_TOKEN=
+GITHUB_OAUTH_TOKEN=
 NEXT_PUBLIC_SEND_ANALYTICS=true
-NEXT_PUBLIC_QUICK_METRICS_API_KEY=
+QUICK_METRICS_API_KEY=
 NEXT_PUBLIC_GITHUB_GRAPHQL_ENDPOINT=https://api.github.com/graphql
 ```
 
-- Note: For the QUICK_METRICS_API_KEY value, I will send the key to collaborators directly. For anyone else, check out [Quick Metrics](https://app.quickmetrics.io/metrics)
+- Note: For the `QUICK_METRICS_API_KEY` value, I will send the key to collaborators directly. For all others, check out [Quick Metrics](https://app.quickmetrics.io/metrics)
 
 - Alternatively, to opt out, simply change the following code in `pages/_app.tsx` from this:
 
@@ -52,7 +52,7 @@ const sendAnalytics = ({
 			fetch(url, { method: 'POST', keepalive: true });
 		}
 	} else {
-		console.warn('analytcs is disabled');
+		console.warn('analytics is disabled');
 	}
 };
 

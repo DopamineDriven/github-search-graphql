@@ -4,7 +4,6 @@ import css from '../Search/search.module.css';
 import { useRouter } from 'next/router';
 import { Input } from '../../UI';
 import { filterQuery } from '@/lib/helpers/filter-query';
-import { slashExtractFragment } from '@/lib/string-manipulators';
 
 // http://localhost:3030/repositories/advanced-ts-methods?q=advanced-ts-methods
 export interface SearchbarProps {
