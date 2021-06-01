@@ -7,7 +7,7 @@ import Document, {
 	DocumentProps,
 	DocumentInitialProps
 } from 'next/document';
-import { UniversalGA } from '@/lib/analytics';
+import { GA_TRACKING_ID } from '@/lib/analytics';
 export default class FadeDocument extends Document<
 	DocumentProps | unknown
 > {
@@ -42,7 +42,7 @@ export default class FadeDocument extends Document<
 					<link rel='shortcut icon' href='/meta/favicon.ico' />
 					<script
 						async
-						src={`https://www.googletagmanager.com/gtag/js?id=${UniversalGA}`}
+						src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
 					/>
 					<script
 						dangerouslySetInnerHTML={{
@@ -50,7 +50,7 @@ export default class FadeDocument extends Document<
 									function gtag(){dataLayer.push(arguments);}
 									gtag('js', new Date());
 
-									gtag('config', '${UniversalGA}', {
+									gtag('config', '${GA_TRACKING_ID}', {
 										page: window.location.pathname
 									});`
 						}}
