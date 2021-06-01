@@ -10,18 +10,15 @@ import {
 } from '../../UI/Icons';
 import Link from 'next/link';
 import throttle from 'lodash.throttle';
-import { SearchUser } from '../SearchUser';
 
 export interface NavbarProps {
 	className?: string;
-	Desktop?: React.ReactNode;
-	Mobile?: React.ReactNode;
+	SearchUser?: React.ReactNode;
 }
 
 const Navbar: FC<NavbarProps> = ({
 	className,
-	Desktop,
-	Mobile
+	SearchUser
 }) => {
 	const [menuOpen, setMenuOpen] = useState(true);
 	const [isOpen] = useState(false);
@@ -85,7 +82,7 @@ const Navbar: FC<NavbarProps> = ({
 								</button>
 							</div>
 							<div className='hidden lg:ml-6 lg:flex lg:items-center lg:space-x-4'>
-								{Desktop ?? <NavbarLinks />}
+								<NavbarLinks />
 							</div>
 						</div>
 						<div className='flex items-center'>
@@ -140,7 +137,7 @@ const Navbar: FC<NavbarProps> = ({
 								</div>
 							</div>
 							<div className='float-right inline-flex w-full'>
-								<SearchUser />
+								{SearchUser}
 							</div>
 						</div>
 					</div>
@@ -152,13 +149,11 @@ const Navbar: FC<NavbarProps> = ({
 					})}
 				>
 					<div className='px-2 pt-2 pb-3 space-y-1 sm:px-3 align-middle'>
-						{Mobile ?? (
-							<NavbarLinks
-								root={cn(
-									'block px-3 py-2 rounded-md text-2xl font-medium text-purple-700 font-sans'
-								)}
-							/>
-						)}
+						<NavbarLinks
+							root={cn(
+								'block px-3 py-2 rounded-md text-2xl font-medium text-purple-700 font-sans'
+							)}
+						/>
 					</div>
 				</div>
 			</nav>

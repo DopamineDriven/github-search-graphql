@@ -7,6 +7,8 @@ import { useApollo } from '@/lib/apollo';
 import { useEffect, FC } from 'react';
 import { Head } from '@/components/Head';
 import fetch from 'isomorphic-unfetch';
+import { useRouter } from 'next/router';
+import * as ga from '@/lib/analytics';
 
 const Noop: FC = ({ children }) => <>{children}</>;
 export default function NextApp({
@@ -14,12 +16,31 @@ export default function NextApp({
 	pageProps: { ...pageProps }
 }: AppProps) {
 	const apolloClient = useApollo(pageProps);
-
+	const router = useRouter();
 	const LayoutNoop = (Component as any).LayoutNoop || Noop;
+
 	// remove chrome-bug.css loading class on FCP
 	useEffect(() => {
 		document.body.classList?.remove('loading');
 	}, []);
+
+	useEffect(() => {
+		const handleRouteChange = (
+			url: UniversalAnalytics.FieldsObject
+		) => {
+			ga.pageview(url);
+		};
+		router.events.on(
+			'routeChangeComplete',
+			handleRouteChange
+		);
+		return () => {
+			router.events.off(
+				'routeChangeComplete',
+				handleRouteChange
+			);
+		};
+	}, [router.events]);
 
 	return (
 		<>
@@ -34,7 +55,7 @@ export default function NextApp({
 }
 
 const quickMetricsKey =
-	process.env.NEXT_PUBLIC_QUICK_METRICS_API_KEY ?? '';
+	process.env.QUICK_METRICS_API_KEY ?? '';
 
 // quickmetrics
 const sendAnalytics = ({
@@ -86,7 +107,7 @@ export function reportWebVitals(
 				break;
 		}
 	}
-	// don't send analytics in process.env.NODE_ENV === "dev"
+	// don't send analytics in development
 	console.log('metric: ', metric);
 }
 

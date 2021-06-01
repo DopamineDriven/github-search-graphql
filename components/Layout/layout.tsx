@@ -8,6 +8,7 @@ import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { SearchUser } from './SearchUser';
 
 const dynamicProps = {
 	loading: () => <Fallback />
@@ -62,7 +63,7 @@ function AppLayout({
 				<title>{title ?? 'GitHub Search GraphQL'}</title>
 			</Head>
 			<Meta />
-			<Navbar />
+			<Navbar SearchUser={<SearchUser />} />
 			<>
 				<main className={cn('fit bg-purple-800', className)}>
 					{children}

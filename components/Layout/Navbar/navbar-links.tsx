@@ -29,19 +29,13 @@ const NavbarLinks: FC<NavbarLinksProps> = ({ root }) => {
 
 	const navbarList = links.map((link, i) => (
 		<>
-			<Link
-				key={link.id}
-				href={link.href}
-				as={link.as}
-				passHref
-			>
+			<Link key={i++} href={link.href} as={link.as} passHref>
 				<a
 					className={
 						pathname === link.href
 							? cn(css.linkActive, root)
 							: cn(css.link, root)
 					}
-					key={i++}
 					aria-label={`to ${link.label}`}
 				>
 					{link.label}
