@@ -1,5 +1,5 @@
 fragment GitHubActorPartial on Actor {
-	avatarUrl(size: 12)
+	avatarUrl(size: 250)
 	url
 	login
 }

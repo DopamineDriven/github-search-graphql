@@ -108,7 +108,6 @@ export function reportWebVitals(
 	// don't send analytics in development
 	console.log('metric: ', metric);
 }
-
 // const configValues = {
 // 	errorRetryCount: 5,
 // 	refreshInterval: 43200 * 10,

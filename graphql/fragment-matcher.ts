@@ -84,6 +84,8 @@ const result: PossibleTypesResultData = {
 		Closer: ['Commit', 'PullRequest'],
 		Comment: [
 			'CommitComment',
+			'Discussion',
+			'DiscussionComment',
 			'GistComment',
 			'Issue',
 			'IssueComment',
@@ -116,6 +118,8 @@ const result: PossibleTypesResultData = {
 		],
 		Deletable: [
 			'CommitComment',
+			'Discussion',
+			'DiscussionComment',
 			'GistComment',
 			'IssueComment',
 			'PullRequestReview',
@@ -203,11 +207,12 @@ const result: PossibleTypesResultData = {
 			'UserBlockedEvent'
 		],
 		Labelable: ['Issue', 'PullRequest'],
-		Lockable: ['Issue', 'PullRequest'],
+		Lockable: ['Discussion', 'Issue', 'PullRequest'],
 		MemberStatusable: ['Organization', 'Team'],
 		MilestoneItem: ['Issue', 'PullRequest'],
 		Minimizable: [
 			'CommitComment',
+			'DiscussionComment',
 			'GistComment',
 			'IssueComment',
 			'PullRequestReviewComment'
@@ -248,6 +253,9 @@ const result: PossibleTypesResultData = {
 			'DeploymentEnvironmentChangedEvent',
 			'DeploymentStatus',
 			'DisconnectedEvent',
+			'Discussion',
+			'DiscussionCategory',
+			'DiscussionComment',
 			'Enterprise',
 			'EnterpriseAdministratorInvitation',
 			'EnterpriseIdentityProvider',
@@ -317,6 +325,7 @@ const result: PossibleTypesResultData = {
 			'PackageFile',
 			'PackageTag',
 			'PackageVersion',
+			'PinnedDiscussion',
 			'PinnedEvent',
 			'PinnedIssue',
 			'PrivateRepositoryForkingDisableAuditEntry',
@@ -638,6 +647,8 @@ const result: PossibleTypesResultData = {
 		PushAllowanceActor: ['App', 'Team', 'User'],
 		Reactable: [
 			'CommitComment',
+			'Discussion',
+			'DiscussionComment',
 			'Issue',
 			'IssueComment',
 			'PullRequest',
@@ -675,12 +686,20 @@ const result: PossibleTypesResultData = {
 			'TeamAddRepositoryAuditEntry',
 			'TeamRemoveRepositoryAuditEntry'
 		],
+		RepositoryDiscussionAuthor: ['Organization', 'User'],
+		RepositoryDiscussionCommentAuthor: [
+			'Organization',
+			'User'
+		],
 		RepositoryInfo: ['Repository'],
 		RepositoryNode: [
 			'CommitComment',
 			'CommitCommentThread',
+			'Discussion',
+			'DiscussionCategory',
 			'Issue',
 			'IssueComment',
+			'PinnedDiscussion',
 			'PullRequest',
 			'PullRequestCommitCommentThread',
 			'PullRequestReview',
@@ -693,6 +712,7 @@ const result: PossibleTypesResultData = {
 		ReviewDismissalAllowanceActor: ['Team', 'User'],
 		SearchResultItem: [
 			'App',
+			'Discussion',
 			'Issue',
 			'MarketplaceListing',
 			'Organization',
@@ -707,6 +727,7 @@ const result: PossibleTypesResultData = {
 		StatusCheckRollupContext: ['CheckRun', 'StatusContext'],
 		Subscribable: [
 			'Commit',
+			'Discussion',
 			'Issue',
 			'PullRequest',
 			'Repository',
@@ -751,6 +772,8 @@ const result: PossibleTypesResultData = {
 		],
 		Updatable: [
 			'CommitComment',
+			'Discussion',
+			'DiscussionComment',
 			'GistComment',
 			'Issue',
 			'IssueComment',
@@ -763,6 +786,7 @@ const result: PossibleTypesResultData = {
 		],
 		UpdatableComment: [
 			'CommitComment',
+			'DiscussionComment',
 			'GistComment',
 			'Issue',
 			'IssueComment',
@@ -772,7 +796,8 @@ const result: PossibleTypesResultData = {
 			'TeamDiscussion',
 			'TeamDiscussionComment'
 		],
-		VerifiableDomainOwner: ['Enterprise', 'Organization']
+		VerifiableDomainOwner: ['Enterprise', 'Organization'],
+		Votable: ['Discussion', 'DiscussionComment']
 	}
 };
 export default result;

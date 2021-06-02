@@ -46,6 +46,13 @@
 	}
 
 	.has-tooltip:hover .tooltip {
-		@apply visible z-50 border-collapse rounded-lg bg-opacity-75 translate-x-3 -mt-2 text-xxs bg-redditBG text-opacity-0 my-auto p-2;
+		@apply visible z-50 border-collapse rounded-lg bg-opacity-75 translate-x-3 -mt-1.5 text-xxs bg-redditBG text-opacity-0 my-auto p-2;
 	}
 }
+/* .intro-separator {
+		unicode-bidi: isolate;
+		text-transform: none;
+		text-indent: 0px !important;
+		text-align: start !important;
+		text-align-last: start !important;
+} */

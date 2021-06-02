@@ -126,15 +126,15 @@ const CommenterTemplate: FC<RepoOverviewProps> = ({
 										<p></p>
 									</div>
 								</>
-								<div className='flex-shrink-0 self-center flex'>
+								<div className='flex-shrink-0 self-center flex align-top pb-8'>
 									{source_icon}
 								</div>
 							</div>
 						</div>
-						<blockquote className='mt-2 text-sm text-purple-0 space-y-4'>
+						<blockquote className='mt-2 text-sm text-gray-200 font-light space-y-4'>
 							<p>{parser(`${repo_user_content}`)}</p>
-							<figcaption className='mt-3 flex font-medium text-sm text-olive-300'>
-								<span className='ml-2 text-gray-200 inline-flex text-xs'>
+							<figcaption className='my-1 inline-flex font-light text-xs text-gray-300'>
+								<span className='ml-2 text-gray-300 inline-flex text-xs'>
 									Created&nbsp;
 									{repo_user_updated_timestamp ? (
 										<ThreadTime time={repo_user_created_timestamp} />
@@ -143,8 +143,8 @@ const CommenterTemplate: FC<RepoOverviewProps> = ({
 									)}
 								</span>
 							</figcaption>
-							<figcaption className='mt-3 flex font-medium text-sm text-olive-300'>
-								<span className='ml-2 text-gray-200 inline-flex text-xs'>
+							<figcaption className='my-1 flex font-light text-xs'>
+								<span className='ml-2 text-gray-300 inline-flex text-xs'>
 									Updated&nbsp;
 									{repo_user_updated_timestamp ? (
 										<ThreadTime time={repo_user_updated_timestamp} />

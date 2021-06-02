@@ -1,0 +1,8 @@
+fragment GitHubUserOrgAssociationPartial on Organization {
+	id
+	url
+	email
+	location
+	name
+	avatarUrl(size: 250)
+}

@@ -77,7 +77,7 @@ export default function Index<
 	return (
 		<>
 			<AppLayout>
-				<div className='bg-purple-0 text-gray-50 font-bold font-sans text-4xl mx-auto justify-center flex select-none'>
+				<div className='bg-purple-0 text-gray-50 font-bold font-sans text-4xl select-none'>
 					<RepoWrapper
 						otherData={<ReposCoalesced viewer={repo.viewer} />}
 					>
