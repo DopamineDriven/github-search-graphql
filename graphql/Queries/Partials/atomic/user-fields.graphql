@@ -1,14 +1,24 @@
 fragment GitHubUserPartial on User {
-	login
-	location
+	id
 	bio
 	twitterUsername
-	name
+	login
+	location
 	email
-	id
 	company
-	isGitHubStar
-	isEmployee
-	isSiteAdmin
-	isDeveloperProgramMember
+	createdAt
+	name
+	websiteUrl
+	isViewer
+	anyPinnableItems(type: REPOSITORY)
+	avatarUrl(size: 250)
+	starredRepositories {
+		totalCount
+	}
+	followers {
+		totalCount
+	}
+	following {
+		totalCount
+	}
 }

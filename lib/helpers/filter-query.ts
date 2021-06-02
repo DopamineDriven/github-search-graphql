@@ -24,3 +24,17 @@ export const filterQuery = <T extends Record<string, any>>(
 	);
 };
  */
+
+/**
+ * export async function userSearchFetcher<
+	T extends GetReposWithDetailsQueryBatched
+>(path: string): Promise<T> {
+	const res: Response = await fetch(path, {
+		headers: {
+			authorization
+		}
+	});
+	return await res.json();
+}
+
+ */

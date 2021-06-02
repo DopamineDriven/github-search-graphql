@@ -1,0 +1,14 @@
+# import GitHubActorPartial from "./atomic/actor-fields.graphql"
+
+fragment CommitCommentPartial on CommitComment {
+	body
+	bodyText
+	bodyHTML
+	id
+	authorAssociation
+	bodyText
+	createdAt
+	author {
+		...GitHubActorPartial
+	}
+}

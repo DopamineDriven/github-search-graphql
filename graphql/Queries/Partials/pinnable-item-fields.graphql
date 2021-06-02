@@ -1,0 +1,16 @@
+# import GitHubLanguagePartial from './atomic/atomic-language-fields.graphql'
+
+fragment GitHubPinnableItemPartial on PinnableItem {
+	... on Repository {
+		id
+		description
+		stargazerCount
+		nameWithOwner
+		name
+		name
+		forkCount
+		primaryLanguage {
+			...GitHubLanguagePartial
+		}
+	}
+}

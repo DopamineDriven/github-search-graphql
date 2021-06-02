@@ -9,7 +9,16 @@ import {
 	AgnosticRepoTemplate,
 	Button
 } from '@/components/UI';
-import { GitHub } from '@/components/UI/Icons';
+import {
+	GitHub,
+	GitHubOrganization,
+	GitHubEmail,
+	GitHubFollowers,
+	GitHubLink,
+	GitHubLocation,
+	GitHubTwitter,
+	GitHubStar
+} from '@/components/UI/Icons';
 import { GetReposWithDetailsDocument } from '@/graphql/graphql';
 import { GetReposWithDetailsQueryBatched } from '@/lib/ServerlessSnacks/get-user-repos-search-result';
 import {
@@ -23,36 +32,53 @@ import { useRouter } from 'next/router';
 import { AppLayout } from '@/components/Layout';
 import Link from 'next/link';
 import RepoWrapper from '@/components/Repo/wrapper';
+// import useSWR from 'swr';
+// import { userSearchFetcher } from '@/lib/SwrFetchers/pages-dynamic-login-route';
 
 export async function getServerSideProps<
 	P extends GetReposWithDetailsQueryBatched
 >(
 	context: GetServerSidePropsContext
 ): Promise<
-	GetServerSidePropsResult<{ data: ApolloQueryResult<P> }>
+	GetServerSidePropsResult<{
+		data: ApolloQueryResult<P>;
+		parsedParams: string | string[];
+	}>
 > {
-	const req = context.params?.login
+	const parsedParams = context.params?.login
 		? context.params.login
 		: '';
 
-	const res = await req?.valueOf();
 	const apolloClient = initializeApollo();
 	const data = await apolloClient.query<P>({
 		query: GetReposWithDetailsDocument,
 		variables: {
-			login: (res as string) ?? 'leerob'
+			login: (parsedParams as string) ?? 'leerob'
 		}
 	});
 	return addApolloState(apolloClient, {
-		props: { data }
+		props: { data, parsedParams }
 	});
 }
 
 export default function DynamicUserQuery<
 	T extends typeof getServerSideProps
->({ data }: InferGetServerSidePropsType<T>) {
+>({ data, parsedParams }: InferGetServerSidePropsType<T>) {
 	const router = useRouter();
 	const fallbackDate = Date.now();
+	const swrInit = data.data;
+	const clientParams = router.query.login;
+	console.log('swrInit: ', parsedParams);
+	console.log('router.query: ', router.query.login);
+
+	// const { data: swrData } =
+	// 	useSWR<GetReposWithDetailsQueryBatched>(
+	// 		() =>
+	// 			`/api/search-user-server?login=${
+	// 				clientParams as string
+	// 			}`,
+	// 		userSearchFetcher
+	// 	);
 
 	const dataComponent = (
 		<Container className='mx-auto justify-center content-center font-sans w-full min-w-full inline-block py-12 px-12 max-w-3xl select-none'>
@@ -66,7 +92,7 @@ export default function DynamicUserQuery<
 							<AgnosticRepoTemplate
 								primaryLanguage={repo?.node?.primaryLanguage}
 								source_icon={
-									<GitHub className='text-gray-200 fill-current' />
+									<GitHub className='text-gray-200 fill-current w-10 h-10' />
 								}
 								stars={repo.node.stargazerCount ?? 0}
 								forks={repo.node.forkCount ?? 0}
@@ -109,7 +135,7 @@ export default function DynamicUserQuery<
 									>
 										<a>
 											<Button
-												className='bg-redditBG border-2 border-purple-900 w-auto rounded-xl inline-flex justify-start align-top mx-20 my-14 text-center text-gray-300 hover:bg-redditSearch hover:text-gray-50 duration-150 ease-out transition-transform transform-gpu'
+												className='bg-redditBG border-2 border-purple-900 w-auto rounded-xl inline-flex justify-start align-top mx-10 my-14 text-center text-gray-300 hover:bg-redditSearch hover:text-gray-50 duration-150 ease-out transition-transform transform-gpu'
 												variant='slim'
 											>
 												Details
@@ -137,32 +163,88 @@ export default function DynamicUserQuery<
 			>
 				<RepoWrapper otherData={dataComponent}>
 					<div className='mx-auto'>
-						<div className='flex bg-redditNav bg-opacity-80 my-auto px-20 text-gray-50 container justify-content-center align-middle '>
+						<div className='flex-0 bg-redditNav bg-opacity-80 my-auto px-20 text-gray-50 container justify-content-center align-middle '>
 							<div className='pl-4'></div>
-							<div className='pt-4' style={{ height: '50vh' }}>
+							<div
+								className='py-6 pl-8'
+								style={{ height: 'auto' }}
+							>
 								<Image
-									className='w-full object-cover rounded-full ring-2 ring-purple-0 inline-flex float-right'
+									className='w-full object-cover rounded-full ring-4 ring-gray-400 ring-inset inline-flex float-right'
 									loader={ImageLoader}
 									width='125'
 									height='125'
 									quality={100}
 									src={data.data.user?.avatarUrl}
 								/>
-								<h4 className='text-lg font-bold'>
+								<h2 className='text-2xl font-semibold'>
+									{data.data.user?.name}
+								</h2>
+								<h2 className='text-xl font-light mb-3 text-gray-300'>
+									{data.data.user?.login}
+								</h2>
+								<h4 className='text-base mb-2'>
 									{data.data.user?.bio}
 								</h4>
-								<p className='mt-1'>
+								<div className='flex-1'>
+									<div className='mb-5 text-sm'>
+										<a
+											id='followers'
+											className='no-underline font-light text-gray-300'
+										>
+											<GitHubFollowers className='h-5 w-5 inline-block mr-2 z-150 align-top justify-start my-auto' />
+											<span className='font-bold text-gray-100'>
+												{data.data.user?.followers.totalCount.toLocaleString()}
+											</span>
+											{' followers'}
+										</a>
+										{' ⋅ '}
+										<a
+											id='following'
+											className='no-underline font-light text-gray-300'
+										>
+											<span className='font-bold text-gray-100'>
+												{data.data.user?.following.totalCount}
+											</span>
+											{' following'}
+										</a>
+										{' ⋅ '}
+										<a id='stars' className='no-underline font-light'>
+											<GitHubStar className='h-5 w-5 inline-block z-150 align-middle mb-1 justify-start my-auto text-gray-100' />{' '}
+											<span className='font-bold'>
+												{data.data.user?.starredRepositories.totalCount.toLocaleString()}
+											</span>
+										</a>
+									</div>
+								</div>
+								<p className='my-1 text-sm'>
+									<GitHubOrganization className='h-5 w-5 inline-block mr-2 z-150 align-top justify-start my-auto' />
+									{data.data.user?.company}
+								</p>
+								<p className='my-1 text-sm'>
+									<GitHubLocation className='h-5 w-5 inline-block mr-2 z-150 align-top justify-start my-auto' />
+									{data.data.user?.location}
+								</p>
+								<p className='my-1 text-sm'>
+									<GitHubEmail className='h-5 w-5 inline-block mr-2 z-150 align-top justify-start my-auto' />
+									{data.data.user?.email}
+								</p>
+								<p className='my-1 text-sm'>
+									<GitHubLink className='h-5 w-5 inline-block mr-2 z-150 align-top justify-start my-auto' />
+									{data.data.user?.websiteUrl}
+								</p>
+								<p className='my-1 text-sm'>
+									<GitHubTwitter className='h-5 w-5 inline-block mr-2 z-150 align-top justify-start my-auto' />
 									@{data.data.user?.twitterUsername}
 								</p>
-								{data.data.user?.login}
-								<div className='lg:pb-1 min-w-0 flex-1'>
-									<h3 className='text-lg sm:text-xl leading-6 font-bold text-bgReddit flex-row'>
+								<div className='lg:pb-1 mt-6 min-w-0 flex-1'>
+									<h3 className='text-lg sm:text-xl leading-6 font-light text-bgReddit flex-row'>
 										{`${
 											data.data.user?.repositories.totalCount &&
 											data.data.user.repositories.totalCount < 100
 												? data.data.user.repositories.totalCount
 												: 100
-										}/${data.data.user?.repositories
+										} of ${data.data.user?.repositories
 											.totalCount!} repos displayed`}
 									</h3>
 								</div>

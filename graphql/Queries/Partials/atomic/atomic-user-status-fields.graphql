@@ -1,0 +1,7 @@
+fragment GitHubUserStatusPartial on UserStatus {
+	message
+	expiresAt
+	id
+	emoji
+	createdAt
+}

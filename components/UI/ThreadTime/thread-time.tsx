@@ -13,7 +13,7 @@ const ThreadTime = ({ time }: ThreadTimeProps) => {
 					dateTime={formatDistanceToNow(time) + ' ago'}
 				>
 					{formatDistanceToNow(time)} {'ago'}
-					<span className='tooltip'>
+					<span className={'tooltip'}>
 						{format(time, 'LL/dd/yyyy') +
 							' at ' +
 							format(time, 'h:mm aaa')}{' '}

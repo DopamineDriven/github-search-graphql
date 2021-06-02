@@ -1,0 +1,30 @@
+# import GitHubPinnableItemPartial from "./pinnable-item-fields.graphql"
+# import GitHubPageInfoPartial from "./atomic/page-info-fields.graphql"
+# import GitHubUserOrgAssociationPartial from "./atomic/atomic-user-org-fields.graphql"
+# import GitHubUserStatusPartial from "./atomic/atomic-user-status-fields.graphql"
+# import GitHubUserPartial from "./atomic/user-fields.graphql"
+
+fragment GitHubUserDetailPartial on User {
+	...GitHubUserPartial
+	organizations(first: 5) {
+		totalCount
+		pageInfo {
+			...GitHubPageInfoPartial
+		}
+		nodes {
+			...GitHubUserOrgAssociationPartial
+		}
+	}
+	status {
+		...GitHubUserStatusPartial
+	}
+	pinnedItems(first: 6, types: REPOSITORY) {
+		totalCount
+		pageInfo {
+			...GitHubPageInfoPartial
+		}
+		nodes {
+			...GitHubPinnableItemPartial
+		}
+	}
+}

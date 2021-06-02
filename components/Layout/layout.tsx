@@ -40,7 +40,7 @@ function AppLayout({
 	const [search, setSearch] = useState('');
 
 	const { asPath: login } = useRouter();
-
+	const router = useRouter();
 	useEffect(() => {
 		const pathSubString = login.split('/');
 		if (!login.includes('/repos/[login]')) {
@@ -63,9 +63,13 @@ function AppLayout({
 				<title>{title ?? 'GitHub Search GraphQL'}</title>
 			</Head>
 			<Meta />
-			<Navbar SearchUser={<SearchUser />} />
+			<Navbar
+				SearchUser={
+					router.pathname === '/' ? <></> : <SearchUser />
+				}
+			/>
 			<>
-				<main className={cn('fit bg-purple-800', className)}>
+				<main className={cn('fit bg-purple-800 ', className)}>
 					{children}
 					<Footer />
 				</main>
