@@ -8,28 +8,20 @@ import {
 	addApolloState
 } from '@/lib/apollo';
 import {
-	GetIssuesMinimalDocument,
 	ViewerReposQuery,
 	ViewerReposQueryVariables,
 	ViewerReposDocument,
-	GetIssuesMinimalQueryVariables,
-	GetIssuesMinimalQuery,
 	GetReposWithDetailsQuery,
 	GetReposWithDetailsQueryVariables,
 	GetReposWithDetailsDocument
 } from '@/graphql/graphql';
-import ReposCoalesced from '@/components/Repo/repo';
-import RepoWrapper from '@/components/Repo/wrapper';
 import { AppLayout } from '@/components/Layout';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Searchbar from '@/components/Layout/Search/search';
 import { Container } from '@/components/UI';
 import { SearchUser } from '@/components/Layout/SearchUser';
-import {
-	LandingCoalescedUserProps,
-	LandingCoalesced
-} from '@/components/Landing';
+import { LandingCoalesced } from '@/components/Landing';
 
 export default function Index<
 	T extends typeof getStaticProps
@@ -37,53 +29,41 @@ export default function Index<
 	const [search, setSearch] = useState('');
 	const { asPath: login, asPath: q } = useRouter();
 	const router = useRouter();
-	console.log(router.query ?? 'no router.query');
+	console.log(router.query.login ?? 'no router.query');
 
-	useEffect(() => {
-		const pathSubString = q.split('/');
-		console.log(pathSubString);
-		if (!q.includes('/repositories/[owner]/[name]')) {
-			setSearch('');
-			return;
-		}
-		if (
-			q.includes('/repositories/[owner]/[name]') &&
-			q.length === 3
-		) {
-			setSearch(pathSubString[3]);
-			return;
-		}
-		console.log(search);
-	}, [q]);
+	// useEffect(() => {
+	// 	const pathSubString = q.split('/');
+	// 	console.log(pathSubString);
+	// 	if (!q.includes('/repositories/[owner]/[name]')) {
+	// 		setSearch('');
+	// 		return;
+	// 	}
+	// 	if (
+	// 		q.includes('/repositories/[owner]/[name]') &&
+	// 		q.length === 3
+	// 	) {
+	// 		setSearch(pathSubString[3]);
+	// 		return;
+	// 	}
+	// 	console.log(search);
+	// }, [q]);
 
-	useEffect(() => {
-		const pathSubString = login.split('/');
-		if (!login.includes('/repos/[login]')) {
-			setSearch('');
-			return;
-		}
-		if (
-			login.includes('/repos/[login]') &&
-			login.length === 2
-		) {
-			setSearch(pathSubString[2]);
-			return;
-		}
-		console.log(search);
-	}, [login]);
+	// useEffect(() => {
+	// 	const pathSubString = login.split('/');
+	// 	if (!login.includes('/repos/[login]')) {
+	// 		setSearch('');
+	// 		return;
+	// 	}
+	// 	if (
+	// 		login.includes('/repos/[login]') &&
+	// 		login.length === 2
+	// 	) {
+	// 		setSearch(pathSubString[2]);
+	// 		return;
+	// 	}
+	// 	console.log(search);
+	// }, [login]);
 
-	const searchBarStyled = (
-		<Container className='px-1/12 sm:px-1/6 lg:px-1/4 my-10'>
-			{'Feeling lucky: '}
-			<Searchbar />
-		</Container>
-	);
-	const searchUserStyled = (
-		<Container className='px-1/12 sm:px-1/6 lg:px-1/4 my-10'>
-			{'Search by user: '}
-			<SearchUser />
-		</Container>
-	);
 	return (
 		<>
 			<AppLayout>
@@ -131,3 +111,18 @@ export async function getStaticProps<P>(
 		revalidate: 120
 	});
 }
+
+/**
+const searchBarStyled = (
+	<Container className='px-1/12 sm:px-1/6 lg:px-1/4 my-10'>
+		{'Feeling lucky: '}
+		<Searchbar />
+	</Container>
+	);
+	const searchUserStyled = (
+	<Container className='px-1/12 sm:px-1/6 lg:px-1/4 my-10'>
+		{'Search by user: '}
+		<SearchUser />
+	</Container>
+	);
+ */

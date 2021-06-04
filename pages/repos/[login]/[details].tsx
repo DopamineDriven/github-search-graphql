@@ -112,7 +112,11 @@ export default function DynamicUserQuery<
 															{repoIssue.title ?? ' '}
 														</p>
 														<h2
-															id={'reply-' + repoIssue.author?.login}
+															id={
+																'reply-' + repoIssue.author?.login
+																	? repoIssue.author?.login ?? ''
+																	: ''
+															}
 															className='text-base font-medium text-gray-50 flex-row'
 														>
 															<p className='text-base font-bold tracking-wide text-gray-50 flex-row'>
@@ -173,7 +177,11 @@ export default function DynamicUserQuery<
 																									)}
 																								>
 																									<Image
-																										alt={comment.author?.login}
+																										alt={
+																											comment.author?.login
+																												? comment.author.login
+																												: 'author user unknown'
+																										}
 																										loader={ImageLoader}
 																										className='h-10 w-10 rounded-full'
 																										width={500}
@@ -198,7 +206,7 @@ export default function DynamicUserQuery<
 																										<h2
 																											id={
 																												'reply-' +
-																												repoIssue.author?.login
+																													repoIssue.author?.login ?? ''
 																											}
 																											className='text-base font-medium text-gray-50 flex-row'
 																										></h2>

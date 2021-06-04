@@ -41,9 +41,11 @@ function AppLayout({
 	const [search, setSearch] = useState('');
 
 	const { asPath: login } = useRouter();
-
+	const { query: LoginTest } = useRouter();
+	console.log(LoginTest.login ?? '');
 	useEffect(() => {
 		const pathSubString = login.split('/');
+		console.log(pathSubString.length);
 		console.log(pathSubString);
 		if (!login.includes('/repos/[login]')) {
 			setSearch('');

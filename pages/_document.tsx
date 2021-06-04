@@ -8,7 +8,8 @@ import Document, {
 	DocumentInitialProps
 } from 'next/document';
 import { GA_TRACKING_ID } from '@/lib/analytics';
-export default class FadeDocument extends Document<
+
+export default class GitHubSearchGraphQL extends Document<
 	DocumentProps | unknown
 > {
 	static async getInitialProps(

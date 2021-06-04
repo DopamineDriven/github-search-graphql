@@ -46,6 +46,9 @@ export interface SubRepoOverviewProps {
 
 /**
  * @interface AgnosticRepoTemplateProps
+ * @extends
+ * 	@interface RepoOverviewProps
+ * 	@interface SubRepoOverviewProps
  */
 
 export interface AgnosticRepoTemplateProps

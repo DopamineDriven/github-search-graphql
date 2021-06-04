@@ -4,8 +4,6 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import RepoWrapper from '../Repo/wrapper';
-import cn from 'classnames';
-import { GetReposWithDetailsQueryBatched } from '@/lib/ServerlessSnacks/get-user-repos-search-result';
 import {
 	Exact,
 	Scalars,
@@ -62,6 +60,7 @@ export default function LandingCoalesced<
 	 * check out interactionAbility field for pinnedRepos ❗
 	 */
 	const {
+		fetchMore,
 		data: userData,
 		loading,
 		error
@@ -166,7 +165,7 @@ export default function LandingCoalesced<
 								style={{ height: 'auto' }}
 							>
 								<Image
-									className='w-full object-cover rounded-full ring-4 ring-gray-400 ring-inset inline-flex float-right'
+									className='w-full object-cover rounded-full ring-4 ring-redditBG ring-inset inline-flex float-right'
 									loader={ImageLoader}
 									width='125'
 									height='125'
@@ -244,12 +243,13 @@ export default function LandingCoalesced<
 											: user.pinnedItems
 											? `${
 													user?.pinnedItems.totalCount &&
-													user.pinnedItems.totalCount < 6
-														? user.pinnedItems.totalCount
+													user.pinnedItems.totalCount < 7
+														? user.pinnedItems.nodes?.length
 														: 100
-											  } of ${user?.pinnedItems
-													.totalCount!} repos displayed`
-											: 'of inconclusive repos displayed'}
+											  } of ${
+													user?.pinnedItems.nodes!.length
+											  } repos displayed`
+											: 'of unknown repos displayed'}
 									</h3>
 								</div>
 							</div>
