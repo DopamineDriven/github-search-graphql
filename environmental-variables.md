@@ -4,6 +4,23 @@
 
 ##### To create a GitHub Personal Access Token, follow the directions provided [here](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token#creating-a-token)
 
+- Current Scopes used
+
+```ts
+{
+	Scopes: [
+		'read:discussion',
+		'read:gpg_key',
+		'read:org',
+		'read:packages',
+		'read:public_key',
+		'read:repo_hook',
+		'repo',
+		'user'
+	];
+}
+```
+
 ### Two .env\* files -- .env and .env.local
 
 ### `.env`

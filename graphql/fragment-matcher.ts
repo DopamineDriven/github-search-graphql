@@ -127,6 +127,7 @@ const result: PossibleTypesResultData = {
 			'TeamDiscussion',
 			'TeamDiscussionComment'
 		],
+		DeploymentReviewer: ['Team', 'User'],
 		EnterpriseAuditEntryData: [
 			'MembersCanDeleteReposClearAuditEntry',
 			'MembersCanDeleteReposDisableAuditEntry',
@@ -206,7 +207,7 @@ const result: PossibleTypesResultData = {
 			'UnsubscribedEvent',
 			'UserBlockedEvent'
 		],
-		Labelable: ['Issue', 'PullRequest'],
+		Labelable: ['Discussion', 'Issue', 'PullRequest'],
 		Lockable: ['Discussion', 'Issue', 'PullRequest'],
 		MemberStatusable: ['Organization', 'Team'],
 		MilestoneItem: ['Issue', 'PullRequest'],
@@ -251,6 +252,8 @@ const result: PossibleTypesResultData = {
 			'DeployedEvent',
 			'Deployment',
 			'DeploymentEnvironmentChangedEvent',
+			'DeploymentProtectionRule',
+			'DeploymentReview',
 			'DeploymentStatus',
 			'DisconnectedEvent',
 			'Discussion',
@@ -265,6 +268,7 @@ const result: PossibleTypesResultData = {
 			'EnterpriseServerUserAccountEmail',
 			'EnterpriseServerUserAccountsUpload',
 			'EnterpriseUserAccount',
+			'Environment',
 			'ExternalIdentity',
 			'Gist',
 			'GistComment',
@@ -412,7 +416,9 @@ const result: PossibleTypesResultData = {
 			'UserBlockedEvent',
 			'UserContentEdit',
 			'UserStatus',
-			'VerifiableDomain'
+			'VerifiableDomain',
+			'Workflow',
+			'WorkflowRun'
 		],
 		OauthApplicationAuditEntryData: [
 			'OauthApplicationCreateAuditEntry',

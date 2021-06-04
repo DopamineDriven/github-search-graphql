@@ -32,14 +32,14 @@
 - Organizations such as Vercel or Facebook have 28-to-32-character-Owner-Ids
 - I figured that the id would provide differentiation for user account type. Interestingly, users remain consistent at 20 across several ids tested (mine, lee rob's, and tim neutken's). However, organization ID lengths varied +/-4 between 28 and 32 characters in length
 
-###### ORG Users
+###### ORG User Accounts are 28-32 Characters in length
 
 - VERCEL: 32
   - "id": "MDEyOk9yZ2FuaXphdGlvbjE0OTg1MDIw",
 - FACEBOOK: 28
   - "id": "MDEyOk9yZ2FuaXphdGlvbjY5NjMx",
 
-###### Personal Users have 20 characters in ID
+###### Personal User Accounts are 20 characters in length
 
 - LEE ROB: 20
 
@@ -95,6 +95,8 @@ info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this comm
 ```
 
 - Plan A did not work, troubleshooting will continue with any updates posted accordingly
+
+- Update, incorporating `...on User` | `...on Organization` GraphQL `__typename` conditional into query
 
 ---
 
