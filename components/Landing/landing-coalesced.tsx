@@ -1,102 +1,109 @@
+import Image from 'next/image';
+import { ImageLoader } from '@/lib/image-loader';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import dynamic from 'next/dynamic';
+import RepoWrapper from '../Repo/wrapper';
+import cn from 'classnames';
+import { GetReposWithDetailsQueryBatched } from '@/lib/ServerlessSnacks/get-user-repos-search-result';
 import {
-	GetServerSidePropsContext,
-	GetServerSidePropsResult,
-	InferGetServerSidePropsType
-} from 'next';
-import {
-	CommentsSkeleton,
-	Container,
-	AgnosticRepoTemplate,
-	Button
-} from '@/components/UI';
+	Exact,
+	Scalars,
+	useGetReposWithDetailsQuery,
+	GetReposWithDetailsQuery,
+	GetReposWithDetailsQueryVariables,
+	GetReposWithDetailsDocument
+} from '@/graphql/graphql';
 import {
 	GitHub,
 	GitHubOrganization,
 	GitHubEmail,
 	GitHubFollowers,
 	GitHubLink,
+	GitHubRepo,
+	GitHubGrabber,
 	GitHubLocation,
 	GitHubTwitter,
 	GitHubStar
 } from '@/components/UI/Icons';
-import { GetReposWithDetailsDocument } from '@/graphql/graphql';
-import { GetReposWithDetailsQueryBatched } from '@/lib/ServerlessSnacks/get-user-repos-search-result';
 import {
-	initializeApollo,
-	addApolloState
-} from '@/lib/apollo';
-import { ApolloQueryResult } from '@apollo/client';
-import Image from 'next/image';
-import { ImageLoader } from '@/lib/image-loader';
-import { useRouter } from 'next/router';
-import { AppLayout } from '@/components/Layout';
-import Link from 'next/link';
-import RepoWrapper from '@/components/Repo/wrapper';
-// import useSWR from 'swr';
-// import { userSearchFetcher } from '@/lib/SwrFetchers/pages-dynamic-login-route';
+	CommentsSkeleton,
+	Container,
+	AgnosticRepoTemplate,
+	Button,
+	Fallback
+} from '@/components/UI';
 
-export async function getServerSideProps<
-	P extends GetReposWithDetailsQueryBatched
->(
-	context: GetServerSidePropsContext
-): Promise<
-	GetServerSidePropsResult<{
-		data: ApolloQueryResult<P>;
-	}>
-> {
-	const parsedParams = context.params?.login
-		? context.params.login
-		: '';
-
-	const apolloClient = initializeApollo();
-	const data = await apolloClient.query<P>({
-		query: GetReposWithDetailsDocument,
-		variables: {
-			login: (parsedParams as string) ?? 'leerob'
-		}
-	});
-	return addApolloState(apolloClient, {
-		props: { data }
-	});
+export interface LandingCoalescedUserProps {
+	className?: string;
+	user: GetReposWithDetailsQuery['user'];
 }
 
-export default function DynamicUserQuery<
-	T extends typeof getServerSideProps
->({ data }: InferGetServerSidePropsType<T>) {
+const dynamicProps = {
+	loading: () => <Fallback />
+};
+
+const ApolloError = dynamic(
+	() => import('../UI/ApolloError'),
+	dynamicProps
+);
+
+export default function LandingCoalesced<
+	P extends LandingCoalescedUserProps
+>(
+	{ className, user }: P,
+	{ login }: Exact<{ login: Scalars['String'] }>
+) {
 	const router = useRouter();
-	const fallbackDate = Date.now();
+	const q = router.query.q;
+	// previousData,
+	// fetchMore
+	/**
+	 * check out interactionAbility field for pinnedRepos ❗
+	 */
+	const {
+		data: userData,
+		loading,
+		error
+	} = useGetReposWithDetailsQuery({
+		query: GetReposWithDetailsDocument,
+		variables: {
+			login: q ? (q as string) : login ?? 'DopamineDriven'
+		},
+		notifyOnNetworkStatusChange: true
+	});
 
-	console.log('router.query: ', router.query.login);
-
-	const dataComponent = (
+	user = userData?.user;
+	const fallbackDate = Date.now(); // refactor to a better solution ❕
+	const dataRepos = (
 		<Container className='mx-auto justify-center content-center font-sans w-full min-w-full inline-block py-12 px-12 max-w-3xl select-none'>
 			{router.isFallback ? (
 				<CommentsSkeleton />
-			) : data.data.user?.repositories?.edges &&
-			  data.data.user.repositories.edges.length > 0 ? (
-				data.data.user.repositories.edges.map((repo, i) => {
-					return repo?.node ? (
-						<div key={repo.node.id} className='my-2 max-w-3xl'>
+			) : user?.pinnedItems?.nodes &&
+			  user.pinnedItems.nodes.length > 0 ? (
+				user.pinnedItems.nodes.map((repo, i) => {
+					return repo?.__typename === 'Repository' ? (
+						<div key={i++} className='my-2 max-w-3xl'>
 							<AgnosticRepoTemplate
-								primaryLanguage={repo?.node?.primaryLanguage}
+								primaryLanguage={repo?.primaryLanguage}
 								source_icon={
 									<GitHub className='text-gray-200 fill-current w-10 h-10' />
 								}
-								stars={repo.node.stargazerCount ?? 0}
-								forks={repo.node.forkCount ?? 0}
-								repo_user_name={repo.node.nameWithOwner ?? ''}
-								repo_user_source_url={repo.node.homepageUrl ?? ''}
+								stars={repo.stargazerCount ?? 0}
+								forks={repo.forkCount ?? 0}
+								repo_user_name={repo.nameWithOwner ?? ''}
+								repo_user_source_url={repo.homepageUrl ?? ''}
 								repo_user_created_timestamp={
-									new Date(repo.node.createdAt ?? fallbackDate)
+									new Date(repo.createdAt ?? fallbackDate)
 								}
 								repo_user_updated_timestamp={
-									new Date(repo.node.updatedAt ?? fallbackDate)
+									new Date(repo.updatedAt ?? fallbackDate)
 								}
-								repo_user_avatar={data.data.user?.avatarUrl}
+								repo_user_avatar={user?.avatarUrl}
 								repo_user_fallback_avatar={'/doge-404.jpg'}
 								repo_user_content={`${
-									repo.node.description
-										? (repo.node.description as string)
+									repo.description
+										? (repo.description as string)
 										: ''
 								}`}
 							>
@@ -107,16 +114,12 @@ export default function DynamicUserQuery<
 										width='350'
 										height='200'
 										quality={100}
-										alt={
-											repo.node.openGraphImageUrl ?? 'no user.name'
-										}
-										src={
-											repo.node.openGraphImageUrl ?? '/doge-404.jpg'
-										}
+										alt={repo.name ?? 'no user.name'}
+										src={repo.openGraphImageUrl ?? '/doge-404.jpg'}
 									/>
 									<Link
 										href={`/repos/[login]/[details]`}
-										as={`/repos/${repo.node.nameWithOwner}`}
+										as={`/repos/${repo.nameWithOwner}`}
 										passHref
 										shallow={true}
 										scroll={true}
@@ -145,11 +148,16 @@ export default function DynamicUserQuery<
 
 	return (
 		<>
-			<AppLayout
-				title={data.data.user?.login ?? 'Dynamic User Query'}
-				className='fit'
-			>
-				<RepoWrapper otherData={dataComponent}>
+			{error ? (
+				<>
+					<ApolloError error={error} />
+				</>
+			) : loading && !error ? (
+				<>
+					<Fallback />
+				</>
+			) : user ? (
+				<RepoWrapper otherData={dataRepos}>
 					<div className='mx-auto'>
 						<div className='flex-0 bg-redditNav bg-opacity-80 my-auto px-20 text-gray-50 container justify-content-center align-middle '>
 							<div className='pl-4'></div>
@@ -163,17 +171,15 @@ export default function DynamicUserQuery<
 									width='125'
 									height='125'
 									quality={100}
-									src={data.data.user?.avatarUrl}
+									src={user?.avatarUrl}
 								/>
 								<h2 className='text-2xl font-semibold'>
-									{data.data.user?.name}
+									{user?.name}
 								</h2>
 								<h2 className='text-xl font-light mb-3 text-gray-300'>
-									{data.data.user?.login}
+									{user?.login}
 								</h2>
-								<h4 className='text-base mb-2'>
-									{data.data.user?.bio}
-								</h4>
+								<h4 className='text-base mb-2'>{user?.bio}</h4>
 								<div className='flex-1'>
 									<div className='mb-5 text-sm'>
 										<a
@@ -182,7 +188,7 @@ export default function DynamicUserQuery<
 										>
 											<GitHubFollowers className='h-5 w-5 inline-block mr-2 z-150 align-top justify-start my-auto' />
 											<span className='font-bold text-gray-100'>
-												{data.data.user?.followers.totalCount.toLocaleString()}
+												{user?.followers.totalCount.toLocaleString()}
 											</span>
 											{' followers'}
 										</a>
@@ -192,7 +198,7 @@ export default function DynamicUserQuery<
 											className='no-underline font-light text-gray-300'
 										>
 											<span className='font-bold text-gray-100'>
-												{data.data.user?.following.totalCount}
+												{user?.following.totalCount}
 											</span>
 											{' following'}
 										</a>
@@ -200,47 +206,59 @@ export default function DynamicUserQuery<
 										<a id='stars' className='no-underline font-light'>
 											<GitHubStar className='h-5 w-5 inline-block z-150 align-middle mb-1 justify-start my-auto text-gray-100' />{' '}
 											<span className='font-bold'>
-												{data.data.user?.starredRepositories.totalCount.toLocaleString()}
+												{user?.starredRepositories.totalCount.toLocaleString()}
 											</span>
 										</a>
 									</div>
 								</div>
 								<p className='my-1 text-sm'>
 									<GitHubOrganization className='h-5 w-5 inline-block mr-2 z-150 align-top justify-start my-auto' />
-									{data.data.user?.company}
+									{user?.company}
 								</p>
 								<p className='my-1 text-sm'>
 									<GitHubLocation className='h-5 w-5 inline-block mr-2 z-150 align-top justify-start my-auto' />
-									{data.data.user?.location}
+									{user?.location}
 								</p>
 								<p className='my-1 text-sm'>
 									<GitHubEmail className='h-5 w-5 inline-block mr-2 z-150 align-top justify-start my-auto' />
-									{data.data.user?.email}
+									{user?.email}
 								</p>
 								<p className='my-1 text-sm'>
 									<GitHubLink className='h-5 w-5 inline-block mr-2 z-150 align-top justify-start my-auto' />
-									{data.data.user?.websiteUrl}
+									{user?.websiteUrl}
 								</p>
 								<p className='my-1 text-sm'>
 									<GitHubTwitter className='h-5 w-5 inline-block mr-2 z-150 align-top justify-start my-auto' />
-									@{data.data.user?.twitterUsername}
+									@{user?.twitterUsername}
 								</p>
 								<div className='lg:pb-1 mt-6 min-w-0 flex-1'>
 									<h3 className='text-lg sm:text-xl leading-6 font-light text-bgReddit flex-row'>
-										{`${
-											data.data.user?.repositories.totalCount &&
-											data.data.user.repositories.totalCount < 100
-												? data.data.user.repositories.totalCount
-												: 100
-										} of ${data.data.user?.repositories
-											.totalCount!} repos displayed`}
+										{user.repositories
+											? `${
+													user?.repositories.totalCount &&
+													user.repositories.totalCount < 100
+														? user.repositories.totalCount
+														: 100
+											  } of ${user?.repositories
+													.totalCount!} repos displayed`
+											: user.pinnedItems
+											? `${
+													user?.pinnedItems.totalCount &&
+													user.pinnedItems.totalCount < 6
+														? user.pinnedItems.totalCount
+														: 100
+											  } of ${user?.pinnedItems
+													.totalCount!} repos displayed`
+											: 'of inconclusive repos displayed'}
 									</h3>
 								</div>
 							</div>
 						</div>
 					</div>
 				</RepoWrapper>
-			</AppLayout>
+			) : (
+				<></>
+			)}
 		</>
 	);
 }

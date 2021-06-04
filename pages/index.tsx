@@ -13,7 +13,10 @@ import {
 	ViewerReposQueryVariables,
 	ViewerReposDocument,
 	GetIssuesMinimalQueryVariables,
-	GetIssuesMinimalQuery
+	GetIssuesMinimalQuery,
+	GetReposWithDetailsQuery,
+	GetReposWithDetailsQueryVariables,
+	GetReposWithDetailsDocument
 } from '@/graphql/graphql';
 import ReposCoalesced from '@/components/Repo/repo';
 import RepoWrapper from '@/components/Repo/wrapper';
@@ -23,28 +26,35 @@ import { useRouter } from 'next/router';
 import Searchbar from '@/components/Layout/Search/search';
 import { Container } from '@/components/UI';
 import { SearchUser } from '@/components/Layout/SearchUser';
+import {
+	LandingCoalescedUserProps,
+	LandingCoalesced
+} from '@/components/Landing';
 
 export default function Index<
 	T extends typeof getStaticProps
->({ repo }: InferGetStaticPropsType<T>) {
+>({ repo, user }: InferGetStaticPropsType<T>) {
 	const [search, setSearch] = useState('');
-	const { asPath: login, asPath } = useRouter();
+	const { asPath: login, asPath: q } = useRouter();
+	const router = useRouter();
+	console.log(router.query ?? 'no router.query');
 
 	useEffect(() => {
-		const pathSubString = asPath.split('/');
-		if (!asPath.includes('/repositories/[owner]/[name]')) {
+		const pathSubString = q.split('/');
+		console.log(pathSubString);
+		if (!q.includes('/repositories/[owner]/[name]')) {
 			setSearch('');
 			return;
 		}
 		if (
-			asPath.includes('/repositories/[owner]/[name]') &&
-			asPath.length === 3
+			q.includes('/repositories/[owner]/[name]') &&
+			q.length === 3
 		) {
 			setSearch(pathSubString[3]);
 			return;
 		}
 		console.log(search);
-	}, [asPath]);
+	}, [q]);
 
 	useEffect(() => {
 		const pathSubString = login.split('/');
@@ -78,14 +88,7 @@ export default function Index<
 		<>
 			<AppLayout>
 				<div className='bg-purple-0 text-gray-50 font-bold font-sans text-4xl select-none'>
-					<RepoWrapper
-						otherData={<ReposCoalesced viewer={repo.viewer} />}
-					>
-						<Container>
-							<p>{searchBarStyled}</p>
-							<p>{searchUserStyled}</p>
-						</Container>
-					</RepoWrapper>
+					<LandingCoalesced user={user.user} />
 				</div>
 			</AppLayout>
 		</>
@@ -97,12 +100,12 @@ export async function getStaticProps<P>(
 ): Promise<
 	GetStaticPropsResult<
 		P & {
-			user: GetIssuesMinimalQuery;
+			user: GetReposWithDetailsQuery;
 			repo: ViewerReposQuery;
 		}
 	>
 > {
-	console.log(ctx.params ?? '');
+	console.log(ctx.params?.login ?? 'no params');
 	const apolloClient = initializeApollo();
 
 	const { data: repo } = await apolloClient.query<
@@ -113,12 +116,14 @@ export async function getStaticProps<P>(
 	});
 
 	const { data: user } = await apolloClient.query<
-		GetIssuesMinimalQuery,
-		GetIssuesMinimalQueryVariables
+		GetReposWithDetailsQuery,
+		GetReposWithDetailsQueryVariables
 	>({
-		query: GetIssuesMinimalDocument,
+		query: GetReposWithDetailsDocument,
 		variables: {
-			login: 'DopamineDriven'
+			login: ctx.params?.login
+				? (ctx.params.login as string)
+				: 'DopamineDriven'
 		}
 	});
 	return addApolloState(apolloClient, {

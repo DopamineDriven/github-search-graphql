@@ -3,6 +3,8 @@ schema:
   ${NEXT_PUBLIC_GITHUB_GRAPHQL_ENDPOINT_YML}:
     headers:
       Authorization: Bearer ${GITHUB_OAUTH_TOKEN_YML}
+      ID: ${GITHUB_CLIENT_ID_DEV_YML}
+      Secret: ${GITHUB_CLIENT_SECRET_DEV_YML}
 documents: 'graphql/**/*.graphql'
 generates:
   graphql/fragment-matcher.ts:

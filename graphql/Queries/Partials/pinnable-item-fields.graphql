@@ -7,7 +7,11 @@ fragment GitHubPinnableItemPartial on PinnableItem {
 		stargazerCount
 		nameWithOwner
 		name
-		name
+		openGraphImageUrl
+		createdAt
+		updatedAt
+		homepageUrl
+		url
 		forkCount
 		primaryLanguage {
 			...GitHubLanguagePartial

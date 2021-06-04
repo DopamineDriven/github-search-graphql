@@ -97,9 +97,8 @@ const Navbar: FC<NavbarProps> = ({
 												<a className='#logo'>
 													<AngledBracketClosed
 														className={cn(
-															'stroke-current text-purple-700',
 															css.svg,
-															'cursor-default focus:outline-none transition-all transform-gpu ease-in-out duration-500',
+															'stroke-current text-purple-700 cursor-default focus:outline-none transition-all transform-gpu ease-in-out duration-500',
 															{
 																'w-18 h-18': !hasScrolled,
 																'w-14 h-14': hasScrolled

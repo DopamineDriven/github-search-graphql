@@ -1,15 +1,15 @@
 {
-  "name": "Github Schema",
-  "schemaPath": "./graphql/schema/graphql.schema.graphql",
-  "extensions": {
-    "endpoints": {
-      "Github GraphQL Endpoint": {
-        "url": "https://api.github.com/graphql",
-        "headers": {
-          "Authorization": "Bearer ${env:GITHUB_OAUTH_TOKEN_YML}"
-        },
-        "introspect": true
-      }
-    }
-  }
+	"name": "Github Schema",
+	"schemaPath": "./graphql/schema/graphql.schema.graphql",
+	"extensions": {
+		"endpoints": {
+			"Github GraphQL Endpoint": {
+				"url": "https://api.github.com/graphql",
+				"headers": {
+					"Authorization": "Bearer ${env:GITHUB_OAUTH_TOKEN_YML}"
+				},
+				"introspect": true
+			}
+		}
+	}
 }

@@ -2,7 +2,7 @@ import { Navbar } from './Navbar';
 import { Meta } from './Meta';
 import cn from 'classnames';
 import { Footer } from './Footer';
-import { Button, Fallback } from '../UI';
+import { Button, Fallback, Container } from '../UI';
 import { useAcceptCookies } from '@/lib/use-accept-cookies';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
@@ -27,9 +27,10 @@ const Featurebar = dynamic(
 export interface LayoutProps {
 	className?: string;
 	title?: string;
-	hero?: React.ReactNode | JSX.Element;
+	// hero?: React.ReactNode | JSX.Element;
 	children?: React.ReactNode;
 }
+
 function AppLayout({
 	className,
 	title,
@@ -40,9 +41,10 @@ function AppLayout({
 	const [search, setSearch] = useState('');
 
 	const { asPath: login } = useRouter();
-	const router = useRouter();
+
 	useEffect(() => {
 		const pathSubString = login.split('/');
+		console.log(pathSubString);
 		if (!login.includes('/repos/[login]')) {
 			setSearch('');
 			return;
@@ -65,7 +67,8 @@ function AppLayout({
 			<Meta />
 			<Navbar
 				SearchUser={
-					router.pathname === '/' ? <></> : <SearchUser />
+					<SearchUser />
+					// router.pathname === '/' ? <></> : <SearchUser />
 				}
 			/>
 			<>
@@ -81,7 +84,7 @@ function AppLayout({
 					action={
 						<Button
 							variant='slim'
-							className='mx-auto text-gray-50 font-medium text-center rounded-xl border-gray-50 border-2 hover:bg-purple-800 hover:bg-opacity-80 hover:border-purple-800 duration-500 ease-in-out transform-gpu transition-colors'
+							className='mx-auto text-gray-50 font-medium text-center rounded-xl border-gray-50 border-2 hover:bg-purple-800 hover:bg-opacity-80 hover:border-purple-800 duration-300 ease-in-out transform-gpu transition-colors'
 							onClick={() => onAcceptCookies()}
 						>
 							Accept Cookies
