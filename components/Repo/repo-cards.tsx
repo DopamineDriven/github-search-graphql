@@ -47,11 +47,14 @@ export default function RepoCards({ repo }: Repooo) {
 					<GitHub className='text-gray-200 fill-current' />
 				}
 				stars={repo.stargazerCount ?? 0}
-				key={repo.id}
 				repo_user_name={repo.name ?? ''}
 				repo_user_created_timestamp={newDateCreated}
 				repo_user_updated_timestamp={newDateUpdated}
-				repo_user_avatar={repo.openGraphImageUrl}
+				repo_user_avatar={
+					repo.openGraphImageUrl
+						? repo.openGraphImageUrl
+						: '/doge-404.jpg'
+				}
 				primaryLanguage={
 					repo!.primaryLanguage ? repo.primaryLanguage : null
 				}
@@ -66,7 +69,7 @@ export default function RepoCards({ repo }: Repooo) {
 						width='200'
 						height='200'
 						quality={100}
-						alt={repo.name}
+						alt={repo.name ? repo.name : 'alt name null'}
 						src={repo.openGraphImageUrl ?? '/doge-404.jpg'}
 					/>
 				</div>

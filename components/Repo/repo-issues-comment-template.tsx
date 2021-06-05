@@ -28,7 +28,7 @@ const IssueCommentsExcisedTemplate: FC<IssueCommentsExcisedTemplateProps> =
 									key={++j}
 								>
 									<div className='flex-col'>
-										<ReplyIcon className='text-purple-0 rotate-180 transform-gpu ml-2 mt-6' />
+										<ReplyIcon className='text-gray-300 rotate-180 transform-gpu ml-2 mt-6' />
 									</div>
 									<>
 										<div className='flex-row space-y-4 bg-redditNav rounded-lg sm:ml-6 p-3 w-full'>
@@ -73,7 +73,7 @@ const IssueCommentsExcisedTemplate: FC<IssueCommentsExcisedTemplateProps> =
 												</>
 											</div>
 											<p className='text-base font-medium text-purple-0 mt-4'></p>
-											<blockquote className='mt-2 text-sm text-gray-200 space-y-4'>
+											<blockquote className='my-2 text-sm text-gray-200 space-y-4'>
 												<TextEnhancer
 													textToTransform={commentIssueBodyConditional}
 												/>
@@ -112,7 +112,7 @@ const IssueCommentsExcisedTemplate: FC<IssueCommentsExcisedTemplateProps> =
 																<TextEnhancer
 																	textToTransform={emojiReaction}
 																/>
-																<p className='tooltip'>
+																<p className='tooltip transform -translate-y-4 translate-x-5'>
 																	{react.user?.login ?? ''}
 																</p>
 															</div>
@@ -138,11 +138,11 @@ const IssueCommentsExcisedTemplate: FC<IssueCommentsExcisedTemplateProps> =
 														)}
 													</span>
 													<div>
-														<div className='flex-row w-full py-3 text-xs'>
+														{/* <div className='flex-row w-full py-3 text-xs'>
 															<TextEnhancer
 																textToTransform={total.toLocaleString()}
 															/>
-														</div>
+														</div> */}
 													</div>
 													{subCommentChildren ? (
 														<div>{subCommentChildren}</div>

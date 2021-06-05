@@ -83,31 +83,33 @@ const RepoIssuesConnection: FC<RepoIssuesConnectionProps> =
 													textToTransform={repoIssueBodyConditional}
 												/>
 												<figcaption className='mt-3 flex text-sm'>
-													<span className='ml-2 inline-flex'>
-														{repoIssue.updatedAt ? (
-															<ThreadTime
-																time={
-																	new Date(
-																		repoIssue.updatedAt ?? fallbackDate
-																	)
-																}
+													<div className='min-w-full mb-4'>
+														<span className='ml-2 inline-flex'>
+															{repoIssue.updatedAt ? (
+																<ThreadTime
+																	time={
+																		new Date(
+																			repoIssue.updatedAt ?? fallbackDate
+																		)
+																	}
+																/>
+															) : (
+																<ThreadTime
+																	time={
+																		new Date(
+																			repoIssue.createdAt ?? fallbackDate
+																		)
+																	}
+																/>
+															)}
+														</span>
+														<div className='mt-6'>
+															<IssueCommentsExcisedTemplate
+																comments={repoIssue.comments}
 															/>
-														) : (
-															<ThreadTime
-																time={
-																	new Date(
-																		repoIssue.createdAt ?? fallbackDate
-																	)
-																}
-															/>
-														)}
-													</span>
-													<div>
-														<IssueCommentsExcisedTemplate
-															comments={repoIssue.comments}
-														/>
+														</div>
+														{children ? <div>{children}</div> : <></>}
 													</div>
-													{children ? <div>{children}</div> : <></>}
 												</figcaption>
 											</blockquote>
 										</div>

@@ -75,18 +75,18 @@ export default function LandingCoalesced<
 	user = userData?.user;
 	const fallbackDate = Date.now(); // refactor to a better solution ❕
 	const dataRepos = (
-		<Container className='mx-auto justify-center content-center font-sans w-full min-w-full inline-block py-12 px-12 max-w-3xl select-none'>
+		<Container className='justify-center content-center font-sans w-full min-w-full grid grid-cols-2 py-6 px-3 space-x-6 max-w-3xl fit select-none'>
 			{router.isFallback ? (
 				<CommentsSkeleton />
 			) : user?.pinnedItems?.nodes &&
 			  user.pinnedItems.nodes.length > 0 ? (
 				user.pinnedItems.nodes.map((repo, i) => {
 					return repo?.__typename === 'Repository' ? (
-						<div key={i++} className='my-2 max-w-3xl'>
+						<div key={i++} className='my-2 max-w-2xl flex-0'>
 							<AgnosticRepoTemplate
 								primaryLanguage={repo?.primaryLanguage}
 								source_icon={
-									<GitHub className='text-gray-200 fill-current w-10 h-10' />
+									<GitHubGrabber className='text-gray-200 fill-current w-5 h-5 cursor-move' />
 								}
 								stars={repo.stargazerCount ?? 0}
 								forks={repo.forkCount ?? 0}
@@ -107,15 +107,6 @@ export default function LandingCoalesced<
 								}`}
 							>
 								<div className='rounded-full inline-flex min-w-full'>
-									<Image
-										className='object-cover ring-2 ring-purple-0 inline-flex'
-										loader={ImageLoader}
-										width='350'
-										height='200'
-										quality={100}
-										alt={repo.name ?? 'no user.name'}
-										src={repo.openGraphImageUrl ?? '/doge-404.jpg'}
-									/>
 									<Link
 										href={`/repos/[login]/[details]`}
 										as={`/repos/${repo.nameWithOwner}`}
@@ -167,8 +158,8 @@ export default function LandingCoalesced<
 								<Image
 									className='w-full object-cover rounded-full ring-4 ring-redditBG ring-inset inline-flex float-right'
 									loader={ImageLoader}
-									width='125'
-									height='125'
+									width='75'
+									height='75'
 									quality={100}
 									src={user?.avatarUrl}
 								/>
@@ -234,12 +225,12 @@ export default function LandingCoalesced<
 									<h3 className='text-lg sm:text-xl leading-6 font-light text-bgReddit flex-row'>
 										{user.repositories
 											? `${
-													user?.repositories.totalCount &&
-													user.repositories.totalCount < 100
-														? user.repositories.totalCount
+													user?.pinnedItems.totalCount &&
+													user.pinnedItems.totalCount < 100
+														? user.pinnedItems.totalCount
 														: 100
-											  } of ${user?.repositories
-													.totalCount!} repos displayed`
+											  }/${user?.pinnedItems
+													.totalCount!} pinned repos displayed`
 											: user.pinnedItems
 											? `${
 													user?.pinnedItems.totalCount &&
