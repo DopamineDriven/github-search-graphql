@@ -1,3 +1,39 @@
+```jsx
+import Carousel from 'react-elastic-carousel';
+
+const SlideChild = ({ title, category }) => {
+	const [open, setOpen] = useState(false);
+	const onOpenModal = () => setOpen(true);
+	const onCloseModal = () => setOpen(false);
+	return (
+		<>
+			<Carousel
+				enableSwipe={true}
+				enableAutoPlay
+				autoPlaySpeed={3000}
+				className='slider'
+			>
+				<div class='wrapper'>
+					<div class='cards'>
+						<p className='name' onClick={onOpenModal}>
+							{title}{' '}
+						</p>
+						//Modal content
+						<a className='category'>{category}</a>
+					</div>
+				</div>
+			</Carousel>
+		</>
+	);
+};
+const Slider1 = () => {
+	const products = Data.map(product => (
+		<SlideChild desc={product.desc} title={product.title} />
+	));
+	return <>{products}</>;
+};
+```
+
 # github-search-graphql
 
 ![dynamic-routing](./public/dynamic-routing.png)

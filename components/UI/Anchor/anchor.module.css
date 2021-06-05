@@ -3,7 +3,7 @@
 }
 
 .root:hover {
-	@apply bg-redditBG;
+	@apply bg-redditSearch;
 }
 
 .root:focus {

@@ -26,10 +26,7 @@ export default function RepoConstituents({ repo }: Repooo) {
 		: (repo.url as string);
 	const txt = parser(`${parserFeed}`);
 	return (
-		<ul
-			className='divide-y divide-purple-700 max-w-7xl mx-auto px-2 sm:px-1 lg:px-0'
-			key={repo.id}
-		>
+		<ul className='divide-y divide-purple-700 max-w-7xl mx-auto px-2 sm:px-1 lg:px-0'>
 			<li className='max-w-4xl mx-auto'>
 				<div className='px-4 py-4 sm:px-6'>
 					<div className='flex items-center justify-between'>

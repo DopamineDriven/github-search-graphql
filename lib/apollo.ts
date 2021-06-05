@@ -16,7 +16,8 @@ import {
 import { IncomingHttpHeaders } from 'http';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
-
+const secret = process.env.GITHUB_CLIENT_SECRET_DEV ?? '';
+const clientId = process.env.GITHUB_CLIENT_ID_DEV ?? '';
 const token = process.env.GITHUB_OAUTH_TOKEN ?? '';
 const authorization = `Bearer ${token}`;
 
@@ -24,7 +25,26 @@ let apolloClient:
 	| ApolloClient<NormalizedCacheObject>
 	| undefined;
 
-function createApolloClient() {
+function createApolloClient(
+	headers: IncomingHttpHeaders | null = null
+) {
+	const enhancedFetch = async (
+		url: RequestInfo,
+		init: RequestInit
+	): Promise<
+		Response extends null | undefined ? never : Response
+	> => {
+		return await fetch(url, {
+			...init,
+			headers: {
+				...init.headers,
+				'Access-Control-Allow-Origin':
+					'strict-origin-when-cross-origin',
+				Cookie: headers?.cookie ?? ''
+			}
+		}).then(response => response);
+	};
+
 	const errorLink: ApolloLink = onError(
 		({ graphQLErrors, networkError }) => {
 			if (graphQLErrors)
@@ -42,10 +62,17 @@ function createApolloClient() {
 	const httpLink = new HttpLink({
 		uri: `https://api.github.com/graphql`,
 		headers: {
-			authorization
+			authorization,
+			clientId: clientId,
+			Secret: `Bearer ${secret}`,
+			accept: 'application/json',
+			'accept-encoding': 'gzip, deflate, br'
 		},
 		credentials: 'include',
-		...(typeof window !== undefined && { fetch })
+		fetchOptions: {
+			mode: 'cors'
+		},
+		fetch: enhancedFetch
 	});
 	return new ApolloClient({
 		ssrMode: typeof window === 'undefined',

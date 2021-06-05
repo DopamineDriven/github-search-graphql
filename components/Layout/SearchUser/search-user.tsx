@@ -1,4 +1,10 @@
-import { FC, useEffect, useMemo, useState } from 'react';
+import {
+	FC,
+	useEffect,
+	useMemo,
+	useState,
+	useRef
+} from 'react';
 import cn from 'classnames';
 import css from '../Search/search.module.css';
 import { useRouter } from 'next/router';
@@ -17,11 +23,12 @@ const SearchUser: FC<SearchbarProps> = ({
 }) => {
 	const router = useRouter();
 	const [value, setValue] = useState('');
+	const queryDynamic = useRef(router.query.login as string);
 	useEffect(() => {
 		// router.prefetch(url, as)
 		router.prefetch(
 			'/repos/[login]',
-			`/repos/${router.query}`,
+			`/repos/${router.query.login as string}`,
 			{
 				priority: true
 			}
@@ -49,7 +56,7 @@ const SearchUser: FC<SearchbarProps> = ({
 						router && router.query
 							? (router.query.login as string)
 							: router.query
-							? router.query.q
+							? (router.query.q as string)
 							: ''
 					}
 					onKeyUp={e => {
@@ -63,8 +70,7 @@ const SearchUser: FC<SearchbarProps> = ({
 									pathname: `/repos/${login}`,
 									query: login ? filterQuery({ login }) : {}
 								},
-								undefined,
-								{ shallow: true }
+								undefined
 							);
 						}
 					}}
@@ -84,7 +90,7 @@ const SearchUser: FC<SearchbarProps> = ({
 				</div>
 			</div>
 		),
-		[]
+		[queryDynamic.current]
 	);
 };
 

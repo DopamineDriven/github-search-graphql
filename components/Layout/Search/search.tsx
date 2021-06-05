@@ -25,7 +25,7 @@ const Searchbar: FC<SearchbarProps> = ({
 		// router.prefetch(url, as)
 		router.prefetch(
 			'/repositories/[owner]/[name]',
-			`/github/${router.query}`,
+			`/repositories/${router.query}`,
 			{
 				priority: true
 			}

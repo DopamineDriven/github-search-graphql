@@ -1,5 +1,5 @@
 .root {
-	@apply py-2 px-3 w-full appearance-none transition duration-150 ease-in-out border-2 border-redditBG;
+	@apply py-2 px-3 w-full appearance-none transition duration-150 ease-in-out border border-redditBG;
 	&:focus {
 		@apply outline-none border-gray-50;
 	}

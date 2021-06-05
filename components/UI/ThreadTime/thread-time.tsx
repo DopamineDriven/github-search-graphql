@@ -6,11 +6,15 @@ export interface ThreadTimeProps {
 
 const ThreadTime = ({ time }: ThreadTimeProps) => {
 	return (
-		<p className='text-xs text-gray-200'>
+		<p className='text-xs text-gray-200 flex-0'>
 			<a className='text-gray-200 no-underline'>
 				<time
 					className='underline-none has-tooltip'
-					dateTime={formatDistanceToNow(time) + ' ago'}
+					dateTime={
+						formatDistanceToNow(time, {
+							addSuffix: true
+						}) + ' ago'
+					}
 				>
 					{formatDistanceToNow(time)} {'ago'}
 					<span className={'tooltip'}>

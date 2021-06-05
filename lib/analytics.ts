@@ -1,10 +1,7 @@
-// https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/google.analytics/index.d.ts
-
 export const GA_TRACKING_ID =
 	process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ?? '';
 
 export const pageview = (url: URL) => {
-	// if (typeof window !== 'undefined') {
 	window.gtag('config', GA_TRACKING_ID, {
 		page_path: url
 	});
@@ -20,3 +17,5 @@ export const event = (
 		value
 	});
 };
+
+// https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/gtag.js/index.d.ts
