@@ -19,6 +19,7 @@ import cn from 'classnames';
 import Anchor from '../UI/Anchor/anchor';
 import Link from 'next/link';
 import type { RepoIssuesCoalescedProps } from './types';
+import ButtonBack from '../UI/BackButton/back-button';
 
 const dynamicProps = {
 	loading: () => <LoadingSpinner />
@@ -79,7 +80,7 @@ export default function RepoIssuesCoalesced<
 					className='mx-auto transform-gpu rounded-xl my-4 justify-center px-4 py-2 bg-redditBG border-purple-900 border-2 hover:bg-redditSearch'
 				>
 					<Anchor
-						className='mx-auto text-2xl text-gray-200 hover:text-gray-50 '
+						className='mx-auto text-2xl text-gray-200 '
 						onClick={() => router.back()}
 					>
 						Back to Repos
@@ -149,12 +150,12 @@ export default function RepoIssuesCoalesced<
 				variant='slim'
 				className='mx-auto transform-gpu rounded-xl my-4 justify-center px-4 py-2 bg-redditBG border-purple-900 border-2 hover:bg-redditSearch'
 			>
-				<a
+				<Anchor
 					className='mx-auto text-2xl text-gray-200 hover:text-gray-50 '
 					onClick={() => router.back()}
 				>
 					Back to Repos
-				</a>
+				</Anchor>
 			</Button>
 		</Container>
 	);

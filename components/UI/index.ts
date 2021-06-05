@@ -1,6 +1,7 @@
 export { default as AgnosticRepoTemplate } from './AgnosticRepoTemplate';
 export { default as Anchor } from './Anchor';
 export { default as ApolloError } from './ApolloError';
+export { default as ButtonBack } from './BackButton';
 export { default as Button } from './Button';
 export { default as CommentsSkeleton } from './CommentsSkeleton';
 export { default as Container } from './Container';
