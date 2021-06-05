@@ -16,7 +16,7 @@ import {
 	GetReposWithDetailsDocument
 } from '@/graphql/graphql';
 import { AppLayout } from '@/components/Layout';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 import Searchbar from '@/components/Layout/Search/search';
 import { Container } from '@/components/UI';
@@ -27,9 +27,33 @@ export default function Index<
 	T extends typeof getStaticProps
 >({ repo, user }: InferGetStaticPropsType<T>) {
 	const [search, setSearch] = useState('');
-	const { asPath: login, asPath: q } = useRouter();
 	const router = useRouter();
-	console.log(router.query.login ?? 'no router.query');
+	const refParams = useRef(router.query.login);
+	const { pathname } = useRouter();
+	const { asPath: login } = useRouter();
+	const { query: LoginTest } = useRouter();
+	console.log(LoginTest.login ?? '');
+	useEffect(() => {
+		const pathSubString = login.split('/');
+		console.log(pathSubString.length);
+		console.log(pathSubString);
+		if (!login.includes('/repos/[login]')) {
+			setSearch('');
+			return;
+		}
+		if (
+			login.includes('/repos/[login]') &&
+			login.length === 3
+		) {
+			setSearch(
+				refParams.current
+					? (refParams.current as string)
+					: pathSubString[2]
+			);
+			return;
+		}
+		console.log(refParams);
+	}, [login, search]);
 
 	// useEffect(() => {
 	// 	const pathSubString = q.split('/');

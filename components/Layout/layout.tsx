@@ -2,12 +2,12 @@ import { Navbar } from './Navbar';
 import { Meta } from './Meta';
 import cn from 'classnames';
 import { Footer } from './Footer';
-import { Button, Fallback, Container } from '../UI';
+import { Button, Fallback } from '../UI';
 import { useAcceptCookies } from '@/lib/use-accept-cookies';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { SearchUser } from './SearchUser';
 
 const dynamicProps = {
@@ -38,28 +38,8 @@ function AppLayout({
 }: LayoutProps) {
 	const { acceptedCookies, onAcceptCookies } =
 		useAcceptCookies();
-	const [search, setSearch] = useState('');
-
-	const { asPath: login } = useRouter();
 	const { query: LoginTest } = useRouter();
 	console.log(LoginTest.login ?? '');
-	useEffect(() => {
-		const pathSubString = login.split('/');
-		console.log(pathSubString.length);
-		console.log(pathSubString);
-		if (!login.includes('/repos/[login]')) {
-			setSearch('');
-			return;
-		}
-		if (
-			login.includes('/repos/[login]') &&
-			login.length === 2
-		) {
-			setSearch(pathSubString[2]);
-			return;
-		}
-		console.log(search);
-	}, [login]);
 
 	return (
 		<>

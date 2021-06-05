@@ -1,34 +1,23 @@
 import { FC } from 'react';
-import { IssueCommentsExcised } from '@/types/issue-comments-excised';
 import cn from 'classnames';
 import Image from 'next/image';
 import { ImageLoader } from '@/lib/image-loader';
 import { TextEnhancer, ThreadTime, Container } from '../UI';
 import { ReplyIcon } from '../UI/Icons';
-import {
-	EmojiOptions,
-	ReactType
-} from '@/types/user-reaction';
-
-export type IssueCommentsExcisedTemplateProps = {
-	repoIssue: IssueCommentsExcised;
-	className?: string;
-};
+import type { IssueCommentsExcisedTemplateProps } from './types';
 
 const IssueCommentsExcisedTemplate: FC<IssueCommentsExcisedTemplateProps> =
 	({
-		repoIssue,
+		comments,
 		className,
 		children: subCommentChildren
 	}) => {
 		const fallbackDate = Date.now();
-		const total = repoIssue.comments.totalCount ?? 0;
+		const total = comments.totalCount ?? 0;
 		return (
 			<Container className={cn(className, '')} clean>
-				{total} total comments
-				{repoIssue.comments.nodes &&
-				repoIssue.comments.nodes.length > 0 ? (
-					repoIssue.comments.nodes.map((comment, j) => {
+				{comments.nodes && comments.nodes.length > 0 ? (
+					comments.nodes.map((comment, j) => {
 						const commentIssueBodyConditional = comment?.bodyText
 							? comment.bodyText
 							: '';
@@ -90,31 +79,38 @@ const IssueCommentsExcisedTemplate: FC<IssueCommentsExcisedTemplateProps> =
 												/>
 												<p className='text-base font-bold tracking-wide text-gray-50 flex-row'>
 													{comment.reactions.nodes?.map((react, k) => {
+														const emojiReaction:
+															| ''
+															| '👍'
+															| '👎'
+															| '🤣'
+															| '❤'
+															| '👀'
+															| '🚀'
+															| '🎉'
+															| '😕' = react
+															? react.content.valueOf() === 'THUMBS_UP'
+																? '👍'
+																: react.content.valueOf() === 'THUMBS_DOWN'
+																? '👎'
+																: react.content.valueOf() === 'LAUGH'
+																? '🤣'
+																: react.content.valueOf() === 'HEART'
+																? '❤'
+																: react.content.valueOf() === 'EYES'
+																? '👀'
+																: react.content.valueOf() === 'ROCKET'
+																? '🚀'
+																: react.content.valueOf() === 'HOORAY'
+																? '🎉'
+																: react.content.valueOf() === 'CONFUSED'
+																? '😕'
+																: ''
+															: '';
 														return react ? (
 															<div className='has-tooltip' key={k++}>
 																<TextEnhancer
-																	textToTransform={
-																		react
-																			? react.content.valueOf() === 'THUMBS_UP'
-																				? '👍'
-																				: react.content.valueOf() ===
-																				  'THUMBS_DOWN'
-																				? '👎'
-																				: react.content.valueOf() === 'LAUGH'
-																				? '🤣'
-																				: react.content.valueOf() === 'HEART'
-																				? '❤'
-																				: react.content.valueOf() === 'EYES'
-																				? '👀'
-																				: react.content.valueOf() === 'ROCKET'
-																				? '🚀'
-																				: react.content.valueOf() === 'HOORAY'
-																				? '🎉'
-																				: react.content.valueOf() === 'CONFUSED'
-																				? '😕'
-																				: ''
-																			: ''
-																	}
+																	textToTransform={emojiReaction}
 																/>
 																<p className='tooltip'>
 																	{react.user?.login ?? ''}
@@ -141,6 +137,13 @@ const IssueCommentsExcisedTemplate: FC<IssueCommentsExcisedTemplateProps> =
 															/>
 														)}
 													</span>
+													<div>
+														<div className='flex-row w-full py-3 text-xs'>
+															<TextEnhancer
+																textToTransform={total.toLocaleString()}
+															/>
+														</div>
+													</div>
 													{subCommentChildren ? (
 														<div>{subCommentChildren}</div>
 													) : (
