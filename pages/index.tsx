@@ -18,9 +18,6 @@ import {
 import { AppLayout } from '@/components/Layout';
 import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
-import Searchbar from '@/components/Layout/Search/search';
-import { Container } from '@/components/UI';
-import { SearchUser } from '@/components/Layout/SearchUser';
 import { LandingCoalesced } from '@/components/Landing';
 
 export default function Index<
@@ -54,40 +51,6 @@ export default function Index<
 		}
 		console.log(refParams);
 	}, [login, search]);
-
-	// useEffect(() => {
-	// 	const pathSubString = q.split('/');
-	// 	console.log(pathSubString);
-	// 	if (!q.includes('/repositories/[owner]/[name]')) {
-	// 		setSearch('');
-	// 		return;
-	// 	}
-	// 	if (
-	// 		q.includes('/repositories/[owner]/[name]') &&
-	// 		q.length === 3
-	// 	) {
-	// 		setSearch(pathSubString[3]);
-	// 		return;
-	// 	}
-	// 	console.log(search);
-	// }, [q]);
-
-	// useEffect(() => {
-	// 	const pathSubString = login.split('/');
-	// 	if (!login.includes('/repos/[login]')) {
-	// 		setSearch('');
-	// 		return;
-	// 	}
-	// 	if (
-	// 		login.includes('/repos/[login]') &&
-	// 		login.length === 2
-	// 	) {
-	// 		setSearch(pathSubString[2]);
-	// 		return;
-	// 	}
-	// 	console.log(search);
-	// }, [login]);
-
 	return (
 		<>
 			<AppLayout>

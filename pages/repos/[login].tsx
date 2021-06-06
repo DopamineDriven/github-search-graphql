@@ -24,11 +24,12 @@ export async function getServerSideProps<
 		data: ApolloQueryResult<P>;
 	}>
 > {
-	const parsedParams = context.params?.login
-		? context.params.login
-		: '';
-	const inc = context.req.headers;
-	console.log('incoming headers: ', inc ?? '');
+	const {
+		query: { login },
+		req: { headers }
+	} = context;
+
+	console.log('incoming headers: ', headers ?? '');
 	context.res.setHeader(
 		'AccessControl',
 		'strict-origin-when-cross-origin'
@@ -37,7 +38,7 @@ export async function getServerSideProps<
 	const data = await apolloClient.query<P>({
 		query: GetReposWithDetailsDocument,
 		variables: {
-			login: (parsedParams as string) ?? 'leerob'
+			login: login as string
 		}
 	});
 	return addApolloState(apolloClient, {
@@ -48,20 +49,24 @@ export async function getServerSideProps<
 export default function DynamicUserQuery<
 	T extends typeof getServerSideProps
 >({ data }: InferGetServerSidePropsType<T>) {
-	const router = useRouter();
+	const {
+		query: { login }
+	} = useRouter();
 	return (
 		<>
 			<AppLayout
-				title={data.data.user?.login ?? 'Dynamic User Query'}
+				title={('Repo Overview - ' + login) as string}
 				className='fit'
 			>
 				{data.data.user ? (
 					<SearchLanding
 						user={data.data.user}
 						login={
-							data.data.login ??
-							(router.query.login as string) ??
-							'DopamineDriven'
+							data.data.login
+								? data.data.login
+								: (login as string)
+								? (login as string)
+								: 'DopamineDriven'
 						}
 					/>
 				) : (
