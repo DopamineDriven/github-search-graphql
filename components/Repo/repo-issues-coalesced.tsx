@@ -5,21 +5,22 @@ import {
 	useGetFineDetailsByRepoQuery
 } from '@/graphql/graphql';
 import {
+	Anchor,
 	Container,
 	Button,
 	AgnosticRepoTemplate,
 	CommentsSkeleton,
-	LoadingSpinner
+	LoadingSpinner,
+	ThreadTime,
+	TextEnhancer
 } from '../UI';
-import { GitHub } from '../UI/Icons';
+import { GitHub, ReplyIcon } from '../UI/Icons';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
-import { RepoIssuesConnection } from './index';
 import cn from 'classnames';
-import Anchor from '../UI/Anchor/anchor';
 import Link from 'next/link';
 import type { RepoIssuesCoalescedProps } from './types';
-import ButtonBack from '../UI/BackButton/back-button';
+import parser from 'html-react-parser';
 
 const dynamicProps = {
 	loading: () => <LoadingSpinner />
@@ -138,8 +139,291 @@ export default function RepoIssuesCoalesced<
 								}
 							/>
 						</div>
-						{dataRepo?.issues ? (
-							<RepoIssuesConnection issues={dataRepo.issues} />
+						{user?.repository?.issues?.nodes &&
+						user?.repository?.issues.nodes.length > 0 ? (
+							user.repository.issues.nodes.map((repoIssue, j) => {
+								const repoIssueBodyConditional = repoIssue?.body
+									? repoIssue.body
+									: repoIssue?.bodyText
+									? repoIssue.bodyText
+									: '';
+								return repoIssue ? (
+									<>
+										<div
+											className={cn(
+												'inline-flex max-w-8xl w-full',
+												className ?? ''
+											)}
+											key={++j}
+										>
+											<div className='flex-col'>
+												<ReplyIcon />
+											</div>
+											<>
+												<div className='flex-col space-y-4 bg-redditSearch rounded-lg sm:ml-6 p-3 w-full'>
+													<div className='flex space-x-3'>
+														<div
+															className={cn(
+																'flex-shrink-0 w-12 h-12 rounded-full'
+															)}
+														>
+															<Image
+																alt={repoIssue.number.toString()}
+																loader={ImageLoader}
+																className='h-10 w-10 rounded-full'
+																width={500}
+																layout='responsive'
+																aria-orientation='vertical'
+																height={500}
+																objectFit='fill'
+																src={
+																	repoIssue.author?.avatarUrl
+																		? repoIssue.author.avatarUrl
+																		: repoIssue.url
+																}
+																priority
+																quality={100}
+															/>
+														</div>
+														<>
+															<div className='min-w-0 flex-1'>
+																<p className='text-sm font-medium text-gray-50'>
+																	{repoIssue.title ?? ' '}
+																</p>
+																<h2
+																	id={
+																		'reply-' + repoIssue.author?.login
+																			? repoIssue.author?.login ?? ''
+																			: ''
+																	}
+																	className='text-base font-medium text-gray-50 flex-row'
+																>
+																	<p className='text-base font-bold tracking-wide text-gray-50 flex-row'>
+																		{repoIssue.author?.login}
+																	</p>
+																</h2>
+															</div>
+														</>
+													</div>
+													<p className='text-base font-medium text-purple-0 mt-4'></p>
+													<blockquote className='mt-2 text-sm text-gray-200 space-y-4'>
+														<TextEnhancer
+															textToTransform={repoIssueBodyConditional}
+														/>
+														<figcaption className='mt-3 flex text-sm'>
+															<div className='min-w-full mb-4'>
+																<span className='ml-2 inline-flex'>
+																	{repoIssue.updatedAt ? (
+																		<ThreadTime
+																			time={
+																				new Date(
+																					repoIssue.updatedAt ?? fallbackDate
+																				)
+																			}
+																		/>
+																	) : (
+																		<ThreadTime
+																			time={
+																				new Date(
+																					repoIssue.createdAt ?? fallbackDate
+																				)
+																			}
+																		/>
+																	)}
+																</span>
+																<div className='mt-6'>
+																	{repoIssue.comments.nodes &&
+																	repoIssue.comments.nodes.length > 0 ? (
+																		repoIssue.comments.nodes.map(
+																			(comment, k) => {
+																				const commentIssueBodyConditional =
+																					comment?.body ? comment.body : '';
+																				const commentParsed = parser(
+																					comment?.bodyHTML as string
+																				);
+																				return comment ? (
+																					<>
+																						<div
+																							className='inline-flex max-w-3xl w-full'
+																							key={++k}
+																						>
+																							<div className='flex-col'>
+																								<ReplyIcon className='text-gray-300 rotate-180 transform-gpu ml-2 mt-6' />
+																							</div>
+																							<>
+																								<div className='flex-row space-y-4 bg-redditNav rounded-lg sm:ml-6 p-3 w-full'>
+																									<div className='flex space-x-3'>
+																										<div
+																											className={cn(
+																												'flex-shrink-0 w-12 h-12 rounded-full'
+																											)}
+																										>
+																											<Image
+																												alt={
+																													comment.author?.login
+																														? comment.author.login
+																														: 'author user unknown'
+																												}
+																												loader={ImageLoader}
+																												className='h-10 w-10 rounded-full'
+																												width={500}
+																												layout='responsive'
+																												aria-orientation='vertical'
+																												height={500}
+																												objectFit='fill'
+																												src={
+																													comment.author?.avatarUrl
+																														? comment.author.avatarUrl
+																														: '/doge-404.jpg'
+																												}
+																												priority
+																												quality={100}
+																											/>
+																										</div>
+																										<>
+																											<div className='min-w-0 flex-1'>
+																												<p className='text-sm font-medium text-gray-50'>
+																													{comment.author?.login ?? ' '}
+																												</p>
+																												<h2
+																													id={
+																														'reply-' +
+																															comment.author?.login ?? ''
+																													}
+																													className='text-base font-medium text-gray-50 flex-row'
+																												></h2>
+																											</div>
+																										</>
+																									</div>
+																									<p className='text-base font-medium text-purple-0 mt-4'></p>
+																									<blockquote className='my-2 text-sm text-gray-200 space-y-4'>
+																										<TextEnhancer
+																											textToTransform={
+																												commentIssueBodyConditional as string
+																											}
+																										/>
+																										<p className='text-base font-bold tracking-wide text-gray-50 flex-row'>
+																											{comment.reactions.nodes?.map(
+																												(react, l) => {
+																													const emojiReaction:
+																														| ''
+																														| '👍'
+																														| '👎'
+																														| '🤣'
+																														| '❤'
+																														| '👀'
+																														| '🚀'
+																														| '🎉'
+																														| '😕' = react
+																														? react.content.valueOf() ===
+																														  'THUMBS_UP'
+																															? '👍'
+																															: react.content.valueOf() ===
+																															  'THUMBS_DOWN'
+																															? '👎'
+																															: react.content.valueOf() ===
+																															  'LAUGH'
+																															? '🤣'
+																															: react.content.valueOf() ===
+																															  'HEART'
+																															? '❤'
+																															: react.content.valueOf() ===
+																															  'EYES'
+																															? '👀'
+																															: react.content.valueOf() ===
+																															  'ROCKET'
+																															? '🚀'
+																															: react.content.valueOf() ===
+																															  'HOORAY'
+																															? '🎉'
+																															: react.content.valueOf() ===
+																															  'CONFUSED'
+																															? '😕'
+																															: ''
+																														: '';
+
+																													return react ? (
+																														<div
+																															className='has-tooltip'
+																															key={l++}
+																														>
+																															<TextEnhancer
+																																textToTransform={
+																																	commentParsed
+																																		? (commentParsed as string)
+																																		: ''
+																																}
+																															/>
+																															<TextEnhancer
+																																textToTransform={
+																																	emojiReaction
+																																}
+																															/>
+																															<p className='tooltip transform -translate-y-4 translate-x-5'>
+																																{react.user?.login ?? ''}
+																															</p>
+																														</div>
+																													) : (
+																														<></>
+																													);
+																												}
+																											)}
+																										</p>
+																										<figcaption className='mt-3 flex text-sm'>
+																											<span className='ml-2 inline-flex w-32'>
+																												{comment.updatedAt ? (
+																													<ThreadTime
+																														time={
+																															new Date(
+																																comment.updatedAt ??
+																																	fallbackDate
+																															)
+																														}
+																													/>
+																												) : (
+																													<ThreadTime
+																														time={
+																															new Date(
+																																comment.createdAt ??
+																																	fallbackDate
+																															)
+																														}
+																													/>
+																												)}
+																											</span>
+																											<div>
+																												{/* <div className='flex-row w-full py-3 text-xs'>
+															<TextEnhancer
+																textToTransform={total.toLocaleString()}
+															/>
+														</div> */}
+																											</div>
+																										</figcaption>
+																									</blockquote>
+																								</div>
+																							</>
+																						</div>
+																					</>
+																				) : (
+																					<></>
+																				);
+																			}
+																		)
+																	) : (
+																		<></>
+																	)}
+																</div>
+															</div>
+														</figcaption>
+													</blockquote>
+												</div>
+											</>
+										</div>
+									</>
+								) : (
+									<></>
+								);
+							})
 						) : (
 							<></>
 						)}

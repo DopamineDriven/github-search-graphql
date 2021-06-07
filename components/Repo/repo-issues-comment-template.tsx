@@ -5,6 +5,7 @@ import { ImageLoader } from '@/lib/image-loader';
 import { TextEnhancer, ThreadTime, Container } from '../UI';
 import { ReplyIcon } from '../UI/Icons';
 import type { IssueCommentsExcisedTemplateProps } from './types';
+import parser from 'html-react-parser';
 
 const IssueCommentsExcisedTemplate: FC<IssueCommentsExcisedTemplateProps> =
 	({
@@ -107,8 +108,15 @@ const IssueCommentsExcisedTemplate: FC<IssueCommentsExcisedTemplateProps> =
 																? '😕'
 																: ''
 															: '';
+														const commentBody = parser(
+															`{comment.bodyText}` as string
+														);
+														const content = comment?.bodyText
+															? comment.bodyText
+															: '';
 														return react ? (
 															<div className='has-tooltip' key={k++}>
+																<TextEnhancer textToTransform={content} />
 																<TextEnhancer
 																	textToTransform={emojiReaction}
 																/>

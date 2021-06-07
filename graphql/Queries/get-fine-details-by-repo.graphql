@@ -4,6 +4,7 @@
 query GetFineDetailsByRepo(
 	$login: String!
 	$name: String!
+	$state: [IssueState!]
 ) {
 	user(login: $login) {
 		id
@@ -34,7 +35,7 @@ query GetFineDetailsByRepo(
 			}
 			issues(
 				first: 10
-				states: [OPEN]
+				states: $state
 				orderBy: { field: UPDATED_AT, direction: DESC }
 			) {
 				totalCount
@@ -48,15 +49,33 @@ query GetFineDetailsByRepo(
 					number
 					title
 					body
+					viewerDidAuthor
 					bodyText
 					state
 					bodyHTML
+					reactions(first: 10) {
+						pageInfo {
+							...GitHubPageInfoPartial
+						}
+						nodes {
+							user {
+								avatarUrl
+								login
+							}
+							content
+							id
+						}
+					}
 					createdAt
 					updatedAt
+
 					author {
 						url
 						login
 						avatarUrl(size: 250)
+					}
+					participants(first: 0) {
+						totalCount
 					}
 					reactions(first: 10) {
 						totalCount
@@ -76,6 +95,8 @@ query GetFineDetailsByRepo(
 							...GitHubPageInfoPartial
 						}
 						nodes {
+							bodyHTML
+							body
 							bodyText
 							author {
 								avatarUrl(size: 250)

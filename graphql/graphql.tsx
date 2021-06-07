@@ -22163,6 +22163,7 @@ export type GetCommentsQuery = { __typename?: 'Query' } & {
 export type GetFineDetailsByRepoQueryVariables = Exact<{
 	login: Scalars['String'];
 	name: Scalars['String'];
+	state?: Maybe<Array<IssueState> | IssueState>;
 }>;
 
 export type GetFineDetailsByRepoQuery = {
@@ -22240,12 +22241,38 @@ export type GetFineDetailsByRepoQuery = {
 												| 'number'
 												| 'title'
 												| 'body'
+												| 'viewerDidAuthor'
 												| 'bodyText'
 												| 'state'
 												| 'bodyHTML'
 												| 'createdAt'
 												| 'updatedAt'
 											> & {
+													reactions: {
+														__typename?: 'ReactionConnection';
+													} & Pick<ReactionConnection, 'totalCount'> & {
+															pageInfo: {
+																__typename?: 'PageInfo';
+															} & GitHubPageInfoPartialFragment &
+																GitHubPageInfoPartialFragment;
+															nodes?: Maybe<
+																Array<
+																	Maybe<
+																		{ __typename?: 'Reaction' } & Pick<
+																			Reaction,
+																			'content' | 'id'
+																		> & {
+																				user?: Maybe<
+																					{ __typename?: 'User' } & Pick<
+																						User,
+																						'avatarUrl' | 'login'
+																					>
+																				>;
+																			}
+																	>
+																>
+															>;
+														};
 													author?: Maybe<
 														| ({ __typename?: 'Bot' } & Pick<
 																Bot,
@@ -22270,23 +22297,9 @@ export type GetFineDetailsByRepoQuery = {
 																'url' | 'login' | 'avatarUrl'
 														  >)
 													>;
-													reactions: {
-														__typename?: 'ReactionConnection';
-													} & Pick<ReactionConnection, 'totalCount'> & {
-															pageInfo: {
-																__typename?: 'PageInfo';
-															} & GitHubPageInfoPartialFragment;
-															nodes?: Maybe<
-																Array<
-																	Maybe<
-																		{ __typename?: 'Reaction' } & Pick<
-																			Reaction,
-																			'content'
-																		>
-																	>
-																>
-															>;
-														};
+													participants: {
+														__typename?: 'UserConnection';
+													} & Pick<UserConnection, 'totalCount'>;
 													comments: {
 														__typename?: 'IssueCommentConnection';
 													} & Pick<
@@ -22301,7 +22314,11 @@ export type GetFineDetailsByRepoQuery = {
 																	Maybe<
 																		{ __typename?: 'IssueComment' } & Pick<
 																			IssueComment,
-																			'bodyText' | 'createdAt' | 'updatedAt'
+																			| 'bodyHTML'
+																			| 'body'
+																			| 'bodyText'
+																			| 'createdAt'
+																			| 'updatedAt'
 																		> & {
 																				author?: Maybe<
 																					| ({ __typename?: 'Bot' } & Pick<
@@ -24022,6 +24039,7 @@ export const GetFineDetailsByRepoDocument = gql`
 	query GetFineDetailsByRepo(
 		$login: String!
 		$name: String!
+		$state: [IssueState!]
 	) {
 		user(login: $login) {
 			id
@@ -24052,7 +24070,7 @@ export const GetFineDetailsByRepoDocument = gql`
 				}
 				issues(
 					first: 10
-					states: [OPEN]
+					states: $state
 					orderBy: { field: UPDATED_AT, direction: DESC }
 				) {
 					totalCount
@@ -24066,15 +24084,34 @@ export const GetFineDetailsByRepoDocument = gql`
 						number
 						title
 						body
+						viewerDidAuthor
 						bodyText
 						state
 						bodyHTML
+						reactions(first: 10) {
+							pageInfo {
+								...GitHubPageInfoPartial
+								...GitHubPageInfoPartial
+							}
+							nodes {
+								user {
+									avatarUrl
+									login
+								}
+								content
+								id
+							}
+							totalCount
+						}
 						createdAt
 						updatedAt
 						author {
 							url
 							login
 							avatarUrl(size: 250)
+						}
+						participants(first: 0) {
+							totalCount
 						}
 						reactions(first: 10) {
 							totalCount
@@ -24094,6 +24131,8 @@ export const GetFineDetailsByRepoDocument = gql`
 								...GitHubPageInfoPartial
 							}
 							nodes {
+								bodyHTML
+								body
 								bodyText
 								author {
 									avatarUrl(size: 250)
@@ -24143,6 +24182,7 @@ export const GetFineDetailsByRepoDocument = gql`
  *   variables: {
  *      login: // value for 'login'
  *      name: // value for 'name'
+ *      state: // value for 'state'
  *   },
  * });
  */
