@@ -63,8 +63,7 @@ module.exports = withBundleAnalyzer({
 		strictPostcssConfiguration: true
 	},
 	experimental: {
-		turboMode: true,
-		eslint: true
+		turboMode: true
 	},
 	i18n: {
 		locales: ['en-US'],
