@@ -24124,7 +24124,7 @@ export const GetFineDetailsByRepoDocument = gql`
 						}
 						comments(
 							first: 10
-							orderBy: { field: UPDATED_AT, direction: DESC }
+							orderBy: { field: UPDATED_AT, direction: ASC }
 						) {
 							totalCount
 							pageInfo {
