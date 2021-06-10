@@ -68,7 +68,7 @@ export default function CommentsSkeleton() {
 						<div className='flex-1 inline-flex justify-between sm:justify-center my-auto'>
 							<button
 								className={cn(
-									'm-3 relative inline-flex items-center px-4 py-2 border border-olive-300 text-sm font-medium rounded-md text-olive-300 bg-redditBG hover:bg-redditSearch'
+									'm-3 relative inline-flex items-center px-4 py-2 border-olive-300 text-sm font-medium rounded-md text-olive-300 bg-redditBG hover:bg-redditSearch'
 								)}
 							>
 								Previous
@@ -76,7 +76,7 @@ export default function CommentsSkeleton() {
 
 							<button
 								className={cn(
-									'm-3 relative inline-flex items-center px-4 py-2 border border-olive-300 text-sm font-medium rounded-md text-olive-300 bg-redditBG hover:bg-redditSearch'
+									'm-3 relative inline-flex items-center px-4 py-2 border-olive-300 text-sm font-medium rounded-md text-olive-300 bg-redditBG hover:bg-redditSearch'
 								)}
 							>
 								Next

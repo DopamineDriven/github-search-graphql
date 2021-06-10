@@ -1,3 +1,81 @@
+```r
+# Environment variables declared in this file are automatically made available to Prisma.
+# See the documentation for more detail: https://pris.ly/d/prisma-schema#using-environment-variables
+# Prisma supports the native connection string format for PostgreSQL, MySQL and SQLite.
+# See the documentation for all the connection string options: https://pris.ly/d/connection-strings
+DATABASE_URL = 'postgresql://spotUser:Dillard20!8@localhost:5432/Spot?schema=public'
+# DATABASE_URL = 'postgresql://root:O0zMsizIzp@localhost:5430/spot?schema=public'
+REDIS_CLUSTER_HOST="localhost"
+DOSE_SPOT_BASE_URL=https://my.staging.dosespot.com
+DOSESPOT_CLINIC_ID=29161
+DOSESPOT_CLINIC_KEY=2TEEQ3H3L4R5K9L4AJEWGH7AGUP9XGWS
+# S3_CASE_BUCKET=cortina-infographics-dev
+S3_CASE_BUCKET=cortina-infographics-dev
+ICD10_BASE_URL=https://clinicaltables.nlm.nih.gov/api/icd10cm/v3
+HEALTH_WAREHOUSE_CUSTOMER_ID=345
+HEALTH_WAREHOUSE_BASE_URL=https://partners-test.healthwarehouse.com/v1
+HEALTH_WAREHOUSE_API_KEY=9184a05acff9b63d5b9c9d66589f63ca
+STRIPE_API_KEY=sk_test_IfUg5vSoMiZE00JRzaX4WmhJ00uDSHMBez
+WEB_APP_BASE_URL=http://localhost:1234
+ZIP_CODE_BASE_URL=https://zipcodeapi.com/rest/
+ZIP_CODE_API_KEY=1ZSw4cjhmAYMlKXDREpkb965hTdxkzw2yG4YFjPtZAeHjeiUlWriyzlZICrqmdea
+CUREXA_BASE_URL=https://api.curexa.com
+CUREXA_USERNAME=cortina_test_WGrLiOJDrlx114GeVuxRHceAmDWeULSt
+CUREXA_PASSWORD=0C7IzqcP6USSImtGTxUEkRIvMzqJYD7f
+```
+
+```json
+    "@graphql-codegen/cli": "^1.21.5",
+    "@graphql-codegen/fragment-matcher": "^2.0.1",
+    "@graphql-codegen/import-types-preset": "^1.18.2",
+    "@graphql-codegen/introspection": "^1.18.2",
+    "@graphql-codegen/schema-ast": "^1.18.3",
+    "@graphql-codegen/typed-document-node": "^1.18.6",
+    "@graphql-codegen/typescript": "^1.22.1",
+    "@graphql-codegen/typescript-operations": "^1.18.0",
+    "@graphql-codegen/typescript-react-apollo": "^2.2.5",
+```
+
+```yml
+overwrite: true
+schema:
+ ${NEXT_PUBLIC_GITHUB_GRAPHQL_ENDPOINT_YML}:
+  headers:
+   Authorization: Bearer ${GITHUB_OAUTH_TOKEN_YML}
+   ID: ${GITHUB_CLIENT_ID_DEV_YML}
+   Secret: ${GITHUB_CLIENT_SECRET_DEV_YML}
+documents: 'graphql/**/*.graphql'
+generates:
+ graphql/fragment-matcher.ts:
+  plugins:
+   - fragment-matcher
+  config:
+   apolloClientVersion: 3
+ graphql/graphql.tsx:
+  plugins:
+   - typescript
+   - typescript-operations
+   - typescript-react-apollo:
+      reactApolloVersion: 3
+  config:
+   withHooks: true
+   reactApolloVersion: 3
+ graphql/schema/graphql.schema.graphql:
+  plugins:
+   - schema-ast
+  config:
+   commentDescriptions: true
+ graphql/introspection/graphql.schema.json:
+  plugins:
+   - introspection
+  config:
+   commentDescriptions: true
+
+hooks:
+ afterAllFileWrite:
+  - prettier --write
+```
+
 # github-search-graphql
 
 ![dynamic-routing](./public/dynamic-routing.png)

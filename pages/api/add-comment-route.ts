@@ -1,7 +1,12 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import {
+	NextApiHandler,
+	NextApiRequest,
+	NextApiResponse
+} from 'next';
 import { addCommentMutationRoute } from '@/lib/ServerlessSnacks';
 import { FetchResult } from '@apollo/client';
 import { AddCommentMutationBatched } from '../../lib/ServerlessSnacks/add-comment-partitioned';
+import cookieSession from 'js-cookie';
 import {
 	initializeApollo,
 	addApolloState
@@ -20,7 +25,8 @@ export default async function <
 	>
 ) {
 	const {
-		query: { body, issueId }
+		query: { body, issueId },
+		cookies: { cookieSession }
 	} = req;
 	try {
 		console.log('body: ', body);
